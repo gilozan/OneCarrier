@@ -1,0 +1,595 @@
+
+
+CREATE SEQUENCE sq_pch_orders start with 1;
+
+CREATE TABLE pch_orders
+(
+  pch_order_id integer NOT NULL,  
+  name VARCHAR (150),
+  code VARCHAR (70),
+  company_id smallint,
+  supplier_id int,
+  quantity numeric(16,4),
+  subtotal numeric(16,4),
+  tax numeric(16,4),
+  total numeric (16,4),
+  currency_id int,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT pch_order_id_key PRIMARY KEY  (pch_order_id)
+);
+
+CREATE SEQUENCE sq_pch_order_lines start with 1;
+
+
+CREATE TABLE pch_order_lines
+(
+  pch_order_line_id integer NOT NULL,  
+  pch_order_id integer NOT NULL,
+  line_id integer,
+  code VARCHAR (70),
+  name VARCHAR (150),
+  description text,
+  unit_id int,
+  quantity numeric(16,4),
+  invoiced_quantity numeric(16,4),
+  unitary_price numeric(16,4),
+  subtotal numeric(16,4),
+  tax numeric(16,4),
+  total numeric (16,4),
+  delivery integer,
+  synced boolean,
+  sync_date timestamp with time zone,
+  currency_id int,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT pch_order_line_id_key PRIMARY KEY  (pch_order_line_id)
+);
+
+
+
+
+CREATE TABLE currency
+(
+  currency_id integer NOT NULL,  
+  code varchar(10),
+  name varchar(100),
+  CONSTRAINT currency_id_key PRIMARY KEY (currency_id)
+);
+
+INSERT INTO currency VALUES (1,'MXP' ,'Peso Mexicano');
+INSERT INTO currency VALUES (2,'USD', 'Dólar Americáno');
+INSERT INTO currency VALUES (3,'CAD' ,'Dólar Canadiense');
+
+CREATE SEQUENCE sq_units start with 7;
+
+CREATE TABLE units
+(
+  unit_id integer NOT NULL,  
+  code varchar(60),
+  sat_code varchar(60),
+  name varchar(100),
+  description text,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT unit_id_key PRIMARY KEY(unit_id)
+);
+
+INSERT INTO units VALUES (1,'PZA','H87','PIEZA','PIEZA','1',1,1,now(),now(),'0');
+INSERT INTO units VALUES (2,'HRS','LH','HORA','HORAS HOMBRE','1',1,1,now(),now(),'0');
+INSERT INTO units VALUES (3,'LTR','LTR','LITRO','LITRO','1',1,1,now(),now(),'0');
+INSERT INTO units VALUES (4,'MTR','MTR','METRO','METRO','1',1,1,now(),now(),'0');
+INSERT INTO units VALUES (5,'ACT','ACT','ACTIVIDAD','ACTIVIDAD','1',1,1,now(),now(),'0');
+INSERT INTO units VALUES (6,'SERV','E48','UNIDAD SERVICIO','UNIDAD DE SERVICIO','1',1,1,now(),now(),'0');
+
+CREATE TABLE users 
+(
+  user_id integer NOT NULL, 
+  code varchar(60),
+  name varchar(150),
+  description text,
+  email varchar (100),
+  username varchar(100),
+  password varchar(150),
+  supplier_id int,
+  type int,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+ CONSTRAINT user_id_key PRIMARY KEY (user_id)
+  
+);
+
+INSERT INTO users VALUES (1,'SA','Super Admin','Super Admin','admin@inf.com.mx','admin','admin',null,1,'1',1,1,now(),now(),'0');
+INSERT INTO users VALUES (2,'ADGE','Admin GE','Admin GE','adminge@inf.com.mx','adminge','adminge',null,1,'1',1,1,now(),now(),'0');
+INSERT INTO users VALUES (3,'PRGE','Prueba GE','Prueba GE','pruebage@inf.com.mx','pruebage','pruebage',null,1,'1',1,1,now(),now(),'0');
+INSERT INTO users VALUES (4,'PROV','Prueba Proveedor','Prueba Proveedor','pruebaprov@inf.com.mx','pruebaprov','pruebaprov',1,1,'1',1,1,now(),now(),'0');
+
+INSERT INTO users VALUES (5,'PROVINT','Proveedor Internacional','Proveedor Intl','provint@inf.com.mx','provint','provint',2,4,'1',1,1,now(),now(),'0');
+
+0
+CREATE SEQUENCE sq_users start with 2;
+
+
+CREATE SEQUENCE sq_pch_invoices start with 1;
+
+CREATE TABLE pch_invoices
+(
+  pch_invoice_id integer NOT NULL,  
+  pch_order_id integer,
+  name VARCHAR (150),
+  code VARCHAR (70),
+  uuid VARCHAR (200),
+  serie varchar(10),
+  folio int,
+  type VARCHAR (100),
+  status int,
+  company_id smallint,
+  supplier_id int,
+  legal_name varchar (200),
+  subtotal numeric(16,4),
+  tax numeric(16,4),
+  total numeric (16,4),
+  currency_id int,
+  date_invoiced timestamp with time zone,
+  date_authorized  timestamp with time zone,
+  date_to_pay  timestamp with time zone,
+  date_programmed timestamp with time zone,
+  date_paid  timestamp with time zone,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  authorized_by int,
+  programmed_by int,
+  paid_by int,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT pch_invoice_id_key PRIMARY KEY  (pch_invoice_id)
+);
+
+
+CREATE TABLE suppliers
+(
+  supplier_id integer NOT NULL, 
+  code varchar(60),
+  name varchar(150),
+  description text,
+  comments text,
+  contact varchar(200),
+  business_line varchar (200),
+  phone varchar(200),
+  email varchar (100),
+  username varchar(100),
+  password varchar(150),
+  type int,
+  authorized boolean DEFAULT '0',
+  authorized_by int,
+  date_authorized timestamp with time zone,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+ CONSTRAINT supplier_id_key PRIMARY KEY (supplier_id )
+  
+);
+
+
+CREATE SEQUENCE sq_suppliers start with 1;
+
+
+CREATE TABLE chat
+(
+  chat_id integer NOT NULL, 
+  origin_user_id int,
+  dest_user_id int,
+  code varchar(60),
+  name varchar(150),
+  description text,
+  activated BOOLEAN DEFAULT '1',
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+    
+  CONSTRAINT chat_id_key PRIMARY KEY (chat_id )
+);
+
+
+CREATE SEQUENCE sq_chats start with 1;
+
+CREATE TABLE notifications
+(	
+  notif_id integer NOT NULL, 
+  origin_user_id int,
+  user_id int,
+  code varchar(60),
+  name varchar(150),
+  description text,
+  type int,
+  activated BOOLEAN DEFAULT '1',
+  read BOOLEAN,
+  date_read timestamp with time zone,
+  created_by integer,
+  updated_by integer,
+  created timestamp with time zone,
+  updated timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT notif_id_key PRIMARY KEY (notif_id )
+);
+
+CREATE SEQUENCE sq_notifications start with 1;
+
+
+CREATE TABLE cfdi_tipo_relacion
+(
+  tipo_relacion_id integer NOT NULL,
+  code character varying(32),
+  name character varying(300),
+  description text,
+  type smallint,
+  activated BOOLEAN DEFAULT '1',
+  updated_by integer,
+  created_by integer,
+  updated timestamp with time zone,
+  created timestamp with time zone,
+  deleted BOOLEAN DEFAULT '0',
+  CONSTRAINT tipo_relacion_id_key PRIMARY KEY (tipo_relacion_id)
+);
+
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (1,'01','Nota de crédito de los documentos relacionados','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (2,'02','Nota de débito de los documentos relacionados','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (3,'03','Devolución de mercancía sobre facturas o traslados previos','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (4,'04','Sustitución de los CFDI previos','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (5,'05','Traslados de mercancias facturados previamente','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (6,'06','Factura generada por los traslados previos','1');
+INSERT INTO cfdi_tipo_relacion (tipo_relacion_id,code,name,activated) VALUES (7,'07','CFDI por aplicación de anticipo','1');
+
+
+
+CREATE TABLE sale_invoice_related
+(
+   sale_invoice_related_id integer NOT NULL,
+   tipo_relacion Varchar(10) NOT NULL,
+   sale_invoice_id integer NOT NULL,
+   uuid varchar(150),
+   CONSTRAINT sale_invoice_related_id_key PRIMARY KEY (sale_invoice_related_id)
+
+);
+
+
+
+CREATE TABLE sale_invoice_config (
+    sale_inv_cfg_id integer NOT NULL,
+    serie character varying(30),
+    folio integer,
+    rfc character varying(32),
+    legal_name character varying(150),
+    fiscal_regime_id integer,
+    fiscal_regime character varying(300),
+    code character varying(32),
+    name character varying(300),
+    address character varying(300),
+    address2 character varying(300),
+    address3 character varying(300),
+    cp character varying(40),
+    telephone character varying(300),
+    webpage character varying(300),
+    cer_route character varying(300),
+    key_route character varying(300),
+    csd_password character varying(100),
+    cer_serie character varying(100),
+    cer_data text,
+    description text,
+    type smallint,
+    activated character varying(1),
+    updated_by integer,
+    created_by integer,
+    updated timestamp without time zone,
+    created timestamp without time zone,
+    deleted character varying(1) DEFAULT '0'::character varying,
+    ftp_password character varying(50),
+    ftp_user character varying(50),
+    ftp_route character varying(50),
+    timbrado_user character varying(50),
+    timbrado_password character varying(50),
+	CONSTRAINT sale_inv_cfg_id_key PRIMARY KEY (sale_inv_cfg_id)
+);
+
+
+
+
+
+CREATE TABLE public.sale_invoices
+(
+  sale_invoice_id integer NOT NULL,
+  invoice_doc_code character varying(32),
+  customer_id integer,
+  customer_name character varying(300),
+  customer_legal_code character varying(15),
+  customer_address character varying(255),
+  code character varying(60),
+  type smallint,
+  status smallint,
+  wrhs_id integer,
+  trnprt_id integer,
+  remark text,
+  subtotal numeric(16,4) DEFAULT 0,
+  grand_total numeric(16,4) DEFAULT 0,
+  is_paid character varying(1) DEFAULT 0,
+  paid_amt numeric(16,4) DEFAULT 0,
+  updated timestamp without time zone NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated_by integer NOT NULL,
+  created_by integer NOT NULL,
+  seeker_id integer,
+  date_seeked timestamp without time zone,
+  packer_id integer,
+  date_packed timestamp without time zone,
+  invoicer_id integer,
+  date_invoiced timestamp without time zone,
+  shipper_id integer,
+  date_shipped timestamp without time zone,
+  date_delivered timestamp without time zone,
+  expirated character varying(1),
+  expiration_date date,
+  payment_limit_date date,
+  deleted character varying(1) DEFAULT 0,
+  discount_amt numeric(16,4) DEFAULT 0,
+  tax_amt numeric(16,4) DEFAULT 0,
+  total_lines integer DEFAULT 0,
+  total_qty_saled numeric(16,4) DEFAULT 0,
+  total_qty_invoiced numeric(16,4) DEFAULT 0,
+  date_paid timestamp without time zone,
+  currency_id integer,
+  next_invoice integer DEFAULT '-1'::integer,
+  is_document_shipped character varying(1) DEFAULT 0,
+  activated character varying(1) DEFAULT 1,
+  cancellation_motive text,
+  tip_amt numeric(16,4) DEFAULT 0.00,
+  store_id integer,
+  local_code character varying(64),
+  invoice_local_code character varying(64),
+  sale_invoice_type integer DEFAULT 0,
+  description text,
+  cancelled_updated timestamp without time zone,
+  street character varying(60),
+  no_ext character varying(30),
+  no_int character varying(30),
+  city character varying(50),
+  state character varying(10),
+  neighborhood character varying(40),
+  postal_code character varying(20),
+  credit_days integer,
+  expiration_date_original timestamp without time zone,
+  promise_date timestamp without time zone,
+  project_id integer,
+  pay_method character varying(20),
+  acc_number character varying(20),
+  pay_method_id character varying(5),
+  sat_authorization integer,
+  cadena_original text,
+  sello text,
+  fecha_cfd timestamp without time zone,
+  sat_certificate character varying(30),
+  cadena_original_sat text,
+  sello_sat text,
+  fecha_cfd_sat timestamp without time zone,
+  uuid character varying(70),
+  sale_order_id integer,
+  exchange_rate numeric(16,4),
+  subtotal_pesos numeric(16,4),
+  total_pesos numeric(16,4),
+  pay_method_cond character varying(5),
+  cfdi_usage_id character varying(5),
+  serie character varying(10) DEFAULT 'A'::character varying,
+  exchange_rate_backup numeric(16,4) DEFAULT 1,
+  CONSTRAINT sale_invoices_pkey PRIMARY KEY (sale_invoice_id),
+  CONSTRAINT sale_inv_ukey UNIQUE (code, serie)
+);
+
+CREATE SEQUENCE sq_sale_invoices start with 1;
+
+
+CREATE TABLE public.sale_invoice_lines
+(
+  sale_invoiceln_id bigint NOT NULL,
+  sale_invoice_id bigint NOT NULL,
+  product_id bigint NOT NULL DEFAULT '-1'::integer,
+  qty_saled numeric(16,4),
+  qty_invoiced numeric(16,4),
+  qty_pending numeric(16,4),
+  unitary_price numeric(16,4),
+  extended_price numeric(16,4),
+  tax_amt numeric(16,4),
+  subtotal numeric(16,4),
+  line_grand_total numeric(16,4),
+  generate_backorder character varying(1),
+  discount_amt numeric(16,4),
+  in_port_id integer,
+  import_doc_code character varying(32),
+  tax_percent numeric(16,4) DEFAULT 0,
+  discount_percent numeric(16,4) DEFAULT 0,
+  expense_id bigint NOT NULL DEFAULT '-1'::integer,
+  serial_lines integer DEFAULT 0,
+  serials text,
+  line_type character varying(32),
+  sale_orderln_id bigint,
+  description text,
+  invoice_local_code character varying(64),
+  line_local_code character varying(64),
+  ln_discount_pct numeric(16,4) DEFAULT 0,
+  ln_discount_amt numeric(16,4) DEFAULT 0,
+  gral_discount_pct numeric(16,4) DEFAULT 0,
+  gral_discount_amt numeric(16,4) DEFAULT 0,
+  invoiced_product_code character varying(60),
+  updated timestamp without time zone,
+  unit character varying(20),
+  sat_code character varying(12),
+  cve_unit character varying(5)
+);
+
+CREATE SEQUENCE sq_sale_invoice_lines start with 1;
+
+
+
+ 
+CREATE TABLE sale_invoice_status (
+    invoice_status_id integer NOT NULL,
+    code character varying(32),
+    name character varying(300),
+    description text,
+    type smallint,
+    activated character varying(1),
+    updated_by integer,
+    created_by integer,
+    updated timestamp without time zone,
+    created timestamp without time zone,
+    deleted character varying(1) DEFAULT '0'::character varying,
+    CONSTRAINT invoice_status_id_key PRIMARY KEY (invoice_status_id)
+);
+
+
+INSERT INTO sale_invoice_status VALUES (0, NULL, 'Creada', 'Creada', NULL, '1', NULL, NULL, '2005-06-05 20:08:04.592', '2005-06-05 20:08:04.592', '0');
+INSERT INTO sale_invoice_status VALUES (1, NULL, 'Facturada', 'Facturada', NULL, '1', NULL, NULL, '2005-06-05 20:08:04.592', '2005-06-05 20:08:04.592', '0');
+INSERT INTO sale_invoice_status VALUES (2, NULL, 'Embarcada', 'Embarcada', NULL, '1', NULL, NULL, '2005-06-05 20:08:04.592', '2005-06-05 20:08:04.592', '0');
+INSERT INTO sale_invoice_status VALUES (3, NULL, 'Entregada', 'Entregada', NULL, '1', NULL, NULL, '2005-06-05 20:08:04.592', '2005-06-05 20:08:04.592', '0');
+INSERT INTO sale_invoice_status VALUES (4, NULL, 'Pagada', 'Pagada', NULL, '1', NULL, NULL, '2005-06-05 20:08:04.592', '2005-06-05 20:08:04.592', '0');
+INSERT INTO sale_invoice_status VALUES (5, NULL, 'Cancelada', 'Cancelada', NULL, '1', NULL, NULL, '2006-04-27 02:16:57.919674', '2006-04-27 02:16:57.919674', '0');
+
+
+CREATE TABLE public.payment_doc_type
+(
+  payment_doc_type_id smallint,
+  name character varying(300),
+ CONSTRAINT payment_doc_type_id_key PRIMARY KEY (payment_doc_type_id)
+);
+INSERT INTO payment_doc_type VALUES (1,'Factura');
+INSERT INTO payment_doc_type VALUES (3,'Nota de crédito');
+
+
+
+
+				
+
+CREATE TABLE public.business_partners
+(
+  bpartner_id integer NOT NULL,
+  code character varying(32),
+  name character varying(300),
+  description text,
+  type smallint,
+  activated character varying(1) DEFAULT '1'::character varying,
+  updated_by integer,
+  created_by integer,
+  updated timestamp without time zone,
+  created timestamp without time zone,
+  deleted character varying(1) DEFAULT '0'::character varying,
+  legal_code character varying(32),
+  legal_name character varying(300),
+  city_name character varying(128),
+  city_id integer,
+  state_name character varying(128),
+  state_id integer,
+  country_name character varying(128),
+  country_id integer,
+  phones text,
+  faxes text,
+  emails text,
+  web_site character varying(255),
+  address character varying(255),
+  neighborhood character varying(80),
+  address_delivery character varying(1) DEFAULT '1'::character varying,
+  address_invoice character varying(1) DEFAULT '1'::character varying,
+  postal_code character varying(32),
+  neighborhood_id integer,
+  curp character varying(32),
+  cellphone text,
+  skin_type_id integer,
+  height numeric(16,4),
+  weight numeric(16,4),
+  birthdate timestamp without time zone,
+  no_ext character varying(40),
+  no_int character varying(40),
+  CONSTRAINT bpartner_id_pkey PRIMARY KEY (bpartner_id)
+);
+
+CREATE INDEX bpartner_id_business_partners_key
+  ON public.business_partners
+  USING btree
+  (bpartner_id);
+
+
+
+CREATE TABLE public.stores
+( 
+  store_id integer NOT NULL,
+  code character varying(64),
+  name character varying(60),
+  description text,
+  key_words character varying(256),
+  type smallint,
+  remark text,
+  status smallint, 
+  price_list_id integer,  
+  sale_porcent integer DEFAULT 0,
+  quitchen_porcent integer DEFAULT 0,
+  kitchen_percent integer DEFAULT 0,
+  sale_percent integer,
+  city_id bigint,
+  zone_id integer,
+  price_category_id integer,
+  language_list_id integer,
+  tax_list_id integer,
+  updated timestamp without time zone NOT NULL,
+  created timestamp without time zone NOT NULL,
+  updated_by integer NOT NULL,
+  created_by integer NOT NULL,
+  activated character varying(1) NOT NULL,
+  deleted character varying(1) DEFAULT '0'::character varying,
+  CONSTRAINT stores_pkey PRIMARY KEY (store_id)
+);
+
+
+CREATE INDEX store_id_stores_key
+  ON public.stores
+  USING btree
+  (store_id);
+
+
+
+
+CREATE TABLE sale_invoice_related
+(
+   sale_invoice_related_id integer NOT NULL,
+   tipo_relacion_id integer NOT NULL,
+   sale_invoice_id integer NOT NULL,
+   uuid varchar(150),
+   CONSTRAINT sale_invoice_related_id_key PRIMARY KEY (sale_invoice_related_id)
+);
+
+CREATE SEQUENCE sq_sale_invoice_related start with 1;
+
+ALTER TABLE customers add column default_discount numeric(16,4);
+ALTER TABLE customers add column account varchar(30);
+ALTER TABLE customers add column account_us varchar(30);
+
+

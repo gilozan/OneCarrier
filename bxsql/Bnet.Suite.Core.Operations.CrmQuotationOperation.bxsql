@@ -1,0 +1,1404 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<bnet-xsql>
+	<commands>
+		
+			
+			<command name="searchGuides" type="select" prepared="true">
+				<sqltext>
+					SELECT subcustomer_guide_id,subcustomer_id,sg.customer_id,c.name as custname,guide,sg.created_by,sg.created,sg.updated,recolection_date,solicitant,schedule,caddress,cneighborhood,cstate,ccity,czipcode,creference,cphone,ccontact,destination_type,sg.name,address,neighborhood,zipcode,state_id,state,city_id,city,contact,phone,packtype,content,weight,width,length,height,insured,value,extra_info from subcustomer_guides sg 
+					INNER JOIN customers c ON c.customer_id=sg.customer_id 
+				</sqltext>
+				<where>
+					<conditions innercondition="AND" outercondition="OR">
+						<condition name="sg.customer_id" value="@customer_id@" operator="="></condition>
+						<condition name="sg.created" value="@created_min@" operator="&gt;="></condition>
+						<condition name="sg.created" value="@created_max@" operator="&lt;="></condition>
+					</conditions>
+				</where>
+				<column>quantity,Cantidad,100</column>
+				<column>description,Descripci�n,200</column>
+				<column>price,Precio,100,c</column>
+				<column>total,Importe,100,c</column>
+			</command>
+
+			<command name="getEmptyGrid" type="select" prepared="true">
+			<sqltext>
+				SELECT 1 AS quantity,'' as description,0.00 AS price, 0.00 as total
+				FROM pos_props
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>quantity,Cantidad,100</column>
+			<column>description,Descripci�n,200</column>
+			<column>price,Precio,100,c</column>
+			<column>total,Importe,100,c</column>
+			
+		</command>    
+
+		<command name="insertQuote" type="insert">
+			<sqltext>
+				INSERT INTO crm_quote
+				(crm_quote_id,prospect_id,$created$,$updated$,$created_by$,$updated_by$,$activated$,$store_id$,$vehicle_type_id$,$vehicle_model_id$,$vehicle_brand_id$,$customer_comments$,$comments$,$total_amount$,$service_type_id$,$supplier_id$,$status_id$,$resolution_id$,$origin_id$,$origin_phone$)
+				VALUES (	     
+				@crm_quote_id@,@prospect_id@,@created@,@updated@,@created_by@,@updated_by@,@activated@,@store_id@,@vehicle_type_id@,@vehicle_model_id@,@vehicle_brand_id@,@customer_comments@,@comments@,@total_amount@,@service_type_id@,@supplier_id@,@status_id@,@resolution_id@,@origin_id@,@origin_phone@)
+			</sqltext>
+		</command>
+
+		<command name="insertQuoteLine" type="insert">
+			<sqltext>
+				INSERT INTO crm_quote_lines
+				(crm_quote_line_id,crm_quote_id,$created$,$updated$,$created_by$,$updated_by$,$activated$,$quantity$,$description$,$unitary_price$,$total_line$)
+				VALUES (	     
+				@crm_quote_line_id@,@crm_quote_id@,@created@,@updated@,@created_by@,@updated_by@,@activated@,@quantity@,@description@,@unitary_price@,@total_line@)
+			</sqltext>
+		</command>
+
+		<command name="addNotification" type="insert">
+			<sqltext>
+				INSERT INTO crm_call_lines(crm_call_id,$name$,$updated$,$created$,$updated_by$,
+				$created_by$,$activated$,$deleted$,$crm_quote_id$,$prospect_id$,$time_of_call$,
+				$reason_id$,$call_detail$,$call_attendant$,$notification_required$,$notification_time$,$user_notified$,$code$,$send_email$)
+				VALUES (@crm_call_id@,@name@,@updated@,@created@,@updated_by@,
+				@created_by@,@activated@,@deleted@,@crm_quote_id@,@prospect_id@,@time_of_call@,
+				@reason_id@,@call_detail@,@call_attendant@,@notification_required@,@notification_time@,@user_notified@,@code@,@send_email@)
+			</sqltext>
+		</command>
+
+		<command name="getNotifications" type="select" prepared="true">
+			<sqltext>
+				select ccl.crm_quote_id,ccl.crm_call_id as id, ccl.name,ccl.time_of_call, /*cr.name*/reason_id as reason, ccl.call_attendant,ccl.call_detail,notification_time,email_sent,whatsapp_sent,email_read,read_date,attended,date_attended,send_email,attended_sys
+				from crm_call_lines ccl
+				/*inner join call_reasons cr on cr.reason_id = ccl.reason_id */
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+				<condition name="ccl.crm_quote_id" value="@quote_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>ccl.crm_call_id</orderby>
+			<column>crm_quote_id,CotID,50</column>
+			<column>id,id,0</column>
+			<column>name,Nombre,50</column>
+			<column>time_of_call,Hora de llamada,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>reason,Motivo,120</column>
+			<column>call_attendant,Atendi�,130</column>
+			<column>call_detail,Detalle de la llamada,215</column>
+			<column>read_date,Fecha Le�do,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>attended,Atendida,70</column>
+			<column>attended_sys,Atend Sist,70</column>
+			<column>email_sent,Correo Env,40</column>
+			<column>whatsapp_sent,Whatsapp Env,40</column>
+			<column>email_read,Le�do,40</column>
+			<column>send_email,Env. Correo?,40</column>
+			<column>notification_time,Fecha Attn,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>date_attended,Fecha atendida,125,dd-MMM-yy hh:mm:ss tt</column>
+		</command>
+
+		<command name="notificationReport" type="select" prepared="true">
+			<sqltext>
+				select ccl.crm_quote_id,ccl.crm_call_id as id, p.name as pname,ccl.time_of_call,reason_id as reason, ccl.call_attendant,ccl.call_detail,'' as next_detail,notification_time,ccl.email_sent,ccl.whatsapp_sent,email_read,read_date,attended,date_attended,send_email,p.emails,p.cellphone
+				,resolution_id,r.name as resolution,st.name as service_type,attended_sys,ccl.created_by,u.name as uname,a.total_amount,'' as avg_time,a.origin_id,a.created,a.updated,CURRENT_TIMESTAMP
+				from crm_call_lines ccl
+				INNER JOIN crm_quote a ON a.crm_quote_id=ccl.crm_quote_id
+				INNER JOIN prospects p on p.prospect_id=a.prospect_id
+				INNER JOIN crm_resolution r ON r.crm_resolution_id=a.resolution_id
+				LEFT JOIN  service_type st ON st.service_type_id=a.service_type_id
+				INNER JOIN users u ON u.usr_id=ccl.created_by 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+				<condition name="ccl.crm_quote_id" value="@quote_id@" operator="="></condition>
+				<condition name="a.store_id" value="@store_id@" operator="="></condition>
+				<condition name="UPPER(p.name)" value="@name@" operator="LIKE"></condition>
+				<condition name="a.origin_id" value="@origin_id@" operator="="></condition>
+				<condition name="ccl.attended" value="@attended@" operator="="></condition>
+				<condition name="a.created_by" value="@user_id@" operator="IN"></condition>
+				<condition name="ccl.notification_time" value="@created_min@" operator="&gt;="></condition>
+				<condition name="ccl.notification_time" value="@created_max@" operator="&lt;="></condition>
+				<condition name="ccl.date_attended" value="@attended_min@" operator="&gt;="></condition>
+				<condition name="ccl.date_attended" value="@attended_max@" operator="&lt;="></condition>
+				<condition name="a.resolution_id" value="@resolution_id@" operator="="></condition>
+				<condition name="a.service_type_id" value="@service_type_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>ccl.crm_quote_id</orderby>
+			<column>crm_quote_id,CotID,50</column>
+			<column>id,id,0</column>
+			<column>name,Nombre,50</column>
+			<column>time_of_call,Hora de llamada,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>reason,Motivo,120</column>
+			<column>call_attendant,Atendi�,130</column>
+			<column>call_detail,Detalle de la llamada,215</column>
+			<column>next_detail,Siguiente Detalle,215</column>
+			<column>read_date,Fecha Le�do,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>attended,Atendida,70</column>
+			<column>attended_sys,Atend Sist,70</column>
+			<column>email_sent,Correo Env,40</column>
+			<column>whatsapp_sent,Whatsapp Env,40</column>
+			<column>email_read,Le�do,40</column>
+			<column>send_email,Env. Correo?,40</column>
+			<column>notification_time,Fecha notificaci�n,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>pname,Nombre Cliente,190</column>
+			<column>emails,Correo,190</column>
+			<column>cellphone,Celular,90</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+			<column>resolution_id,RID,0</column>
+			<column>service_type,Tipo Servicio,80</column>
+			<column>date_attended,Fecha atendida,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>created_by,UsrID,0</column>
+			<column>uname,Atendi�,120</column>
+			<column>total_amount,Total,0,c</column>
+			<column>origin_id,Total,0</column>
+			<column>created,Total,0</column>
+			<column>avg_time,Tmp Atend,80</column>
+			<column>updated,Fecha actualizado,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>now,Total,0</column>
+		</command>
+
+		<command name="searchQuote" type="select" prepared="true">
+			<sqltext>
+				SELECT pch_invoice_id,a.legal_name,a.serie,a.folio as poname ,uuid,date_invoiced,date_to_pay,type,status,a.total,a.supplier_id from pch_invoices a LEFT JOIN  pch_orders po ON po.pch_order_id=a.pch_order_id
+			</sqltext>
+			<default>
+				a.deleted = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.pch_invoice_id" value="@quote_id@" operator="="></condition>
+					<condition name="a.supplier_id" value="@supplier_id@" operator="="></condition>
+					<condition name="a.supplier_id" value="@suppliers@" operator="IN"></condition>
+					<condition name="UPPER(p.name)" value="@name@" operator="LIKE"></condition>
+					<condition name="UPPER(a.description)" value="@description@" operator="LIKE"></condition>
+					<condition name="UPPER(a.description)" value="@description2@" operator="IS"></condition>
+					<condition name="a.store_id" value="@store_id@" operator="="></condition>
+					<condition name="a.type" value="@type@" operator="="></condition>
+					<condition name="a.status" value="@status@" operator="="></condition>
+					<condition name="a.status" value="@complement@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.service_type_id" value="@service_type_id@" operator="="></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.created_by" value="@user_id@" operator="IN"></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="a.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="a.created" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>a.pch_invoice_id</orderby>
+			<column>crm_quote_id,ID Cot,52</column>
+			<column>prospect_id,ID Prp,52</column>
+			<column>customer_id,ID Cte,0</column>
+			<column>city_name,Ciudad,70</column>
+			<column>pname,Nombre Cliente,190</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Principal,90</column>	
+			<column>sector_name,�rea,90</column>
+			<column>subsector,SubSector,90</column>
+			<column>total,Total,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Asesor,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),120</column>
+			<column>soc,SOC,100</column>
+			<column>creatd_by,UsrID,0</column>
+			<column>created,Fecha,125,dd/MMM/yyyy hh:mm tt</column>
+			<column>date_closed,Cierre,125,dd/MMM/yyyy hh:mm tt</column>	
+			<column>type_name,Tipo Vehiculo,80</column>
+			<column>service_type,Tipo Servicio,80</column>
+			<column>brand_name,Marca,85</column>
+			<column>color_name,Color,80</column>
+			<column>model_name,Modelo,45</column>
+			<column>status,Status,80</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+			<column>resolution_id,RID,0</column>
+			<column>status_id,SID,0</column>
+			<column>store,Sucursal,70</column>
+			<column>emails,Correo,190</column>
+			<column>cellphone,Celular,90</column>
+			<column>origin_phone,Tel Original,90</column>
+			<column>created_by,UsrID,0</column>
+			<column>origin,Origen,80</column>
+			<column>comments,Comentario,80</column>
+			<column>has_meeting,Cita,80</column>
+			<column>meeting_date,Fecha cita,125,dd/MMM/yyyy hh:mm tt</column>
+			<column>tiempo,Tiempo,60</column>
+			<column>description,Extra,80</column>
+			<column>whatsapp_sent,Whatsapp Env,80</column>
+			<column>email_sent,Correo Env,80</column>
+		</command>
+
+<command name="prospectReport" type="select" prepared="true">
+			<sqltext>
+				SELECT crm_quote_id,a.prospect_id,p.name as pname,p.emails,a.created,u.name as employee_name,customer_id,resolution_id,cellphone from crm_quote a 
+				INNER JOIN prospects p on p.prospect_id=a.prospect_id
+				LEFT JOIN  service_type st ON st.service_type_id=a.service_type_id
+				LEFT JOIN  users u on u.usr_id=a.created_by
+				INNER JOIN crm_status s ON s.crm_status_id=a.status_id
+				INNER JOIN crm_resolution r ON r.crm_resolution_id=a.resolution_id
+				
+			</sqltext>
+			<default>
+				a.deleted = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_id@" operator="="></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.technology_id" value="@technology_ids@" operator="IN"></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.created_by" value="@user_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="a.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="a.created" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>crm_quote_id</orderby>
+			<column>crm_quote_id,ID Cot,0</column>
+			<column>prospect_id,ID Prp,52</column>
+			<column>customer_id,ID Cte,0</column>
+			<column>city_name,Ciudad,70</column>
+			<column>pname,Nombre Cliente,190</column>	
+			<column>emails,Correo,190</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Principal,90</column>	
+			<column>sector_name,�rea,90</column>
+			<column>subsector,SubSector,90</column>
+			<column>total,Total,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Asesor,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),120</column>
+			<column>soc,SOC,100</column>
+			<column>created,Fecha,125,dd/MMM/yyyy hh:mm tt</column>
+			<column>date_closed,Cierre,125,dd/MMM/yyyy hh:mm tt</column>	
+			<column>type_name,Tipo Vehiculo,80</column>
+			<column>service_type,Tipo Servicio,80</column>
+			<column>brand_name,Marca,85</column>
+			<column>color_name,Color,80</column>
+			<column>model_name,Modelo,45</column>
+			<column>status,Status,80</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+			<column>resolution_id,RID,0</column>
+			<column>cellphone,Celular,90</column>
+		</command>
+
+			<command name="searchQuoteLines" type="select" prepared="true">
+			<sqltext>
+				select quantity,description,unitary_price as price,total_line as total FROM crm_quote_lines a
+			</sqltext>
+			<default>
+				a.deleted = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.crm_quote_id" value="@crm_quote_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_id@" operator="IN"></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.technology_id" value="@technology_ids@" operator="IN"></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="a.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="a.created" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>		
+			<column>quantity,Cantidad,100</column>
+			<column>description,Descripci�n,200</column>
+			<column>price,Precio,100,c</column>
+			<column>total,Importe,100,c</column>
+		</command>
+
+
+		<command name="QuoteReport" type="select" prepared="true">
+			<sqltext>
+				SELECT crm_quote_id,a.prospect_id,p.name as pname,a.created,u.name as employee_name,c.name as type_name,vb.name as brand_name,vm.name as model_name,st.name as service_type,total_amount 
+				as total, s.name as status,r.name as resolution,p.customer_id,a.service_order_id,date_closed,resolution_id,status_id,sto.name as store,p.emails,p.cellphone
+				from crm_quote a 
+				INNER JOIN prospects p on p.prospect_id=a.prospect_id
+				INNER JOIN vehicle_models vm ON vm.vehicle_model_id = a.vehicle_model_id
+				INNER JOIN vehicle_type c ON (a.vehicle_type_id = c.vehicle_type_id)
+				INNER JOIN vehicle_brands vb ON (a.vehicle_brand_id = vb.vehicle_brand_id)
+				LEFT JOIN  service_type st ON st.service_type_id=a.service_type_id
+				LEFT JOIN  users u on u.usr_id=a.created_by
+				INNER JOIN crm_status s ON s.crm_status_id=a.status_id
+				INNER JOIN crm_resolution r ON r.crm_resolution_id=a.resolution_id
+				INNER JOIN stores sto ON sto.store_id=a.store_id
+				
+			</sqltext>
+			<default>
+				a.deleted = '0' @condition@
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_id@" operator="="></condition>
+					<condition name="a.resolution_id" value="@resolution_id@" operator="="></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.service_type_id" value="@service_type_id@" operator="="></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.created_by" value="@user_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="a.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="a.created" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>crm_quote_id</orderby>
+			<column>crm_quote_id,ID Cot,52</column>
+			<column>prospect_id,ID Prp,52</column>
+			<column>customer_id,ID Cte,0</column>
+			<column>city_name,Ciudad,70</column>
+			<column>pname,Nombre Cliente,190</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Principal,90</column>	
+			<column>sector_name,�rea,90</column>
+			<column>subsector,SubSector,90</column>
+			<column>total,Total,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Asesor,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),120</column>
+			<column>soc,SOC,100</column>
+			<column>created,Fecha,125,dd/MMM/yyyy hh:mm tt</column>
+			<column>date_closed,Cierre,125,dd/MMM/yyyy hh:mm tt</column>	
+			<column>type_name,Tipo Vehiculo,80</column>
+			<column>service_type,Tipo Servicio,80</column>
+			<column>brand_name,Marca,85</column>
+			<column>color_name,Color,80</column>
+			<column>model_name,Modelo,45</column>
+			<column>status,Status,80</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+			<column>resolution_id,RID,0</column>
+			<column>status_id,SID,0</column>
+			<column>store,Sucursal,70</column>
+			<column>emails,Correo,190</column>
+			<column>cellphone,Celular,90</column>
+		</command>
+
+		<command name="notificationGroupReport" type="select" prepared="true">
+			<sqltext>
+				select @concepto@,count(ccl.crm_call_id) as cant
+				from crm_call_lines ccl
+				INNER JOIN crm_quote a ON a.crm_quote_id=ccl.crm_quote_id
+				INNER JOIN prospects p on p.prospect_id=a.prospect_id
+				INNER JOIN crm_resolution r ON r.crm_resolution_id=a.resolution_id
+				LEFT JOIN  service_type st ON st.service_type_id=a.service_type_id
+				LEFT JOIN  users u on u.usr_id=a.created_by
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+				<condition name="ccl.crm_quote_id" value="@quote_id@" operator="="></condition>
+				<condition name="a.store_id" value="@store_id@" operator="="></condition>
+				<condition name="ccl.attended" value="@attended@" operator="="></condition>
+				<condition name="a.created_by" value="@user_id@" operator="IN"></condition>
+				<condition name="ccl.notification_time" value="@created_min@" operator="&gt;="></condition>
+				<condition name="ccl.notification_time" value="@created_max@" operator="&lt;="></condition>
+				<condition name="a.resolution_id" value="@resolution_id@" operator="="></condition>
+				<condition name="a.service_type_id" value="@service_type_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			<groupby>@group_by@</groupby>
+			<column>crm_quote_id,CotID,50</column>
+			<column>cant,Cant,50</column>
+			<column>name,Nombre,50</column>
+			<column>time_of_call,Hora de llamada,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>reason,Motivo,120</column>
+			<column>call_attendant,Atendi�,130</column>
+			<column>call_detail,Detalle de la llamada,215</column>
+			<column>read_date,Fecha Le�do,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>attended,Atendida,70</column>
+			<column>attended_sys,Atend Sist,70</column>
+			<column>email_sent,Correo Env,40</column>
+			<column>whatsapp_sent,Whatsapp Env,40</column>
+			<column>email_read,Le�do,40</column>
+			<column>send_email,Env. Correo?,40</column>
+			<column>service_type,Tipo Servicio,150</column>
+			<column>seller,Vendedor,150</column>
+			<column>notification_time,Fecha notificaci�n,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>pname,Nombre Cliente,190</column>
+			<column>emails,Correo,190</column>
+			<column>cellphone,Celular,90</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+			<column>resolution_id,RID,0</column>
+		</command>
+
+		<command name="quotationGroupReport" type="select" prepared="true">
+			<sqltext>
+				select @concepto@,count(a.crm_quote_id) as cant
+				from crm_quote a 
+				INNER JOIN prospects p on p.prospect_id=a.prospect_id
+				INNER JOIN crm_resolution r ON r.crm_resolution_id=a.resolution_id
+				LEFT JOIN  service_type st ON st.service_type_id=a.service_type_id
+				LEFT JOIN  users u on u.usr_id=a.created_by
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+				<condition name="a.store_id" value="@store_id@" operator="="></condition>
+				<condition name="a.created_by" value="@user_id@" operator="IN"></condition>
+				<condition name="a.created" value="@created_min@" operator="&gt;="></condition>
+				<condition name="a.created" value="@created_max@" operator="&lt;="></condition>
+				<condition name="a.resolution_id" value="@resolution_id@" operator="="></condition>
+				<condition name="a.service_type_id" value="@service_type_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			<groupby>@group_by@</groupby>
+			<column>crm_quote_id,CotID,50</column>
+			<column>cant,Cant,50</column>
+			<column>name,Nombre,50</column>
+			<column>time_of_call,Hora de llamada,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>reason,Motivo,120</column>
+			<column>call_attendant,Atendi�,130</column>
+			<column>call_detail,Detalle de la llamada,215</column>
+			<column>read_date,Fecha Le�do,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>attended,Atendida,70</column>
+			<column>attended_sys,Atend Sist,70</column>
+			<column>email_sent,Correo Env,40</column>
+			<column>whatsapp_sent,Whatsapp Env,40</column>
+			<column>email_read,Le�do,40</column>
+			<column>send_email,Env. Correo?,40</column>
+			<column>service_type,Tipo Servicio,150</column>
+			<column>seller,Vendedor,150</column>
+			<column>notification_time,Fecha notificaci�n,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>pname,Nombre Cliente,190</column>
+			<column>emails,Correo,190</column>
+			<column>cellphone,Celular,90</column>
+			<column>resolution,Resoluci�n,80</column>
+			<column>service_order_id,OSID,52</column>
+		</command>
+
+		<command name="searchCalls" type="select" prepared="true">
+			<sqltext>
+				SELECT crm_callp_id,caller_id,call_date,cp.updated,c.name as created_by, u.name as updated_by,answered_by,crm_quote_id,service_order_id,r.name as reason from crm_callpicker  cp
+				LEFT JOIN users u ON u.usr_id=cp.updated_by
+				LEFT JOIN users c ON c.usr_id=cp.created_by
+				LEFT JOIN crm_cp_reason r on r.crm_cp_reason_id::varchar=cp.reason_id
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_callp_id" value="@crm_callp_id@" operator="="></condition>
+					<condition name="created_by" value="@user_id@" operator="="></condition>
+					<condition name="caller_id" value="@origin_phone@" operator="LIKE"></condition>
+					<condition name="cp.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="cp.created" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>crm_callp_id</orderby>
+			<column>crm_callp_id,ID Llamada,50</column>
+			<column>caller_id,Numero Origen,100</column>
+			<column>call_date,Fecha llamada,135,dd-MMM-yy hh:mm:ss tt</column>
+			<column>created_by,Creado por,100</column>
+			<column>updated_by,Actualizado por,100,c</column>
+			<column>answered_by,Extension,50</column>
+			<column>crm_quote_id,Id Cot,60</column>
+			<column>service_order_id,Id OS,60</column>
+			<column>reason,Raz�n,100</column>
+			<column>updated,Actualizado,140,dd-MMM-yy hh:mm:ss tt</column>
+		</command>    
+
+
+		<command name="searchCrmQuotations" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_id,a.quotation_code,a.customer_id,a.customer_name,d.state_name,a.customer_sector,p.name AS subsector,h.name AS sector_name,e.city_name,a.project_name,
+				a.technology_id,g.name AS technology_name,i.name AS quotation_q,TO_CHAR(a.quotation_year,'yyyy') AS quotation_year,a.exchange_rate,a.price_pesos,a.cost_pesos,a.price_dlls,
+				a.cost_dlls,l.name AS store_name,a.employee_id,m.name AS employee_name,TO_CHAR(a.posible_closure_date,'dd/MM/yyyy') AS posible_closure_date,
+				TO_CHAR(a.closure_date,'dd/MM/yyyy') AS closure_date,n.name AS closure_name,a.closure_pct_id,CASE WHEN a.currency_id = '1' THEN a.price_pesos ELSE a.price_dlls END AS price,
+				CASE WHEN a.currency_id = '1' THEN a.cost_pesos ELSE a.cost_dlls END AS cost,
+				CASE WHEN a.currency_id = '1' THEN a.price_pesos-a.cost_pesos ELSE a.price_dlls-a.cost_dlls END AS utility,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((a.price_pesos-a.cost_pesos)/a.price_pesos)*100 WHEN a.price_dlls &gt; 0 THEN ((a.price_dlls-a.cost_dlls)/a.price_dlls)*100 ELSE 0 END AS utility_pct,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((a.price_pesos-a.cost_pesos)/a.price_pesos) WHEN a.price_dlls &gt; 0 THEN ((a.price_dlls-a.cost_dlls)/a.price_dlls) ELSE 0 END AS utility_pct_show,
+				o.code AS currency_code,a.soc,a.sub_sector,a.created
+				FROM crm_quotations a
+				LEFT JOIN customers b ON (a.customer_id = b.customer_id)
+				LEFT JOIN business_partners c ON (b.bpartner_id = c.bpartner_id)
+				LEFT JOIN states d ON (a.customer_state = d.state_id)
+				LEFT JOIN cities e ON (a.customer_city = e.city_id)
+				INNER JOIN crm_quotation_technology g ON (a.technology_id = g.crm_quotation_technology_id)
+				INNER JOIN business_line h ON (a.customer_sector = h.business_line_id)
+				INNER JOIN crm_quotation_q i ON (a.quotation_q = i.crm_quotation_q_id)
+				INNER JOIN currency j ON (a.currency_id = j.currency_id)
+				INNER JOIN stores l ON (a.store_id = l.store_id)
+				INNER JOIN employees m ON (a.employee_id = m.employee_id)
+				INNER JOIN crm_quotation_closure_pct n ON (a.closure_pct_id = n.crm_quotation_closure_pct_id)
+				INNER JOIN currency o ON (a.currency_id = o.currency_id)
+				LEFT JOIN business_line_sub p ON (a.sub_sector = p.sub_business_line_id)
+			</sqltext>
+			<default>
+				a.deleted = '0' AND a.last_version = '1'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_ids@" operator="IN"></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.technology_id" value="@technology_ids@" operator="IN"></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>a.created DESC</orderby>
+			<column>customer_id,Id Cliente,52</column>
+			<column>city_name,Ciudad,70</column>
+			<column>customer_name,Nombre Cliente,90</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Principal,90</column>	
+			<column>sector_name,�rea,90</column>
+			<column>subsector,SubSector,90</column>
+			<column>price,Precio,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Ejecutivo,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),120</column>
+			<column>soc,SOC,100</column>
+			<column>created,Creaci�n,80,dd/MMM/yyyy</column>
+			<column>closure_date,Cierre,80,dd/MMM/yyyy</column>			
+		</command>
+		
+
+		<command name="searchCrmQuotationsDetail" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_id,a.quotation_code,a.customer_id,a.customer_name,d.state_name,a.customer_sector,h.name AS sector_name,r.name AS subsector,e.city_name,a.project_name,
+				p.technology_id,q.name AS technology_name,i.name AS quotation_q,TO_CHAR(a.quotation_year,'yyyy') AS quotation_year,a.exchange_rate,p.price_pesos,p.cost_pesos,p.price_dlls,
+				p.cost_dlls,l.name AS store_name,a.employee_id,m.name AS employee_name,TO_CHAR(a.posible_closure_date,'dd/MM/yyyy') AS posible_closure_date,
+				TO_CHAR(a.closure_date,'dd/MM/yyyy') AS closure_date,n.name AS closure_name,a.closure_pct_id,CASE WHEN a.currency_id = '1' THEN p.price_pesos ELSE p.price_dlls END AS price,
+				CASE WHEN a.currency_id = '1' THEN p.cost_pesos ELSE p.cost_dlls END AS cost,
+				CASE WHEN a.currency_id = '1' THEN p.price_pesos-p.cost_pesos ELSE p.price_dlls-p.cost_dlls END AS utility,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((p.price_pesos-p.cost_pesos)/p.price_pesos)*100 WHEN p.price_dlls &gt; 0 THEN ((p.price_dlls-p.cost_dlls)/p.price_dlls)*100 ELSE 0 END AS utility_pct,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((p.price_pesos-p.cost_pesos)/p.price_pesos) WHEN p.price_dlls &gt; 0 THEN ((p.price_dlls-p.cost_dlls)/p.price_dlls) ELSE 0 END AS utility_pct_show,
+				o.code AS currency_code,a.soc,a.sub_sector,a.created
+				FROM crm_quotations a
+				LEFT JOIN customers b ON (a.customer_id = b.customer_id)
+				LEFT JOIN business_partners c ON (b.bpartner_id = c.bpartner_id)
+				LEFT JOIN states d ON (a.customer_state = d.state_id)
+				LEFT JOIN cities e ON (a.customer_city = e.city_id)				
+				INNER JOIN business_line h ON (a.customer_sector = h.business_line_id)
+				INNER JOIN crm_quotation_q i ON (a.quotation_q = i.crm_quotation_q_id)
+				INNER JOIN currency j ON (a.currency_id = j.currency_id)
+				INNER JOIN stores l ON (a.store_id = l.store_id)
+				INNER JOIN employees m ON (a.employee_id = m.employee_id)
+				INNER JOIN crm_quotation_closure_pct n ON (a.closure_pct_id = n.crm_quotation_closure_pct_id)
+				INNER JOIN currency o ON (a.currency_id = o.currency_id)
+				INNER JOIN crm_quotations_detail p ON (a.crm_quotation_id = p.crm_quotation_id)
+				INNER JOIN crm_quotation_technology q ON (p.technology_id = q.crm_quotation_technology_id)
+				LEFT JOIN business_line_sub r ON (a.sub_sector = r.sub_business_line_id)
+			</sqltext>
+			<default>
+				a.deleted = '0' AND a.last_version = '1'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_ids@" operator="IN"></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>				
+					<condition name="p.technology_id" value="@technology_detail_ids@" operator="IN"></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>a.created DESC</orderby>
+			<column>customer_id,Id Cliente,52</column>
+			<column>city_name,Ciudad,70</column>
+			<column>customer_name,Nombre Cliente,90</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Detalle,90</column>	
+			<column>sector_name,�rea,90</column>
+			<column>subsector,SubSector,90</column>
+			<column>price,Precio,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Ejecutivo,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),120</column>		
+			<column>soc,SOC,100</column>
+			<column>created,Creaci�n,100,dd/MMM/yyyy</column>
+			<column>closure_date,Cierre,100,dd/MMM/yyyy</column>
+		</command>   		
+		
+
+		<command name="searchCrmQuotationsTotal" type="select" prepared="true">
+			<sqltext>
+				SELECT 0 AS quotations_count,0.00 AS price_pesos,0.00 AS cost_pesos,0.00 AS utility_pesos,0.00 AS price_dlls,0.00 AS cost_dlls,0.00 AS utility_dlls
+				FROM crm_quotations
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>quotations_count,Cotizaciones,100</column>
+			<column>price_pesos,Venta Pesos,100,c</column>
+			<column>cost_pesos,Costo Pesos,100,c</column>
+			<column>utility_pesos,Utilidad Pesos,100,c</column>
+			<column>price_dlls,Venta D�lares,100,c</column>
+			<column>cost_dlls,Costo D�lares,100,c</column>
+			<column>utility_dlls,Utilidad D�lares,100,c</column>
+		</command>    
+		
+
+		<command name="searchCrmQuotation" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_id,a.quotation_code,a.customer_id,a.customer_name,d.state_name,a.customer_sector,h.name AS sector_name,q.name AS sub_sector_name,e.city_name,a.project_name,
+				a.technology_id,g.name AS technology_name,i.name AS quotation_q,TO_CHAR(a.quotation_year,'yyyy') AS quotation_year,
+				CASE WHEN a.currency_id = '1' THEN a.price_pesos ELSE a.price_dlls END AS price,CASE WHEN a.currency_id = '1' THEN a.cost_pesos ELSE a.cost_dlls END AS cost,
+				o.code AS currency_code,l.name AS store_name,a.employee_id,m.name AS employee_name,a.posible_closure_date,a.closure_date,n.name AS closure_name,a.closure_pct_id,a.currency_id,
+				CASE WHEN a.currency_id = '1' THEN a.price_pesos-a.cost_pesos ELSE a.price_dlls-a.cost_dlls END AS utility,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((a.price_pesos-a.cost_pesos)/a.price_pesos)*100 WHEN a.price_dlls &gt; 0 THEN ((a.price_dlls-a.cost_dlls)/a.price_dlls)*100 ELSE 0 END AS utility_pct,
+				CASE WHEN a.currency_id = '1' AND a.price_pesos &gt; 0 THEN ((a.price_pesos-a.cost_pesos)/a.price_pesos) WHEN a.price_dlls &gt; 0 THEN ((a.price_dlls-a.cost_dlls)/a.price_dlls) ELSE 0 END AS utility_pct_show, 
+				a.created,a.previous_quotation_code,a.last_version,CASE WHEN a.last_version = '1' THEN UPPER('SI') ELSE UPPER('NO') END AS last,a.soc,r.name AS project_technology_type_name,a.created_by
+				FROM crm_quotations a
+				LEFT JOIN customers b ON (a.customer_id = b.customer_id)
+				LEFT JOIN business_partners c ON (b.bpartner_id = c.bpartner_id)
+				LEFT JOIN states d ON (a.customer_state = d.state_id)
+				LEFT JOIN cities e ON (a.customer_city = e.city_id)
+				INNER JOIN crm_quotation_technology g ON (a.technology_id = g.crm_quotation_technology_id)
+				INNER JOIN business_line h ON (a.customer_sector = h.business_line_id)
+				INNER JOIN crm_quotation_q i ON (a.quotation_q = i.crm_quotation_q_id)
+				INNER JOIN currency j ON (a.currency_id = j.currency_id)
+				INNER JOIN stores l ON (a.store_id = l.store_id)
+				INNER JOIN employees m ON (a.employee_id = m.employee_id)
+				INNER JOIN crm_quotation_closure_pct n ON (a.closure_pct_id = n.crm_quotation_closure_pct_id)
+				INNER JOIN currency o ON (a.currency_id = o.currency_id)
+				LEFT JOIN business_line p ON (a.customer_sector = p.business_line_id)
+				LEFT JOIN business_line_sub q ON (a.sub_sector = q.sub_business_line_id)
+				LEFT JOIN project_technology_type r ON (a.project_technology_type_id = r.project_technology_type_id)
+			</sqltext>
+			<default>
+				a.deleted = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_pct@" operator="="></condition>
+					<condition name="a.technology_id" value="@technology_id@" operator="="></condition>
+					<condition name="a.project_technology_type_id" value="@project_technology_type_id@" operator="="></condition>
+					<condition name="a.store_id" value="@store_ids@" operator="IN"></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="UPPER(a.soc)" value="@project_name@" operator="LIKE"></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.closure_date,'yyyy-MM-dd')" value="@closure_date_max@" operator="&lt;="></condition>
+					<condition name="a.quotation_code" value="@quotation_code@" operator="="></condition>
+					<condition name="a.previous_quotation_code" value="@previous_quotation_code@" operator="="></condition>
+					<condition name="a.last_version" value="@last_version@" operator="="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+				</conditions>
+			</where>
+			<orderby>a.created</orderby>
+			<column>customer_id,Id Cliente,52</column>
+			<column>city_name,Ciudad,70</column>
+			<column>customer_name,Nombre Cliente,90</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a,90</column>	
+			<column>sector_name,Sector (�rea),90</column>
+			<column>sub_sector_name,SubSector,90</column>
+			<column>price,Precio,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Ejecutivo,80</column>
+			<column>posible_closure_date,Posible Cierre,75,dd/MMM/yyyy</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal,90</column>			
+			<column>quotation_code,C�digo,110</column>
+			<column>previous_quotation_code,Cotizaci�n Anterior,110</column>
+			<column>last,Versi�n Reporte,90</column>
+			<column>soc,SOC,100</column>
+			<column>created,Creaci�n,80,dd/MMM/yyyy</column>
+			<column>closure_date,Cierre,75,dd/MMM/yyyy</column>
+			<column>project_technology_type_name,Tipo Proyecto,80</column>
+			<column>created_by,created_by,0</column>
+		</command>
+
+
+		<command name="searchCrmQuotationTotal" type="select" prepared="true">
+			<sqltext>
+				SELECT 0 AS quotations_count,0.00 AS price,0.00 AS cost,0.00 AS utility,'' AS currency_code
+				FROM crm_quotations
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>quotations_count,Cotizaciones,100</column>
+			<column>price,Venta,100,c</column>
+			<column>cost,Costo,100,c</column>
+			<column>utility,Utilidad,100,c</column>
+			<column>currency_code,Moneda,55</column>			
+		</command>  
+
+		
+		<command name="addCrmQuotation" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotations ($crm_quotation_id$,$quotation_date$,$customer_id$,$customer_name$,$customer_state$,$customer_city$,$customer_sector$,$sub_sector$,$project_name$,$technology_id$,$project_technology_type_id$,$currency_id$,$price_pesos$,$cost_pesos$,$price_dlls$,$cost_dlls$,$exchange_rate$,$quotation_q$,$quotation_year$,$store_id$,$employee_id$,$closure_pct_id$,$posible_closure_date$,$comments$,$discount_amt_pesos$,$discount_amt_dlls$,$quotation_code$,$deal_id$,$account_manager$,$customer_contact$,$commercial_conditions$,$delivery_time$,$delivery_place$,$implement_days$,$previous_quotation_code$,$soc$,$pch_discount_amt_dlls$,$pch_discount_amt_pesos$,$father_quotation_id$,$is_customer$,$soc_id$,$soc_code$,$closure_date$,$updated_by$,$created_by$,created,updated) 
+				VALUES                     (@crm_quotation_id@,@quotation_date@,@customer_id@,@customer_name@,@customer_state@,@customer_city@,@customer_sector@,@sub_sector@,@project_name@,@technology_id@,@project_technology_type_id@,@currency_id@,@price_pesos@,@cost_pesos@,@price_dlls@,@cost_dlls@,@exchange_rate@,@quotation_q@,@quotation_year@,@store_id@,@employee_id@,@closure_pct_id@,@posible_closure_date@,@comments@,@discount_amt_pesos@,@discount_amt_dlls@,@quotation_code@,@deal_id@,@account_manager@,@customer_contact@,@commercial_conditions@,@delivery_time@,@delivery_place@,@implement_days@,@previous_quotation_code@,@soc@,@pch_discount_amt_dlls@,@pch_discount_amt_pesos@,@father_quotation_id@,@is_customer@,@soc_id@,@soc_code@,@closure_date@,@updated_by@,@created_by@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>	
+
+
+		<command name="editCrmQuotation" type="update">
+			<sqltext>
+				UPDATE crm_quotations SET $customer_id$=@customer_id@,$customer_name$=@customer_name@,$customer_state$=@customer_state@,$customer_city$=@customer_city@,$customer_sector$=@customer_sector@,$sub_sector$=@sub_sector@,$project_name$=@project_name@,$technology_id$=@technology_id@,$project_technology_type_id$=@project_technology_type_id@,$currency_id$=@currency_id@,$price_pesos$=@price_pesos@,$cost_pesos$=@cost_pesos@,$price_dlls$=@price_dlls@,$cost_dlls$=@cost_dlls@,$exchange_rate$=@exchange_rate@,$quotation_q$=@quotation_q@,$quotation_year$=@quotation_year@,$store_id$=@store_id@,$employee_id$=@employee_id@,$closure_pct_id$=@closure_pct_id@,$posible_closure_date$=@posible_closure_date@,$comments$=@comments@,$closure_date$=@closure_date@,$soc$=@soc@,$cancelled_quotation_date$=@cancelled_quotation_date@,$cancelled_quotation_motive$=@cancelled_quotation_motive@,$activated$=@activated@,$deleted$=@deleted@,$updated_by$=@updated_by@,updated=CURRENT_TIMESTAMP,$discount_amt_pesos$=@discount_amt_pesos@,$discount_amt_dlls$=@discount_amt_dlls@,$deal_id$=@deal_id@,$account_manager$=@account_manager@,$customer_contact$=@customer_contact@,$commercial_conditions$=@commercial_conditions@,$delivery_time$=@delivery_time@,$delivery_place$=@delivery_place@,$implement_days$=@implement_days@,$pch_discount_amt_dlls$=@pch_discount_amt_dlls@,$pch_discount_amt_pesos$=@pch_discount_amt_pesos@,$soc_id$=@soc_id@,$soc_code$=@soc_code@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="deleteCrmQuotation" type="update">
+			<sqltext>
+				UPDATE crm_quotations SET $deleted$=@deleted@,$updated_by$=@updated_by@,updated=CURRENT_TIMESTAMP
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="addCrmQuotationDetail" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotations_detail ($crm_quotation_id$,$technology_id$,$type$,$price_pesos$,$cost_pesos$,$price_dlls$,$cost_dlls$) 
+				VALUES                            (@crm_quotation_id@,@technology_id@,@type@,@price_pesos@,@cost_pesos@,@price_dlls@,@cost_dlls@)
+			</sqltext>
+		</command>
+		
+
+		<command name="searchCrmQuotationDetail" type="select" prepared="true">
+			<sqltext>
+				SELECT a.technology_id,b.name AS technology_name,a.price_dlls,a.cost_dlls,a.price_pesos,a.cost_pesos,a.price_dlls/c.price_dlls AS pct
+				FROM crm_quotations_detail a
+				INNER JOIN crm_quotation_technology b ON (a.technology_id = b.crm_quotation_technology_id)
+				INNER JOIN crm_quotations c ON (a.crm_quotation_id = c.crm_quotation_id)
+			</sqltext>
+			<default>
+				a.technology_id != '0' AND a.type ISNULL
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>technology_name,Tecnolog�a,200</column>
+			<column>price_dlls,Precio D�lares,150,c</column>
+			<column>cost_dlls,Costo D�lares,150,c</column>
+			<column>price_pesos,Precio Pesos,150,c</column>
+			<column>cost_pesos,Costo Pesos,150,c</column>
+			<column>pct,%,100,p</column>
+		</command>
+
+
+		<command name="searchCrmQuotationHeaders" type="select" prepared="true">
+			<sqltext>
+				SELECT '0' AS checked,a.crm_quotation_header_id,a.description,d.name AS technology_name,a.price_total,a.cost_total,c.name AS currency_code,'0' AS is_in_db,a.technology_id
+				FROM crm_quotation_headers a
+				INNER JOIN crm_quotations b ON (a.crm_quotation_id = b.crm_quotation_id)
+				INNER JOIN currency c ON (a.currency_id = c.currency_id)
+				LEFT JOIN crm_quotation_technology d ON (a.technology_id = d.crm_quotation_technology_id)
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>description,Descripci�n,350</column>
+			<column>technology_name,Tecnolog�a,200</column>
+			<column>price_total,Precio,150,c</column>
+			<column>cost_total,Costo,150,c</column>
+			<column>currency_code,Moneda,60</column>
+		</command>   
+		
+
+		<command name="searchCrmQuotationHeaderProducts" type="select" prepared="true">
+			<sqltext>
+				SELECT '0' AS selected,'0' AS checked,a.crm_quotationln_id,a.crm_quotation_header_id,a.product_id,d.code AS product_code,d.name AS product_name,a.quantity,a.unitary_price,
+				a.quantity * a.unitary_price AS extended_price,a.discount_pct,a.price,a.pch_discount_pct,a.cost,e.code AS currency_code,a.supplier_id,f.name AS supplier_name,'0' AS is_in_db,
+				a.line_index,d.code AS past_product_code
+				FROM crm_quotation_lines a
+				INNER JOIN crm_quotation_headers b ON (a.crm_quotation_header_id = b.crm_quotation_header_id)
+				INNER JOIN crm_quotations c ON (b.crm_quotation_id = c.crm_quotation_id)
+				INNER JOIN products d ON (a.product_id = d.product_id)
+				INNER JOIN currency e ON (a.currency_id = e.currency_id)
+				INNER JOIN suppliers f ON (a.supplier_id = f.supplier_id)
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.crm_quotation_header_id" value="@crm_quotation_header_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>product_id,Id Producto,65</column>
+			<column>product_code,C�digo Producto,110</column>
+			<column>product_name,Nombre Producto,150</column>
+			<column>quantity,Cantidad,55</column>
+			<column>unitary_price,Precio Lista,80,c</column>
+			<column>extended_price,Subtotal,80,c</column>
+			<column>discount_pct,% Desc Venta,80</column>
+			<column>price,Precio Venta,90,c</column>
+			<column>pch_discount_pct,% Desc Compra,90</column>
+			<column>cost,Precio Compra,90,c</column>
+			<column>currency_code,Moneda,55</column>
+			<column>supplier_name,Proveedor,150</column>
+		</command>   
+		
+
+		<command name="searchCrmQuotationAllProducts" type="select" prepared="true">
+			<sqltext>
+				SELECT a.checked,a.crm_quotationln_id,a.crm_quotation_header_id,a.product_id,a.product_code,a.product_name,a.quantity,a.unitary_price,
+				a.quantity * a.unitary_price AS extended_price,a.discount_pct,a.price,a.pch_discount_pct,a.cost,e.code AS currency_code,a.supplier_id,f.name AS supplier_name,'0' AS is_in_db,
+				a.line_index,a.product_code AS past_product_code
+				FROM crm_quotation_lines a
+				INNER JOIN crm_quotation_headers b ON (a.crm_quotation_header_id = b.crm_quotation_header_id)
+				INNER JOIN crm_quotations c ON (b.crm_quotation_id = c.crm_quotation_id)
+				INNER JOIN products d ON (a.product_id = d.product_id)
+				INNER JOIN currency e ON (a.currency_id = e.currency_id)
+				INNER JOIN suppliers f ON (a.supplier_id = f.supplier_id)
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="b.crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>line_index</orderby>
+			<column>product_id,Id Producto,65</column>
+			<column>product_code,C�digo Producto,110</column>
+			<column>product_name,Nombre Producto,150</column>
+			<column>quantity,Cantidad,55</column>
+			<column>unitary_price,Precio Lista,80,c</column>
+			<column>extended_price,Subtotal,80,c</column>
+			<column>discount_pct,% Desc Venta,80</column>
+			<column>price,Precio Venta,90,c</column>
+			<column>pch_discount_pct,% Desc Compra,90</column>
+			<column>cost,Precio Compra,90,c</column>
+			<column>currency_code,Moneda,55</column>
+			<column>supplier_name,Proveedor,150</column>
+		</command>   		
+		
+
+		<command name="insertQuotationHeader" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotation_headers ($crm_quotation_header_id$,$crm_quotation_id$,$description$,$price_total$,$cost_total$,$currency_id$,$technology_id$,$updated_by$,$created_by$,created,updated) 
+				VALUES                            (@crm_quotation_header_id@,@crm_quotation_id@,@description@,@price_total@,@cost_total@,@currency_id@,@technology_id@,@updated_by@,@created_by@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>
+
+
+		<command name="insertQuotationProductLines" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotation_lines ($crm_quotation_header_id$,$crm_quotationln_id$,$product_id$,$quantity$,$unitary_price$,$discount_pct$,$price$,$pch_discount_pct$,$cost$,$currency_id$,$supplier_id$,$checked$,$product_code$,$product_name$,$line_index$,$updated_by$,$created_by$,created,updated) 
+				VALUES                          (@crm_quotation_header_id@,@crm_quotationln_id@,@product_id@,@quantity@,@unitary_price@,@discount_pct@,@price@,@pch_discount_pct@,@cost@,@currency_id@,@supplier_id@,@checked@,@product_code@,@product_name@,@line_index@,@updated_by@,@created_by@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>	
+		
+
+		<command name="updateQuotationHeader" type="update">
+			<sqltext>
+				UPDATE crm_quotation_headers SET $description$=@description@,$price_total$=@price_total@,$cost_total$=@cost_total@,$currency_id$=@currency_id@,$technology_id$=@technology_id@,$updated_by$=@updated_by@,updated=CURRENT_TIMESTAMP 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="crm_quotation_header_id" value="@crm_quotation_header_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="updateQuotationProductLines" type="update">
+			<sqltext>
+				UPDATE crm_quotation_lines SET $quantity$=@quantity@,$unitary_price$=@unitary_price@,$discount_pct$=@discount_pct@,$price$=@price@,$pch_discount_pct$=@pch_discount_pct@,$cost$=@cost@,$currency_id$=@currency_id@,$supplier_id$=@supplier_id@,$checked$=@checked@,$product_code$=@product_code@,$product_name$=@product_name@,$line_index$=@line_index@,$updated_by$=@updated_by@,updated=CURRENT_TIMESTAMP 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="crm_quotation_header_id" value="@crm_quotation_header_id@" operator="="></condition>
+					<condition name="crm_quotationln_id" value="@crm_quotationln_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="insertCrmQuotationExpenses" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotation_expenses ($crm_quotation_id$,$freight$,$import$,$extra_hours$,$travel_expenses$,$other$,$updated_by$,updated) 
+				VALUES                             (@crm_quotation_id@,@freight@,@import@,@extra_hours@,@travel_expenses@,@other@,@updated_by@,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>
+
+
+		<command name="searchQConfiguration1" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_q_config_id,CASE WHEN a.store_id != -1 THEN UPPER ('S')||'ucursal' ELSE UPPER('S')||'ector - ' || UPPER('V') || 'endedor' END AS q_config_type,a.store_id,
+				a.employee_id,COALESCE(e.name,UPPER('N/A')) AS employee_name,a.q_id,c.name AS q_name,TO_CHAR(a.year,'yyyy') AS year,a.currency_id,d.name AS currency_name,a.quote_dlls,
+				a.quote_pesos,a.exchange_rate,COALESCE(b.name,UPPER('N/A')) AS sector_name,a.sector_id
+				FROM crm_quotation_q_config a
+				LEFT JOIN business_line b ON (a.sector_id = b.business_line_id)
+				INNER JOIN crm_quotation_q c ON (a.q_id = c.crm_quotation_q_id)
+				INNER JOIN currency d ON (a.currency_id = d.currency_id)
+				LEFT JOIN employees e ON (a.employee_id = e.employee_id)
+			</sqltext>
+			<default>
+				@default_condition@
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.store_id" value="@store_id@" operator="="></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.q_id" value="@q_id@" operator="="></condition>
+					<condition name="TO_CHAR(a.year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="a.sector_id" value="@sector_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>q_config_type,Tipo,100</column>
+			<column>employee_name,Empleado,110</column>
+			<column>sector_name,Sector,110</column>
+			<column>q_name,Q,30</column>
+			<column>year,A�o,35</column>
+			<column>currency_name,Moneda,50</column>
+			<column>quote_dlls,Cuota D�lares,100,c</column>
+			<column>quote_pesos,Cuota Pesos,100,c</column>
+			<column>exchange_rate,Tipo de Cambio,85</column>
+		</command> 
+			
+
+		<command name="searchQConfiguration2" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_q_config_id,CASE WHEN a.store_id != -1 THEN UPPER ('S')||'ucursal' ELSE UPPER('S')||'ector - ' || UPPER('V') || 'endedor' END AS q_config_type,a.store_id,
+				a.employee_id,COALESCE(b.name,UPPER('N/A')) AS store_name,a.q_id,c.name AS q_name,TO_CHAR(a.year,'yyyy') AS year,a.currency_id,d.name AS currency_name,a.quote_dlls,a.quote_pesos,a.exchange_rate
+				FROM crm_quotation_q_config a
+				LEFT JOIN stores b ON (a.store_id = b.store_id)
+				INNER JOIN crm_quotation_q c ON (a.q_id = c.crm_quotation_q_id)
+				INNER JOIN currency d ON (a.currency_id = d.currency_id)
+				LEFT JOIN employees e ON (a.employee_id = e.employee_id)
+			</sqltext>
+			<default>
+				@default_condition@
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.store_id" value="@store_id@" operator="="></condition>
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.q_id" value="@q_id@" operator="="></condition>
+					<condition name="TO_CHAR(a.year,'yyyy')" value="@year@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>q_config_type,Tipo,70</column>
+			<column>store_name,Sucursal,130</column>
+			<column>q_name,Q,30</column>
+			<column>year,A�o,40</column>
+			<column>currency_name,Moneda,50</column>
+			<column>quote_dlls,Cuota D�lares,100,c</column>
+			<column>quote_pesos,Cuota Pesos,100,c</column>
+			<column>exchange_rate,Tipo de Cambio,90</column>
+		</command>    		
+		
+
+		<command name="addQConfiguration" type="insert">
+			<sqltext>
+				INSERT INTO crm_quotation_q_config ($crm_quotation_q_config_id$,$store_id$,$q_id$,$year$,$quote_dlls$,$quote_pesos$,$exchange_rate$,$currency_id$,$employee_id$,$sector_id$,$updated_by$,$created_by$,created,updated) 
+				VALUES                             (@crm_quotation_q_config_id@,@store_id@,@q_id@,@year@,@quote_dlls@,@quote_pesos@,@exchange_rate@,@currency_id@,@employee_id@,@sector_id@,@updated_by@,@created_by@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>
+
+
+		<command name="editQConfiguration" type="update">
+			<sqltext>
+				UPDATE crm_quotation_q_config SET $store_id$=@store_id@,$q_id$=@q_id@,$year$=@year@,$quote_dlls$=@quote_dlls@,$quote_pesos$=@quote_pesos@,$exchange_rate$=@exchange_rate@,$currency_id$=@currency_id@,$employee_id$=@employee_id@,$sector_id$=@sector_id@,$updated_by$=@updated_by@,updated=CURRENT_TIMESTAMP 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="crm_quotation_q_config_id" value="@crm_quotation_q_config_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="searchCRMRep" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS description,'0' AS amt
+				FROM crm_quotations 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>description,Descripci�n,290</column>
+			<column>amt,Resultado,220</column>
+		</command>  
+
+
+		<command name="searchCRMRepResumen" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS description,0.00 AS total,0.00 AS possible_total,0.00 AS margen_total,0.00 AS possible_margen_total,0 AS quotation_number
+				FROM crm_quotations 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>description,Descripci�n,120</column>
+			<column>total,Total,85,c</column>
+			<column>possible_total,Total Probable,85,c</column>
+			<column>margen_total,Margen Total,85,c</column>
+			<column>possible_margen_total,Margen Probable,85,c</column>
+			<column>quotation_number,# cuentas,50</column>
+		</command>  
+		
+
+		<command name="getQQuote" type="select" prepared="true">
+			<sqltext>
+				SELECT SUM(@pesos_or_dlls@) AS quote
+				FROM crm_quotation_q_config
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="store_id" value="@store_ids@" operator="IN"></condition>
+					<condition name="sector_id" value="@sector_ids@" operator="IN"></condition>
+					<condition name="q_id" value="@q_id@" operator="="></condition>
+					<condition name="TO_CHAR(year,'yyyy')" value="@year@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>   		
+		
+
+		<command name="getQQuoteForEmployee" type="select" prepared="true">
+			<sqltext>
+				SELECT SUM(@pesos_or_dlls@) AS quote
+				FROM crm_quotation_q_config
+			</sqltext>
+			<default>
+				store_id = -1
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="sector_id" value="@sector_ids@" operator="IN"></condition>
+					<condition name="q_id" value="@q_id@" operator="="></condition>
+					<condition name="TO_CHAR(year,'yyyy')" value="@year@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>   	
+		
+
+		<command name="searchCRMReports" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS description,0 AS count,0.00 AS sales,0.00 AS cost,0.00 AS margen_amt,'0' AS margen_pct,'0' AS pct
+				FROM crm_quotations 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>description,Descripci�n,300</column>
+			<column>count,#,35</column>
+			<column>sales,Venta,120,c</column>
+			<column>cost,Costo,120,c</column>
+			<column>margen_amt,Margen $,120,c</column>
+			<column>margen_pct,Margen %,120</column>
+			<column>pct,%,100</column>
+		</command>  
+
+
+		<command name="searchCRMTechnologyReport" type="select" prepared="true">
+			<sqltext>
+				SELECT a.crm_quotation_id,b.technology_id,c.name AS technology_name,b.price_pesos,b.cost_pesos,b.price_dlls,b.cost_dlls
+				FROM crm_quotations a
+				INNER JOIN crm_quotations_detail b ON (a.crm_quotation_id = b.crm_quotation_id)
+				INNER JOIN crm_quotation_technology c ON (b.technology_id = c.crm_quotation_technology_id)
+			</sqltext>
+			<default>
+				a.deleted = '0' AND a.last_version = '1' 
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="UPPER(a.customer_name)" value="@customer_name@" operator="LIKE"></condition>
+					<condition name="a.store_id" value="@store_ids@" operator="IN"></condition>
+					<condition name="a.customer_sector" value="@sector_ids@" operator="IN"></condition>
+					<condition name="a.closure_pct_id" value="@closure_ids@" operator="IN"></condition>
+					<condition name="a.technology_id" value="@technology_ids@" operator="IN"></condition>
+					<condition name="c.crm_quotation_technology_id" value="@technology_detail_ids@" operator="IN"></condition>					
+					<condition name="a.employee_id" value="@employee_id@" operator="="></condition>
+					<condition name="a.quotation_q" value="@q_id@" operator="="></condition>
+					<condition name="TO_CHAR(a.quotation_year,'yyyy')" value="@year@" operator="="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.posible_closure_date,'yyyy-MM-dd')" value="@closure_year_max@" operator="&lt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_min@" operator="&gt;="></condition>
+					<condition name="((a.price_dlls-a.cost_dlls)/a.price_dlls)*100" value="@utility_max@" operator="&lt;="></condition>
+					<condition name="a.sub_sector" value="@subsector_ids@" operator="IN"></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(a.created,'yyyy-MM-dd')" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>a.created DESC</orderby>
+			<column>customer_id,Id Cliente,52</column>
+			<column>city_name,Ciudad,70</column>
+			<column>customer_name,Nombre Cliente,90</column>
+			<column>project_name,Proyecto,90</column>
+			<column>technology_name,Tecnolog�a Detalle,90</column>	
+			<column>sector_name,Sector,90</column>
+			<column>price,Precio,75,c</column>
+			<column>cost,Costo,75,c</column>
+			<column>utility,Utilidad,75,c</column>
+			<column>utility_pct_show,% Utilidad,55,p</column>
+			<column>currency_code,Moneda,50</column>
+			<column>closure_name,% Cierre,48</column>
+			<column>employee_name,Vendedor,80</column>
+			<column>posible_closure_date,Posible Cierre,75</column>
+			<column>quotation_q,Q,20</column>
+			<column>quotation_year,A�o,30</column>
+			<column>store_name,Sucursal(�rea),90</column>																							
+		</command>  	
+		
+		<command name="searchTireQuote" type="select" prepared="true">
+			<sqltext>
+				SELECT code,brand,supplier_code,model,measure,public_price,wholesale_price,(COALESCE(cedis_inventory,0)+COALESCE(suc1001,0)+COALESCE(suc1002,0)+COALESCE(suc1003,0)+COALESCE(suc1004,0)+
+				COALESCE(suc1005,0)+COALESCE(suc1006,0)+COALESCE(suc1007,0)+COALESCE(suc1008,0)+COALESCE(local_inv,0)) as total
+				,local_inv,cedis_inventory,suc1001,suc1002,suc1003,suc1004,suc1005,suc1006,suc1007,suc1008,sheet,sheet_id,created 
+				FROM tire_quotes@temp@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+					<condition name="upper(measure)" value="@measure@" operator="like"></condition>
+					<condition name="upper(brand)" value="@brand@" operator="like"></condition>
+					<condition name="upper(code)" value="@code@" operator="like"></condition>
+				</conditions>
+			</where>
+			<column>code,Codigo,70</column>
+			<column>brand,Marca,85</column>
+			<column>supplier_code,Cod Prov,90</column>
+			<column>model,Modelo,70</column>
+			<column>total,Inv Tot,60</column>
+			<column>cedis_inventory,Inv Cedis,60</column>
+			<column>local_inv,Inv Loc,53</column>
+			<column>suc1001,Suc1001,50</column>
+			<column>suc1002,Suc1002,50</column>
+			<column>suc1003,Suc1003,50</column>
+			<column>suc1004,Suc1004,50</column>
+			<column>suc1005,Suc1005,50</column>
+			<column>suc1006,Suc1006,50</column>
+			<column>suc1007,Suc1007,50</column>
+			<column>suc1008,Suc1008,50</column>
+			<column>measure,Medida,80</column>
+			<column>sheet,Hoja,120</column>
+			<column>sheet_id,# Hoja,50</column>
+			<column>public_price,Precio,70,c</column>
+			<column>wholesale_price,Costo,70,c</column>
+			<column>created,Creado,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>updated,Actualizado,125,dd-MMM-yy hh:mm:ss tt</column>
+		</command>  
+		
+		<command name="searchStrutQuote" type="select" prepared="true">
+			<sqltext>
+				SELECT part_num,brand,type,model,description,position,qty,price,price*.73*1.16 as cost,created 
+				FROM strut_quotes
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+					<condition name="upper(type)" value="@type@" operator="like"></condition>
+					<condition name="upper(brand)" value="@brand@" operator="like"></condition>
+					<condition name="upper(model)" value="@model@" operator="like"></condition>
+				</conditions>
+			</where>
+			<orderby>description,price</orderby>
+			<column>part_num,Num Parte,70</column>
+			<column>brand,Marca,95</column>
+			<column>type,Tipo,130</column>
+			<column>model,Modelo,45</column>
+			<column>description,Descripci�n,225</column>
+			<column>position,Posici�n,80</column>
+			<column>qty,Cant,35</column>
+			<column>price,Precio,70,c</column>
+			<column>cost,Costo,70,c</column>
+			<column>created,Creado,125,dd-MMM-yy hh:mm:ss tt</column>
+			<column>updated,Actualizado,125,dd-MMM-yy hh:mm:ss tt</column>
+		</command>  
+
+		 <command name="searchQuoteByPhone" type="select" prepared="true">
+			<sqltext>
+			SELECT q.crm_quote_id,q.status_id,q.name,q.created,q.cellphone,q.phones,q.store_id,q.store,service_type  
+			from
+			(
+				SELECT q.crm_quote_id,q.status_id,p.name,q.created,p.cellphone,p.phones,q.store_id,s.name as store,st.name as service_type 
+				FROM crm_quote q  
+				INNER JOIN prospects p ON p.prospect_id=q.prospect_id
+				INNER JOIN stores s ON s.store_id=q.store_id
+				INNER JOIN service_type st ON st.service_type_id=q.service_type_id
+				WHERE status_id=1 AND  (translate(origin_phone,'- ','') like '@orig_phone@' or translate(cellphone,'- ','') like '@orig_phone@' or translate(phones,'- ','') like '@orig_phone@' OR translate(office_phone,'- ','') like '@orig_phone@' ) 
+				UNION select 0,-1, upper('NUEVA'),null,null,null,null,null,null from pos_props
+			)q
+				ORDER BY	q.crm_quote_id desc
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>crm_quote_id,ID Cot,70</column>
+			<column>status_id,Status,0</column>
+			<column>name,Nombre,130</column>
+			<column>cellphone,Celular,65</column>
+			<column>phones,Tel�fono,65</column>
+			<column>store_id,ID Suc,0</column>
+			<column>store,Sucursal,75</column>
+			<column>service_type,Servicio,75</column>
+			<column>created,Creado,125,dd-MMM-yy hh:mm:ss tt</column>
+		</command>  
+
+		 <command name="searchSOByPhone" type="select" prepared="true">
+			<sqltext>
+			SELECT q.service_order_id,q.status_id,q.name,q.created,q.cellphone,q.phones,q.store_id,q.store,service_type  
+			from
+			(
+				SELECT so.service_order_id,so.status_id,c.name,so.created,bp.cellphone,bp.phones,so.store_id,s.name as store,st.name as service_type
+				FROM service_orders so 
+				INNER JOIN crm_quote q ON q.service_order_id=so.service_order_id 
+				INNER JOIN customers c ON c.customer_id=so.customer_id 
+				INNER JOIN business_partners bp ON bp.bpartner_id=c.bpartner_id 
+				INNER JOIN stores s ON s.store_id=so.store_id
+				INNER JOIN service_type st ON st.service_type_id=q.service_type_id
+				WHERE so.status_id &lt; 5 AND  (translate(origin_phone,'- ','') like '@orig_phone@' or translate(cellphone,'- ','') like '@orig_phone@' or translate(phones,'- ','') like '@orig_phone@' OR translate(office_phone,'- ','') like '@orig_phone@' ) 
+				UNION select 0,-1,upper('NUEVA'),null,null,null,null,null,null from pos_props
+			) q ORDER BY	q.service_order_id desc
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="crm_quotation_id" value="@crm_quotation_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			<column>service_order_id,ID OS,70</column>
+			<column>status_id,Status,0</column>
+			<column>name,Nombre,130</column>
+			<column>cellphone,Celular,65</column>
+			<column>store_id,ID Suc,65</column>
+			<column>store,Sucursal,75</column>
+			<column>service_type,Servicio,75</column>
+			<column>phones,Tel�fono,65</column>
+			<column>created,Creado,125,dd-MMM-yy hh:mm:ss tt</column>
+		</command>  
+		
+
+	</commands>
+</bnet-xsql>

@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title></title>	
+	
+	<style type="text/css" media="all">
+	
+			body	{
+				background: white;
+				color: #333;
+				margin:0;
+				padding: 10px 0 0 0;
+				border: 0;
+				font-size: 11px;
+				font-family: "Trebuchet MS", "Bitstream Vera Sans", verdana, lucida, arial, helvetica, sans-serif;
+			}
+			table.header tr td.clave {
+				background: #F2F2F2;
+				padding: 10px;
+			}
+			table.header tr td.title {	
+				font-size: 18px;
+				padding: 0;
+				padding-top: 10px;
+			}
+			table.header tr td.titleSub {	
+				font-size: 11px;
+				padding: 0;
+				padding-top: 0px;
+			}
+			table.header {	
+				border-bottom: 3px solid #ccc;
+			}
+			table.data-singleColumn tr td table tr.data-a td, table.data-singleColumn tr td table tr.data-b td{
+				padding: 5px;
+				border-left: 1px solid #ccc;
+			}
+			table.data-singleColumn tr td table tr.data-a {	
+				background: #F2F2F2;
+			}
+			table.data-singleColumn tr td table tr.data-a td.variable, table.data-singleColumn tr td table tr.data-b td.variable {	
+				font-weight: bold;
+			}
+			table.data-doubleColumn tr td table tr.data-a td, table.data-doubleColumn tr td table tr.data-b td{	
+				padding: 5px;
+				border-left: 1px solid #ccc;
+			}
+			table.data-doubleColumn tr td table tr.data-a {	
+				background: #F2F2F2;
+			}
+			table.data-doubleColumn tr td table tr.data-a td.variable, table.data-doubleColumn tr td table tr.data-b td.variable {	
+				font-weight: bold;
+			}
+			table.sheet tr td table tr td{	
+				padding: 5px;
+				border-left: 1px solid #ccc;
+			}
+			table.sheet tr td table tr.title td{	
+				background: #F2F2F2;
+				color: #4D4D4D;
+			}
+			table.sheet tr td table tr.data-a td{	
+				background: #F2F2F2;
+			}
+				
+	</style>
+
+</head>
+<body>
+	<table align="center" width="850" border="0" cellspacing="0" cellpaddig="0">
+		<tr>
+			<td>
+				<table class="header" width="100%" border="0" cellspacing="0" cellpaddig="0">					
+					<tr>		
+						<td width="195" rowspan="6">@logo@</td>
+						<td align="center" class="titleSub">
+							<b><span style="font-size:14px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif>@legal_name@</span></b>
+							<br/>@emit_rfc@
+							<br/>RÉGIMAN FISCAL: @fiscal_regime@
+							<br/>@address@
+							<br/>@address2@
+							<br/>@address3@
+							<br/>Lugar de Expedición @cpExp@
+							<br/>@phones@
+							<br/><u>@web_page@</u>
+						</td>
+						<td width="195" rowspan="6"><span style="font-size:16px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">RECIBO DE PAGOS:</span> @folio@<br/>
+						<span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">FOLIO FISCAL (UUID):</span> @folioSAT@<br/>
+						<span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">FECHA:</span>  @fecha@ <br/>
+						<span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">FECHA DE CERTIFICACI&Oacute;N:</span>  @fechaSAT@ <br/>
+						<!-- No. Aprobaci&oacute;n: @autorizacion@<br/>
+						A&ntilde;o: @ano_aut@<br/>
+						Fecha Ap: @fecha_aut@ <br/> -->
+						<span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">NO. SERIE CERTIFICADO</span> @certificado@<br/>
+						<span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif; ">NO. SERIE CERTIFICADO DEL SAT:</span> @certificadoSAT@<br/>
+
+						</td>
+					</tr>													
+				</table>								
+				<table class="sheet" width="100%" border="0" cellspacing="10" cellpaddig="0">
+					<tr>						
+						<td>						
+							<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">		
+								<tr class="title">
+									<td class="variable" valign="top" rowspan="6"><img src="@QRCODE@" width="145"></td>
+								</tr>
+								<tr class="data-a">
+									<td class="variable" valign="top" width="50%" colspan="4"><span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">CLIENTE @cliente@</span></td>										
+								</tr>
+								<tr class="data-b">
+									<td class="variable" valign="top" width="20%">Nombre:</td>										
+									<td class="variable" valign="top" width="30%">@Nombre@</td>										
+									<td class="variable" valign="top" width="20%">RFC:</td>
+									<td class="variable" valign="top" width="30%">@RFC@</td>
+								</tr>
+								<tr class="data-a">
+									<td class="variable" valign="top" width="20%">CP</td>										
+									<td class="variable" valign="top" width="30%">@CP@</td>										
+									<td class="variable" valign="top" width="20%"></td>
+									<td class="variable" valign="top" width="30%"></td>
+								</tr>
+													
+								<tr class="title">
+									<td class="variable" valign="top" colspan="4"></td>								
+								</tr>																
+							</table>
+						</td>
+					</tr>											
+				</table>
+				<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">					
+					<tr>
+						<td></td>
+					</tr>
+				</table>
+			</td>
+		</tr>														<tr>						
+						<td class="variable" valign="top" colspan="4"><b></b></td>
+					</tr>
+					<tr>	
+						<td>
+							<table class="sheet" width="100%" border="0" cellspacing="10" cellpaddig="0">
+								<tr>						
+									<td>
+										<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">
+											<tr class="title">																											
+												<td class="variable" valign="top" style="background-color:darkgray" >No. Ident</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Cantidad</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Descripci&oacute;n</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Unidad</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Cve SAT</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Unidad SAT</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Precio<br>Unitario</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Total</td>
+											</tr>														
+											@conceptos@
+											@comments@
+					</tr>				</table>
+
+						</td>
+					</tr>
+				</table>
+
+			</td>
+
+		</tr>
+
+			
+
+			<tr>	
+						<td><span style="font-size:14px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif> CFDI Relacionados</span>
+							<table class="sheet" width="100%" border="0" cellspacing="10" cellpaddig="0">
+								<tr>						
+									<td>
+										<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">
+											<tr class="title">																											
+												<td class="variable" valign="top" style="background-color:darkgray" >UUID</td>
+												<td class="variable" valign="top" style="background-color:darkgray">FOLIO</td>
+												<td class="variable" valign="top" style="background-color:darkgray">MÉTODO</td>
+												<td class="variable" valign="top" style="background-color:darkgray">TOTAL</td>
+												<td class="variable" valign="top" style="background-color:darkgray">SALDO ANTERIOR</td>
+												<td class="variable" valign="top" style="background-color:darkgray">SALDO PENDIENTE</td>
+												<td class="variable" valign="top" style="background-color:darkgray">MONTO PAGADO</td>
+												<td class="variable" valign="top" style="background-color:darkgray">MONEDA</td>
+											</tr>														
+											@pagos@
+					</tr>				</table>
+
+						</td>
+					</tr>
+				</table>
+
+			</td>
+
+		</tr>
+
+
+		<tr>	
+						<td>
+							<table class="sheet" width="100%" border="0" cellspacing="10" cellpaddig="0">
+								<tr>						
+									<td>
+										<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">
+											<tr class="title">																											
+												<td class="variable" valign="top" style="background-color:darkgray" >Fecha de pago</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Forma de pago</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Total del pago</td>
+												<td class="variable" valign="top" style="background-color:darkgray">Tipo de Cambio</td>
+											</tr>														
+											@pago@
+
+					</tr>				</table>
+
+						</td>
+					</tr>
+				</table>
+
+			</td>
+
+		</tr>
+
+
+
+		<tr><td>&nbsp;</td></tr>
+		
+		<tr>
+			<td><table width="100%" cellpadding=0 cellspacing=0><tr>
+			<td width="180px"><span style="font-size:11px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;"></span></td>
+			<td width="450px"></td>
+			<td align="right" width="350px"></td>
+			</tr></table></td>
+		</tr>		
+	
+
+		<tr>									
+			<td class="variable" valign="top">
+
+				<table class="sheet" style="table-layout: fixed;" width="100%" border="0" cellspacing="0" cellpaddig="0">		
+					<tr class="title">		
+						<td class="variable" valign="top" colspan="2"><div style="word-wrap: break-word;">
+						&nbsp; </div></td>	
+					</tr>
+					<tr>		
+						<td class="variable" valign="top"  colspan="2"><div style="word-wrap: break-word;font-size:12px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">SELLO DIGITAL DEL CFDI</div></td>					
+					</tr>	
+					<tr>		
+						<td class="variable" valign="top"  colspan="2"><div style="word-wrap: break-word; font-size:10px;">
+						@sello@ </div></td>					
+					</tr>
+					<tr>		
+						<td class="variable" valign="top"  colspan="2"><div style="word-wrap: break-word;font-size:12px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">SELLO DIGITAL DEL SAT
+						</div></td>					
+					</tr>
+					<tr>		
+						<td class="variable" valign="top"  colspan="2"><div style="word-wrap: break-word; font-size:10px;">
+						@selloSAT@ </div></td>					
+					</tr>
+					<tr class="title">		
+						<td class="variable" valign="top" colspan="2"><div style="word-wrap: break-word;font-size:12px; font-weight: bold; font-family: Georgia,Times,"Times New Roman",serif;">CADENA ORIGINAL DEL COMPLEMENTO DE CERTIFICACI&Oacute;N DIGITAL DEL SAT: </div></td>	
+					</tr>
+					<tr class="title">		
+						<td class="variable" valign="top" colspan="2"><div style="word-wrap: break-word; font-size:10px;">
+						@cadenaSAT@ </div></td>	
+					</tr>
+				
+					
+					
+				</table>
+
+			</td>
+		</tr>		<tr>									
+			<td>
+				<table class="sheet" width="100%" border="0" cellspacing="0" cellpaddig="0">					
+					
+					<tr>		
+						<td class="variable" valign="top"colspan="2">&nbsp;</td>						
+					</tr>
+					<tr>		
+						<td class="variable" valign="top" >Tecnolog&iacute;a de Facturaci&oacute;n Electr&oacute;nica de InfnIT Solutions</td>					<td class="variable" valign="top" >- www.inf.com.mx -</td>
+					</tr>	
+					<tr>		
+						<td class="variable" valign="top" colspan="2"><br/><br/><br/></td>						
+					</tr>	
+					
+				</table>
+
+			</td>
+		</tr>	</table>
+
+</body>
+</html>

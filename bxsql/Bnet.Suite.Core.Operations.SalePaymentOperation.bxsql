@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="ISO8859-1" ?>
+<bnet-xsql>
+	<commands>
+
+	<!-- To Load -->
+	<!-- Todas las funciones que nos sirven para cargar la información y manipularla -->
+		<!-- Payment Lines -->
+		
+		
+		<command name="selectLoadSalePaymentLine" type="select" prepared="true">
+			<sqltext>
+				SELECT 
+				sale_payment_id,sale_order_id,payment_type_id,customer_id,accountreference,account,bank_account_id,reference,currency_id,updated,created,updated_by,created_by,activated,name,descriptiontext,key_words,"type",remarktext,status,payments_quantity,payment_term_id,document_no,date_trx,card_number,card_name,card_mm,card_yy,card_type_id,card_company_id,grand_total,is_approved,is_reconciled,is_allocated,processed,deleted,local_code,sync_date
+				FROM sale_payments where sale_payment_id=@sale_payment_id@
+			</sqltext>
+		</command>
+
+
+		<command name="selectLoadSalePaymentLines" type="select" prepared="true">
+			<sqltext>
+				SELECT 
+				sale_payment_id,sale_order_id,payment_type_id,customer_id,accountreference,account,bank_account_id,reference,currency_id,updated,created,updated_by,created_by,activated,name,descriptiontext,key_words,"type",remarktext,status,payments_quantity,payment_term_id,document_no,date_trx,card_number,card_name,card_mm,card_yy,card_type_id,card_company_id,grand_total,is_approved,is_reconciled,is_allocated,processed,deleted,local_code,sync_date
+				FROM sale_payments where sale_order_id=@sale_order_id@
+			</sqltext>
+		</command>
+		
+		
+		<!-- Payment Lines  End-->
+	<!-- To Load End -->
+	
+
+	<!-- Inserts -->
+	<!-- Comandos de Inserts para agregar nuevas columnas a las tablas -->
+	<!-- SALE PAYMENT BALANCE -->
+		<command name="insertBalanceSalePayment" type="insert">
+			<sqltext>
+			INSERT INTO balance_sale_payments
+			($balance_sale_payment_id$,$doc_id$,$doc_type_id$,$customer_id$,$code$,$description$,$total$,$activated$,$deleted$,$updated_by$, $created_by$, updated,created)
+			VALUES(@balance_sale_payment_id@,@doc_id@,@doc_type_id@,@customer_id@,@code@,@description@,@total@,@activated@,@deleted@,@updated_by@,  @created_by@, CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+			</sqltext>
+		</command>
+
+	<!-- SALE PAYMENT BALANCE -->
+		<command name="insertSalePayment" type="insert">
+			<sqltext>
+				INSERT INTO 
+				sale_payments($sale_payment_id$,$code$,$name$,$description$,$customer_id$,$status$,$type$,$payment_term_id$,$invoice_id$,$note_id$,$reference$,$accountreference$,$account$,$currency_id$,$grand_total$,
+				$applied_amt$,updated,created,$updated_by$,$created_by$,$bank_account_id$,$bank_id$,				
+				$activated$,$document_no$,$date_trx$,$card_number$,$card_name$,$card_mm$,$card_yy$,$card_type_id$,$card_company_id$,$is_approved$,$is_reconciled$,$is_allocated$,$processed$,$deleted$,$local_code$,$sync_date$,$approved_by$,$exchange_rate$,$total_base_currency$,$subtotal_base_currency$,$paid_currency_id$,$tax_base_currency$,$payment_date$,$store_id$)	
+				VALUES (@sale_payment_id@,@code@,@name@,@description@,@customer_id@,@status@,@type@,@payment_term_id@,@invoice_id@,@note_id@,@reference@,@accountreference@,@account@,@currency_id@,@grand_total@,													                            
+				@applied_amt@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,@updated_by@,@created_by@,@bank_account_id@,@bank_id@,																								                            
+																																									                            
+				@activated@,@document_no@,@date_trx@,@card_number@,@card_name@,@card_mm@,@card_yy@,@card_type_id@,@card_company_id@,@is_approved@,@is_reconciled@,@is_allocated@,@processed@,@deleted@,@local_code@,@sync_date@,@approved_by@,@exchange_rate@,@total_base_currency@,@subtotal_base_currency@,@paid_currency_id@,@tax_base_currency@,@payment_date@,@store_id@)
+			</sqltext>
+		</command>
+		<command name="insertPaymentLine" type="insert">
+			<sqltext>
+			INSERT INTO sale_payments($sale_payment_id$,$sale_order_id$,$payment_type_id$,$customer_id$,$sale_invoice_id$,$accountreference$,$account$,$reference$,$currency_id$,$updated$,$created$,$updated_by$,$created_by$,$activated$,$name$,$descriptiontext$,$key_words$,$"type"$,$remarktext$,$status$,$payments_quantity$,$payment_term_id$,$document_no$,$date_trx$,$card_number$,$card_name$,$card_mm$,$card_yy$,$card_type_id$,$card_company_id$,$grand_total$,$is_approved$,$is_reconciled$,$is_allocated$,$processed$,$deleted$,$local_code$,$sync_date$) VALUES(@sale_payment_id@,@sale_order_id@,@payment_type_id@,@customer_id@,@sale_invoice_id@,@accountreference@,@account@,@reference@,@currency_id@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,@updated_by@,@created_by@,@activated@,@name@,@descriptiontext@,@key_words@,@"type"@,@remarktext@,@status@,@payments_quantity@,@payment_term_id@,@document_no@,@date_trx@,@card_number@,@card_name@,@card_mm@,@card_yy@,@card_type_id@,@card_company_id@,@grand_total@,@is_approved@,@is_reconciled@,@is_allocated@,@processed@,@deleted@,@local_code@,@sync_date@)
+			</sqltext>
+		</command>
+	<!--Inserts End -->
+
+
+	<!-- Updates-->
+	<!-- Comandos de Updates para actualizar columnas a las tablas -->
+		<command name="updatePaymentLine" type="update">
+			<sqltext>
+			UPDATE sale_payments SET
+			$sale_order_id$=@sale_order_id@,$payment_type_id$=@payment_type_id@,$customer_id$=@customer_id@,$sale_invoice_id$=@sale_invoice_id@,$accountreference$=@accountreference@,$account$=@account@,$reference$=@reference@,$currency_id$=@currency_id@,$updated$=CURRENT_TIMESTAMP,$updated_by$=@updated_by@,$activated$=@activated@,$name$=@name@,$descriptiontext$=@descriptiontext@,$key_words$=@key_words@,$"type"$=@"type"@,$remarktext$=@remarktext@,$status$=@status@,$payments_quantity$=@payments_quantity@,$payment_term_id$=@payment_term_id@,$document_no$=@document_no@,$date_trx$=@date_trx@,$card_number$=@card_number@,$card_name$=@card_name@,$card_mm$=@card_mm@,$card_yy$=@card_yy@,$card_type_id$=@card_type_id@,$card_company_id$=@card_company_id@,$grand_total$=@grand_total@,$is_approved$=@is_approved@,$is_reconciled$=@is_reconciled@,$is_allocated$=@is_allocated@,$processed$=@processed@,$deleted$=@deleted@,$local_code$=@local_code@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="sale_payment_id" value="@sale_payment_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<!--Comando para actualizar el balance de las notas que han sido pagadas-->
+		<command name="updateNotesBalance" type="update">
+			<sqltext>
+			UPDATE sale_invoices SET paid_amt = 
+			(
+				(SELECT COALESCE((SELECT SUM(total) FROM sale_payment_docs INNER JOIN sale_payments ON sale_payment_docs.sale_payment_id = sale_payments.sale_payment_id WHERE doc_id = sale_invoices.sale_invoice_id AND sale_payment_docs.type = 2 AND sale_payments.status = '2'),0))
+				
+			)
+			FROM sale_payment_docs WHERE 1>0 AND (sale_invoices.deleted != '1' OR sale_invoices.deleted is null) AND sale_invoices.sale_invoice_id = sale_payment_docs.doc_id AND sale_invoices.sale_invoice_id IN (@notes_id@)
+			</sqltext>
+		</command>
+
+
+		<!--Comando para actualizar el balance de las facturas que han sido pagadas-->
+		<command name="updateInvoicesBalance" type="update">
+			<sqltext>
+			UPDATE sale_invoices SET paid_amt = 
+			(
+				(SELECT COALESCE((SELECT SUM(total) FROM sale_payment_docs INNER JOIN sale_payments ON sale_payment_docs.sale_payment_id = sale_payments.sale_payment_id WHERE doc_id = sale_invoices.sale_invoice_id AND (sale_payment_docs.type = 1 OR sale_payment_docs.type = 3 ) AND sale_payments.status = '2'),0))
+				
+			) 
+			FROM sale_payment_docs WHERE 1>0 AND (sale_invoices.deleted != '1' OR sale_invoices.deleted is null) AND sale_invoices.sale_invoice_id = sale_payment_docs.doc_id AND sale_invoices.sale_invoice_id IN (@sale_invoices_id@)
+			</sqltext>
+		</command>
+
+
+		<!--Comando para actualizar el estado para las notas que han sido pagadas-->
+		<command name="updatePaidNotes" type="update">
+			<sqltext>
+			update sale_invoices 
+			set is_paid = '1',status=4
+			where paid_amt &gt;= grand_total
+			and sale_invoice_id in (@notes_id@)
+			and (deleted &lt;&gt; '1' or deleted is null)
+			</sqltext>
+		</command>
+
+
+		<!--Comando para actualizar el estado para las facturas que han sido pagadas-->
+		<command name="updatePaidInvoices" type="update">
+			<sqltext>
+			update sale_invoices 
+			set is_paid = '1',status=4
+			where paid_amt &gt;= grand_total
+			and sale_invoice_id in (@sale_invoices_id@)
+			and (deleted &lt;&gt; '1' or deleted is null)
+			</sqltext>
+		</command>
+
+
+		<command name="updatePaidNoteInvoices" type="update">
+			<sqltext>
+			update sale_invoices 
+			set is_paid = '1'
+			where paid_amt &gt;= grand_total
+			and sale_invoice_id = note_lines.sale_invoice_id
+			and note_lines.note_id = @note_id@
+			and (deleted != '1' or deleted is null)
+			</sqltext>
+		</command>
+
+
+	<!--Updates End -->
+
+
+
+	<!-- Deletes -->
+	<!-- Comandos de Deletes para borrar renglones de las tablas -->
+		<command name="deletePaymentLine" type="update">
+			<sqltext>
+			DELETE FROM sale_payments WHERE sale_orderln_id = @sale_payment_id@
+			</sqltext>
+		</command>
+	<!-- Deletes End-->
+
+
+	<!-- To DataGrids -->
+	<!-- Información que será mostrada en DataGrids y que ocupa sus respectivas columnas -->		
+		<!-- Payments Detail -->
+		<!-- Listado de Pagos de una órden de venta -->
+		<command name="searchSalePaymentsDetail" type="select" prepared="true">
+			<sqltext>
+			SELECT doc_id,sale_payment_id,name, code,subtotal,tax_amt,total,currency_code,exchange_rate,subtotal_base_currency,tax_base_currency,total_base_currency,cambiary,base_currency,created_by
+			from
+			(
+			SELECT
+			sale_payment_id,payment_doc_type.name,COALESCE(sale_invoices.code,'0') as code,
+			doc_id,(sale_invoices.subtotal)as subtotal,
+			(sale_invoices.grand_total-sale_invoices.subtotal)as tax_amt,
+			sale_invoices.grand_total as total,currency.code as currency_code,sale_invoices.exchange_rate,
+			sale_invoices.subtotal_pesos as subtotal_base_currency,
+			(sale_invoices.total_pesos-sale_invoices.subtotal_pesos) as tax_base_currency,
+			sale_invoices.total_pesos as total_base_currency,null as cambiary,UPPER('MX') as base_currency,u.name as created_by
+			FROM sale_payment_docs
+			INNER JOIN currency ON sale_payment_docs.currency_id=currency.currency_id
+			INNER JOIN payment_doc_type on sale_payment_docs.type   = payment_doc_type.payment_doc_type_id
+			LEFT  JOIN sale_invoices     on sale_payment_docs.doc_id = sale_invoices.sale_invoice_id 
+			
+			LEFT JOIN users u ON u.usr_id=sale_invoices.created_by
+			where (sale_payment_docs.deleted &lt;&gt; '1' OR sale_payment_docs.deleted is null) and sale_payment_docs.sale_payment_id=@sale_payment_id@
+			UNION 
+			SELECT
+			sale_payment_id,upper('cobro') as name,COALESCE(sale_invoices.code,'0') as code,
+			doc_id,(sale_payment_docs.subtotal_base_currency/sale_payment_docs.exchange_rate)as subtotal,
+			((sale_payment_docs.total_base_currency-sale_payment_docs.subtotal_base_currency)/sale_payment_docs.exchange_rate)as tax_amt,
+			total,currency.code as currency_code,sale_payment_docs.exchange_rate,
+			sale_payment_docs.subtotal_base_currency,
+			(sale_payment_docs.total_base_currency-sale_payment_docs.subtotal_base_currency) as tax_base_currency,
+			sale_payment_docs.total_base_currency,(sale_payment_docs.total_base_currency-(sale_invoices.total_pesos*(sale_payment_docs.total/sale_invoices.grand_total))) as cambiary,UPPER('MX') as base_currency,u.name as created_by
+			FROM sale_payment_docs
+			INNER JOIN currency ON sale_payment_docs.currency_id=currency.currency_id
+			INNER JOIN payment_doc_type on sale_payment_docs.type   = payment_doc_type.payment_doc_type_id
+			LEFT  JOIN sale_invoices     on sale_payment_docs.doc_id = sale_invoices.sale_invoice_id 
+			LEFT JOIN users u ON u.usr_id=sale_payment_docs.created_by
+			where (sale_payment_docs.deleted &lt;&gt; '1' OR sale_payment_docs.deleted is null) and sale_payment_docs.sale_payment_id=@sale_payment_id@
+			) temp
+			order by doc_id,name desc
+			</sqltext>
+			<column>doc_id,ID,0</column>
+			<column>sale_payment_id,ID,0</column>
+			<column>name,Documento,80</column>
+			<column>code,Folio Fact.,80</column>
+			<column>subtotal,SubTotal,75,c</column>
+			<column>tax_amt,Impuesto,75,c</column>
+			<column>total,Total,75,c</column>
+			<column>currency_code,Moneda,50</column>
+			<column>exchange_rate,T. Cambio,60,$##.######</column>
+			<column>subtotal_base_currency,SubTotal MX,75,c</column>
+			<column>tax_base_currency,Impuesto MX,75,c</column>
+			<column>total_base_currency,Total MX,75,c</column>
+			<column>cambiary,Util/Perd Cambiaria,75,c</column>
+			<column>base_currency,Moneda,75</column>
+			<column>created_by,Creado Por,75</column>
+		</command>
+		<!-- Payments Detail  End-->
+
+
+		<!-- Payments Search -->
+		<!-- Busqueda de Pagos -->
+		<command name="searchSalePayments" type="select" prepared="true">
+			<sqltext>
+				SELECT DISTINCT sale_payments.sale_payment_id,sale_payments.code,payment_type.name AS type_name,customers.name AS customer_name,sale_payments.description,
+				sale_payments.bank_account_id,bank_accounts.name AS bank_name,sale_payments.reference,sale_payments.payment_date,
+				(sale_payments.subtotal_base_currency/sale_payments.exchange_rate) AS subtotal,
+				(sale_payments.tax_base_currency/sale_payments.exchange_rate) AS tax_amt,sale_payments.grand_total,currency.code AS currency_code,
+				sale_payments.exchange_rate,sale_payments.subtotal_base_currency,(sale_payments.tax_base_currency) AS tax_base_currency,
+				sale_payments.total_base_currency,upper('mx') AS base_currency,CASE WHEN paid_currency_id=1 THEN UPPER('mx') ELSE UPPER('us') END AS paid_currency,sale_payments.status,
+				payment_status.name AS status_name,u.name AS created_by,s.name as store,sello,fecha_cfd,UUID
+				FROM sale_payments 
+				INNER JOIN payment_type ON sale_payments.type = payment_type.payment_type_id				
+				INNER JOIN customers ON sale_payments.customer_id = customers.customer_id
+				LEFT JOIN bank_accounts ON sale_payments.bank_account_id = bank_accounts.bank_account_id
+				LEFT JOIN sale_payment_docs ON sale_payments.sale_payment_id = sale_payment_docs.sale_payment_id
+				INNER JOIN currency ON currency.currency_id = sale_payments.currency_id
+				INNER JOIN payment_status ON sale_payments.status = payment_status.payment_status_id
+				LEFT JOIN users u ON u.usr_id = sale_payments.created_by
+				INNER JOIN stores s ON s.store_id=sale_payments.store_id
+			</sqltext>
+			<default>
+				(sale_payments.deleted &lt;&gt; '1' OR sale_payments.deleted is null) 
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="sale_payments.sale_payment_id" value="@sale_payment_id@" operator="="></condition>
+					<condition name="sale_payments.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="sale_payments.store_id" value="@store_id@" operator="="></condition>
+					<condition name="UPPER(sale_payments.code)" value="@code@" operator="LIKE"></condition>
+					<condition name="sale_payments.type" value="@payment_type@" operator="="></condition>
+					<condition name="sale_payments.status" value="@status@" operator="="></condition>
+					<condition name="sale_payments.reference" value="@reference@" operator="="></condition>
+					<condition name="sale_payments.bank_account_id" value="@bank_account_id@" operator="="></condition>
+					<condition name="sale_payments.payment_date" value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="sale_payments.payment_date" value="@created_date_min@"   operator="&gt;="></condition>
+					<condition name="sale_payment_docs.type" value="@doc_type@" operator="="></condition>
+					<condition name="upper(sale_payment_docs.code)" value="@sale_invoice_code@" operator="LIKE"></condition>
+					<condition name="notes_sale_payments.sale_invoice_id" value="@is_note_id@" operator="is"></condition>
+					<condition name="notes_sale_payments.sale_invoice_id" value="@note_id@" operator="="></condition>
+					<condition name="sale_payments.currency_id" value="@currency_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby></groupby>
+			<orderby>sale_payment_id</orderby>
+			<column>sale_payment_id,ID,0</column>
+			<column>bank_account_id,AccID,0</column>
+			<column>code,Código Pago,95</column>
+			<column>type_name,Forma de Pago,90</column>
+			<column>customer_name,Cliente,100</column>
+			<column>bank_name,Banco,75</column>
+			<column>reference,Referencia,75</column>
+			<column>payment_date,Fecha,120</column>
+			<column>subtotal,SubTotal,75,c</column>
+			<column>tax_amt,Impuesto,75,c</column>
+			<column>grand_total,Total,75,c</column>
+			<column>store,Sucursal,90</column>
+			<column>description,Descripción,100</column>
+			<column>currency_code,Moneda,40</column>
+			<column>exchange_rate,Tipo Cambio,60,$##.######</column>
+			<column>subtotal_base_currency,SubTotal,70,c</column>
+			<column>tax_base_currency,Impuesto,70,c</column>
+			<column>total_base_currency,Total,70,c</column>
+			<column>base_currency,Moneda,40</column>
+			<column>paid_currency,Pagado En,50</column>
+			<column>status_name,Estatus,100</column>
+			<column>created_by,Creado Por,75</column>
+			<column>sello,Sello,60</column>
+			<column>fecha_cfd,Fecha CFD,120,dd-MMM-yy hh:mm:ss tt</column>
+			<column>uuid,UUID,120</column>
+		</command>
+
+
+		<command name="searchSalePaymentTotal" type="select" prepared="true">
+			<sqltext>
+			   select 0 AS payments,0.0 AS subtotal,0.0 AS tax_amt,0.0 AS total,UPPER('MX') AS currency_code 
+			   FROM sale_payments 
+			   LIMIT 1
+			</sqltext>
+			<column>payments,No. Pagos,110</column>	
+			<column>subtotal,Subtotal,110,c</column>	
+			<column>tax_amt,Impuesto,110,c</column>	
+			<column>total,Total,110,c</column>	
+			<column>currency_code,Moneda,55</column>	
+		</command>
+
+
+		<command name="searchSalePaymentDocsTotals" type="select" prepared="true">
+			<sqltext>
+			   select 0 as quantity,0.0 as grand_total,0.0 as paid_amt,0.0 as balance,0.0 as pay_amt,'' as currency_code,0.0 as to_pay from pos_props limit 1
+			</sqltext>
+			<column>quantity,No. Documentos,235</column>	
+			<column>grand_total,Monto,75,c</column>	
+			<column>paid_amt,Cobrado,70,c</column>
+			<column>balance,Balance,75,c</column>
+			<column>pay_amt,Cobro,75,c</column>
+			<column>currency_code,Moneda,50</column>
+			<column>to_pay,Por Cobrar,75,c</column>
+		</command>
+		
+
+		<command name="searchSalePaymentDocs" type="select" prepared="true">
+			<sqltext>
+				select selected,doc_id,temp1.type,b.name as type_name,temp1.code,grand_total,temp1.created,paid_amt,balance,pay_amt,customer_id,temp1.deleted,is_paid,currency_id,currency_code,project_id,subtotal,
+				exchange_rate,subtotal_base,temp1.created_by,tax_amt,tax_base,s.name as store,pay_method_cond,serie,customer_name
+				from
+				(
+				select '0' as selected, sale_invoice_id as doc_id,sale_invoices.type, 'factura' as type_name,  sale_invoices.code, CASE WHEN sale_invoices.type = 3 THEN sale_invoices.grand_total*-1 ELSE sale_invoices.grand_total END as grand_total, sale_invoices.created, CASE WHEN sale_invoices.type = 3 THEN paid_amt*-1 ELSE paid_amt END as paid_amt, CASE WHEN sale_invoices.type = 3 THEN (sale_invoices.grand_total - paid_amt)*-1 ELSE sale_invoices.grand_total - paid_amt END as balance, 0.0 as pay_amt,  sale_invoices.customer_id , sale_invoices.deleted, sale_invoices.is_paid,sale_invoices.currency_id,currency.code as currency_code,project_id,sale_invoices.subtotal,exchange_rate,0.0 as subtotal_base,u.name as created_by,tax_amt,0.0 as tax_base,sale_invoices.store_id,pay_method_cond,serie,sale_invoices.customer_name
+				from sale_invoices inner join currency on sale_invoices.currency_id=currency.currency_id
+				left join users u on u.usr_id=sale_invoices.created_by
+				where 1>0 and (sale_invoices.deleted &lt;&gt; '1' or sale_invoices.deleted is null) and sale_invoices.is_paid = '0' and sale_invoices.status &lt;&gt; 5 
+				--and sale_invoices.grand_total>0
+				) as temp1
+				INNER JOIN payment_doc_type b ON temp1.type = b.payment_doc_type_id
+				INNER JOIN stores s ON s.store_id= temp1.store_id
+			</sqltext>
+			<default>
+			(temp1.deleted &lt;&gt; '1' OR temp1.deleted is null) AND is_paid = '0' 
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="store_id" value="@store_id@" operator="="></condition>
+					<condition name="customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="currency_id" value="@currency_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>created</orderby>
+			<column>doc_id,Doc,0</column>
+			<column>project_id,Proyecto,0</column>
+			<column>customer_id,Cliente,0</column>
+			<column>is_paid,Cobrado,0</column>	
+			<column>currency_id,Moneda,0</column>
+			<column>subtotal,Subtotal,0</column>
+			<column>exchange_rate,T Cambio,0</column>
+			<column>type,Tipo,0</column>
+			<column>deleted,Borrado,0</column>
+			<column>code,Código,75</column>	
+			<column>type_name,Documento,75</column>
+			<column>grand_total,Monto,75,c</column>	
+			<column>paid_amt,Cobrado,70,c</column>
+			<column>balance,Balance,75,c</column>
+			<column>pay_amt,Cobro,75,c</column>
+			<column>currency_code,Moneda,50</column>
+			<column>created,Fecha,130</column>
+			<column>subtotal_Base,SubTotal Pesos,70,c</column>
+			<column>selected,Seleccionar,60</column>
+			<column>store,Sucursal,75</column>
+			<column>created_by,Creado Por,75</column>
+			<column>tax_amt,Impuesto,0</column>
+			<column>tax_base,Impuesto Base,0</column>
+			<column>pay_method_cond,Cond Pago,50</column>
+			<column>serie,Serie,50</column>
+		</command>
+
+
+		<command name="searchSalePaymentDocsTemporal" type="select" prepared="true">
+			<sqltext>
+				SELECT selected,doc_id,type,b.name AS type_name,code,grand_total,created,'0' AS paid_amt,grand_total AS balance,pay_amt,customer_id,deleted,is_paid,currency_id,currency_code,
+				project_id,subtotal,exchange_rate,subtotal_base,temp1.created_by,tax_amt,tax_base
+				FROM
+				(
+				SELECT '0' as selected,note_id AS doc_id,2 AS type,'Nota' AS type_name,notes.code,grand_total,notes.created,paid_amt,grand_total-paid_amt AS balance,0.0 AS pay_amt,customer_id,
+				notes.deleted,is_paid,notes.currency_id,currency.code AS currency_code,-1 as project_id,subtotal,1.0 as exchange_rate,0.0 as subtotal_base,u.name as created_by,tax_amt,
+				0.0 as tax_base
+				FROM notes INNER JOIN currency ON notes.currency_id=currency.currency_id
+				LEFT JOIN users u on u.usr_id=notes.created_by
+				WHERE 1>0 AND (notes.deleted &lt;&gt; '1' OR notes.deleted is null) AND is_paid = '1' AND notes.type = 1
+				UNION
+				SELECT '0' as selected, sale_invoice_id as doc_id,  1 as type, 'Factura' AS type_name,  sale_invoices.code, sale_invoices.grand_total, sale_invoices.created, paid_amt, sale_invoices.grand_total - paid_amt as balance, 0.0 as pay_amt,  sale_invoices.customer_id , sale_invoices.deleted, sale_invoices.is_paid,sale_invoices.currency_id,currency.code as currency_code,project_id,sale_invoices.subtotal,exchange_rate,0.0 as subtotal_base,u.name as created_by,tax_amt,0.0 as tax_base
+				FROM sale_invoices INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+				LEFT JOIN users u on u.usr_id=sale_invoices.created_by
+				WHERE 1>0 AND (sale_invoices.deleted &lt;&gt; '1' OR sale_invoices.deleted is null) AND sale_invoices.is_paid = '1' AND sale_invoices.status &lt;&gt; 5 
+				AND sale_invoices.sale_invoice_id NOT IN (SELECT doc_id FROM sale_payment_docs) AND sale_invoices.grand_total > 0 AND sale_invoices.project_id &lt;&gt; '-1'
+				) AS temp1, payment_doc_type b
+			</sqltext>
+			<default>
+				(deleted &lt;&gt; '1' OR deleted is null) AND is_paid = '1' AND type = b.payment_doc_type_id
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="currency_id" value="@currency_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>created</orderby>			
+			<column>doc_id,Doc,0</column>
+			<column>project_id,Proyecto,0</column>
+			<column>customer_id,Cliente,0</column>
+			<column>is_paid,Pagado,0</column>	
+			<column>currency_id,Moneda,0</column>
+			<column>subtotal,Subtotal,0</column>
+			<column>exchange_rate,T Cambio,0</column>			
+			<column>type,Tipo,0</column>
+			<column>deleted,Borrado,0</column>
+			<column>code,Código,75</column>	
+			<column>type_name,Documento,75</column>
+			<column>grand_total,Monto,75,c</column>	
+			<column>paid_amt,Pagado,70,c</column>
+			<column>balance,Balance,75,c</column>
+			<column>pay_amt,Pago,75,c</column>
+			<column>currency_code,Moneda,50</column>
+			<column>created,Fecha,130</column>
+			<column>subtotal_Base,SubTotal Pesos,70,c</column>
+			<column>selected,Seleccionar,60</column>
+			<column>created_by,Creado Por,75</column>
+			<column>tax_amt,Impuesto,0</column>
+			<column>tax_base,Impuesto Base,0</column>}						
+		</command>
+
+
+		<command name="getCustomerBalance" type="select" prepared="true">
+			<sqltext>
+			SELECT   doc_code, sale_invoice_id,  type_name, sale_invoice_code,  description, doc_amt, charges, payments,balance,  created, expiration_date,   customer_id ,  deleted, type
+			FROM 
+			(
+			--Facturas tanto actuales como las que no han sido pagadas
+			SELECT  expiration_date, code as doc_code, 		sale_invoice_id,  		code as sale_invoice_code, 	upper('Factura') AS type_name,  		code, '' as description,		grand_total as doc_amt,       		
+			
+			(CASE WHEN to_date(created,'YYYY-MM-DD') &lt; @created_date_min@	THEN null ELSE grand_total END) as charges, 	
+			
+			
+			null::numeric as payments,     					created, 			paid_amt, 		
+				--Cargo de la Factura
+				grand_total 
+				+
+				--Cargo de las Notas
+				(
+				SELECT	COALESCE(SUM(COALESCE(grand_total,0)),0)
+				FROM notes a, note_lines b
+				WHERE 1!=0 AND (a.deleted != '1' OR a.deleted is null)  AND a.type = 1 AND b.note_id = a.note_id 
+				AND b.sale_invoice_id =  sale_invoices.sale_invoice_id 
+				AND customer_id = @customer_id@
+				AND to_date(a.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+				AND to_date(a.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+				)
+				--Notas de Crédito
+				-
+				(
+				SELECT  COALESCE(SUM(COALESCE(b.invoice_applied_amt,0)),0)
+				FROM notes a, note_lines  b
+				WHERE 1!=0 AND (a.deleted != '1' OR a.deleted is null) 	AND a.type = 2 	AND b.note_id = a.note_id 
+				AND b.sale_invoice_id = sale_invoices.sale_invoice_id
+				AND customer_id = @customer_id@
+				AND to_date(b.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+				AND to_date(b.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+				)
+				--Pagos a Notas
+				-
+				(
+				SELECT COALESCE(SUM(COALESCE(c.total,0)),0)
+				FROM note_lines a
+				INNER JOIN notes  b		ON b.note_id     			= a.note_id
+				INNER JOIN sale_payment_docs c  ON c.doc_id				= b.note_id
+				INNER JOIN sale_payments d      ON d.sale_payment_id			= c.sale_payment_id
+				INNER JOIN sale_invoices e	ON e.sale_invoice_id			= a.sale_invoice_id
+				WHERE c.type = 2
+				AND e.sale_invoice_id = sale_invoices.sale_invoice_id
+				AND b.customer_id = @customer_id@
+				AND to_date(b.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+				AND to_date(b.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+				)
+				--Pagos a Facturas
+				-
+				(
+				SELECT 	COALESCE(SUM(COALESCE(a.total,0)),0)
+				FROM sale_payment_docs a
+				INNER JOIN sale_payments b	ON b.sale_payment_id	= a.sale_payment_id
+				INNER JOIN sale_invoices c	ON a.doc_id   		=  c.sale_invoice_id
+				WHERE 1!=0 AND a.type = 1
+				AND b.customer_id = @customer_id@
+				AND c.sale_invoice_id = sale_invoices.sale_invoice_id	
+				AND to_date(b.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+				AND to_date(b.created,'YYYY-MM-DD')  &lt;= @created_date_max@	
+				AND a.currency_id= @currency_id@
+				)
+				as balance, 
+
+			customer_id , deleted, 1 as type
+			FROM sale_invoices
+			WHERE 1!=0 AND (deleted != '1' OR deleted is null) 
+			AND customer_id = @customer_id@
+			AND currency_id = @currency_id@
+			AND sale_invoices.status &lt;&gt; 5
+			AND(     (to_date(created,'YYYY-MM-DD')  &lt; @created_date_min@ AND sale_invoice_id  IN (
+													--NOTAS
+													SELECT sale_invoice_id FROM note_lines
+													WHERE (deleted != '1' OR deleted is null) 
+													AND to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@
+													AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@
+													AND customer_id = @customer_id@
+													--Pagos a Facturas
+													UNION
+													select doc_id FROM sale_payment_docs 
+													where 1!=0
+													AND sale_payment_docs.type = 1
+													AND (deleted != '1' OR deleted is null) 
+													AND customer_id = @customer_id@
+													AND to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@ 
+													AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@
+													AND currency_id=@currency_id@
+													--Pagos a Notas Cargos
+													UNION
+													select b.sale_invoice_id 
+													FROM sale_payment_docs a, sale_invoices b, note_lines c 
+													where a.type = 2
+													AND customer_id = @customer_id@
+													AND a.doc_id = c.note_id
+													AND (a.deleted != '1' OR a.deleted is null) 
+													AND c.sale_invoice_id = b.sale_invoice_id
+													AND to_date(a.created,'YYYY-MM-DD')  &gt;= @created_date_min@ 
+													AND to_date(a.created,'YYYY-MM-DD')  &lt;= @created_date_max@								
+													)
+													)
+				OR 
+				(to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@ AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@ ) )
+
+
+			-- Notas de Cargo
+			UNION
+			SELECT expiration_date, notes.code as doc_code, 	note_lines.sale_invoice_id,      sale_invoice_code,  		upper('    Nota de Cargo') AS type_name,      	code,  note_lines.description, 		grand_total as doc_amt,				grand_total as charges, 	null as payments,      					note_lines.created, 		paid_amt, 		null as balance, notes.customer_id, note_lines.deleted, 1 as type
+			FROM notes, note_lines 
+			WHERE 1!=0 AND (notes.deleted != '1' OR notes.deleted is null)  AND notes.type = 1 AND note_lines.note_id = notes.note_id
+			AND customer_id = @customer_id@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+			
+			-- Notas de Credito
+			UNION
+			SELECT expiration_date, notes.code as doc_code, 	note_lines.sale_invoice_id,     sale_invoice_code, 		upper('    Nota de Credito') AS type_name,      code,  note_lines.description, 		note_lines.total as doc_amt,			null as charges,  		note_lines.invoice_applied_amt as payments, 			note_lines.created, 		paid_amt, 		null as balance, notes.customer_id, note_lines.deleted, 1 as type
+			FROM notes, note_lines 
+			WHERE 1!=0 AND (notes.deleted != '1' OR notes.deleted is null)  AND notes.type = 2 AND note_lines.note_id = notes.note_id
+			AND customer_id = @customer_id@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+			
+			-- Pagos a Notas
+			UNION
+			SELECT  null as expiration_date,sale_payments.code as doc_code, note_lines.sale_invoice_id, sale_invoices.code,		upper('    Pago Nota Cargo') AS type_name,	notes.code,	payment_type.name as description, 
+			(
+			CASE 
+			WHEN sale_payment_docs.doc_id = (SELECT  MIN(spd.doc_id) from sale_payment_docs spd WHERE spd.sale_payment_id = sale_payments.sale_payment_id)	
+			THEN sale_payments.grand_total
+			ELSE  null
+			END
+			) as doc_amt, 					
+																																				null as charges,		sale_payment_docs.total as payments,		sale_payment_docs.created,	null as paid_amt,	null as balance, notes.customer_id, sale_payment_docs.deleted, 1 as type
+			FROM note_lines
+			INNER JOIN notes 		ON notes.note_id     			= note_lines.note_id
+			INNER JOIN sale_payment_docs    ON sale_payment_docs.doc_id		= notes.note_id
+			INNER JOIN sale_payments        ON sale_payments.sale_payment_id	= sale_payment_docs.sale_payment_id
+			INNER JOIN sale_invoices	ON sale_invoices.sale_invoice_id	= note_lines.sale_invoice_id
+			INNER JOIN payment_type		ON sale_payments.type = 		payment_type.payment_type_id
+			WHERE sale_payment_docs.type = 2
+			AND sale_payments.customer_id = @customer_id@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+			AND to_date(note_lines.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+			
+			
+			-- Pagos a Facturas
+			UNION
+			SELECT null as expiration_date, sale_payments.code as doc_code, doc_id as sale_invoice_id,  sale_invoices.code,		upper('    Pago Factura')    AS type_name, sale_invoices.code,		payment_type.name as description,    
+			(
+			CASE 
+			WHEN sale_payment_docs.doc_id = (SELECT  MIN(spds.doc_id) from sale_payment_docs spds WHERE spds.sale_payment_id = sale_payments.sale_payment_id)	
+			THEN sale_payments.grand_total
+			ELSE  null
+			END
+			) as doc_amt, 																															
+																																				null as charges,		sale_payment_docs.total as payments,		sale_payment_docs.created,	null as paid_amt,	null as balance, sale_payments.customer_id, sale_payments.deleted, 1 as type
+			FROM sale_payment_docs
+			INNER JOIN sale_payments	ON sale_payments.sale_payment_id	= sale_payment_docs.sale_payment_id
+			INNER JOIN sale_invoices	ON sale_payment_docs.doc_id   =  sale_invoices.sale_invoice_id
+			INNER JOIN payment_type		ON sale_payments.type = 		payment_type.payment_type_id
+			WHERE 1!=0 AND sale_payment_docs.type = 1 AND sale_payments.status = 2
+			AND sale_payments.customer_id = @customer_id@
+			AND to_date(sale_payment_docs.created,'YYYY-MM-DD')  &gt;= @created_date_min@
+			AND to_date(sale_payment_docs.created,'YYYY-MM-DD')  &lt;= @created_date_max@
+			AND sale_payment_docs.currency_id=@currency_id@
+
+
+			--Líneas en blanco por cada factura
+			UNION
+			SELECT null as expiration_date, null as doc_code, sale_invoice_id, null as sale_invoice_code, null AS type_name, null as code, '' as description, null as doc_amt,  null as charges, null as payments, null as created, null as paid_amt, null as balance, null as customer_id , null as deleted, 2 as type
+			FROM sale_invoices
+			WHERE 1!=0 AND (deleted != '1' OR deleted is null) 
+			AND customer_id = @customer_id@
+			AND sale_invoices.currency_id=@currency_id@
+			AND sale_invoices.status &lt;&gt; 5
+			AND(     (to_date(created,'YYYY-MM-DD')  &lt; @created_date_min@ AND sale_invoice_id  IN (
+													--NOTAS
+													SELECT sale_invoice_id FROM note_lines
+													WHERE (deleted != '1' OR deleted is null) 
+													AND to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@
+													AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@
+													AND customer_id = @customer_id@
+													--Pagos a Facturas
+													UNION
+													select doc_id FROM sale_payment_docs 
+													where 1!=0
+													AND sale_payment_docs.type = 1
+													AND (deleted != '1' OR deleted is null) 
+													AND customer_id = @customer_id@
+													AND to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@ 
+													AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@
+													AND currency_id=@currency_id@
+													--Pagos a Notas Cargos
+													UNION
+													select b.sale_invoice_id 
+													FROM sale_payment_docs a, sale_invoices b, note_lines c 
+													where a.type = 2
+													AND customer_id = @customer_id@
+													AND a.doc_id = c.note_id
+													AND (a.deleted != '1' OR a.deleted is null) 
+													AND c.sale_invoice_id = b.sale_invoice_id
+													AND to_date(a.created,'YYYY-MM-DD')  &gt;= @created_date_min@ 
+													AND to_date(a.created,'YYYY-MM-DD')  &lt;= @created_date_max@								
+													)
+													)
+				OR 
+				(to_date(created,'YYYY-MM-DD')  &gt;= @created_date_min@ AND to_date(created,'YYYY-MM-DD')  &lt;= @created_date_max@ ) )
+
+
+
+
+			)
+			As temp1
+			</sqltext>
+			<orderby> sale_invoice_id,type, created</orderby>
+			<column>customer_id,ID,0</column>
+			<column>deleted,ID,0</column>
+			<column>type,ID,0</column>
+			<column>doc_code,Código,75</column>
+			<column>sale_invoice_id,ID,0</column>
+			<column>type_name,Documento,120</column>
+			<column>sale_invoice_code,Factura,50</column>
+			<column>description,Descripción,100</column>
+			<column>doc_amt,Monto,70,c</column>
+			<column>charges,Cargos,70,c</column>
+			<column>payments,Abonos,70,c</column>
+			<column>balance,Balance,70,c</column>
+			<column>created,Fecha,100</column>	
+			<column>expiration_date,Vence,70,dd-MMM-yy</column>						
+		</command>
+
+
+		<command name="searchCustomerBalanceTotals" type="select">
+			<sqltext>
+				SELECT '' AS total_lines, '' as old_balance, '' AS charges,'' AS payments, '' AS sale_inv_balance
+				FROM sale_payments 
+			</sqltext>
+			<default>
+				sale_payment_id = -1
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="sale_payment_id" value="@sale_payment_id@" operator="=">
+					</condition>
+				</conditions>
+			</where>
+			<column>total_lines,Movimientos,80</column>
+			<column>old_balance,Saldo Anterior,80</column>
+			<column>charges,Cargos,120</column>
+			<column>payments,Abonos,120</column>
+			<column>sale_inv_balance,Saldos,90</column>
+			<column>credit_balance,Saldo a Favor,90</column>
+		</command>
+
+
+		<command name="getCustomerOldBalance" type="select" prepared="true">
+			<sqltext>
+			SELECT
+			(
+			SELECT SUM(grand_total)
+			FROM sale_invoices
+			WHERE 1!=0 AND (deleted != '1' OR deleted is null) 
+			AND customer_id = @customer_id@
+			AND to_date(created,'YYYY-MM-DD')  &lt; @created_date_min@
+			)
+			+
+			(
+			SELECT	SUM(grand_total)
+			FROM notes a, note_lines b
+			WHERE 1!=0 AND (a.deleted != '1' OR a.deleted is null)  
+			AND a.type = 1 
+			AND b.note_id = a.note_id 
+			AND customer_id = @customer_id@
+			AND to_date(b.created,'YYYY-MM-DD')  &lt; @created_date_min@
+			)
+			-
+			(
+			SELECT  SUM(b.invoice_applied_amt)
+			FROM notes a, note_lines  b
+			WHERE 1!=0 AND (a.deleted != '1' OR a.deleted is null)  
+			AND a.type = 2 
+			AND b.note_id = a.note_id
+			AND customer_id = @customer_id@
+			AND to_date(b.created,'YYYY-MM-DD')  &lt; @created_date_min@
+			)
+			-
+			(
+			SELECT SUM(total)
+			FROM sale_payment_docs a, sale_payments b
+			WHERE 1!=0 AND (a.deleted != '1' OR a.deleted is null)  
+			AND a.sale_payment_id = b.sale_payment_id
+			AND customer_id = @customer_id@
+			AND to_date(a.created,'YYYY-MM-DD')  &lt; @created_date_min@
+			) As customer_old_balance
+			</sqltext>			
+			<column>customer_old_balance,Balance</column>			
+		</command>
+
+
+		<command name="searchCustomerOldBalances" type="SELECT" prepared="true">
+			<sqltext>
+			SELECT a.date_invoiced,expiration_date,a.promise_date,a.customer_id,a.customer_name,a.code,b.sales_rep_id,n1,n30,n60,n90,n100,a.currency_id,a.currency_code,0.0 AS percent,total
+			FROM
+			(
+			SELECT customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(grand_total-paid_amt)::numeric AS n1,
+			(null)::numeric AS n30,(null)::numeric AS n60,(null)::numeric AS n90,(null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,
+			(grand_total-paid_amt)::numeric AS total
+			FROM sale_invoices 
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			WHERE 1&gt;0 AND is_paid = '0' AND status &lt;&gt; 5 
+			--AND sale_invoices.grand_total>0 
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') &lt;=  TO_DATE(@date_to_use@,'yyyy-mm-dd')
+			UNION
+			SELECT customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric AS n1,
+			(grand_total-paid_amt)::numeric AS n30,(null)::numeric AS n60,(null)::numeric AS n90,(null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,
+			(grand_total-paid_amt)::numeric AS total
+			FROM sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			WHERE 1&gt;0 AND is_paid = '0' AND status &lt;&gt; 5 
+			--AND sale_invoices.grand_total>0 
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;   0
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 30
+			UNION
+			SELECT customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric AS n1,(null)::numeric as n30,			
+			(grand_total - paid_amt)::numeric AS n60, (null)::numeric AS n90, (null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,(grand_total - paid_amt)::numeric AS total
+			FROM sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			WHERE 1&gt;0 AND is_paid = '0' AND status &lt;&gt; 5 
+			--AND sale_invoices.grand_total>0 
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  30
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 60
+			UNION
+			SELECT customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric AS n1,(null)::numeric AS n30,
+			(null)::numeric AS n60,(grand_total - paid_amt)::numeric AS n90, (null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,(grand_total - paid_amt)::numeric AS total
+			FROM sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			WHERE 1&gt;0 AND is_paid = '0' AND status &lt;&gt; 5 
+			--AND sale_invoices.grand_total>0 
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  60
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 90
+			UNION
+			SELECT customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric AS n1,(null)::numeric AS n30,
+			(null)::numeric AS n60,(null)::numeric AS n90,(grand_total - paid_amt)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			WHERE 1&gt;0 AND is_paid = '0' AND status &lt;&gt; 5 
+			--AND sale_invoices.grand_total>0
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  90 
+			) a LEFT JOIN sale_orders b ON a.invoice_doc_code=b.code 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="TO_DATE(a.date_invoiced,'YYYY-MM-DD')"	value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="TO_DATE(a.date_invoiced,'YYYY-MM-DD')"	value="@created_date_min@" operator="&gt;="></condition>
+					<condition name="TO_DATE(a.expiration_date,'YYYY-MM-DD')" value="@expiration_date_max@" operator="&lt;="></condition>
+					<condition name="TO_DATE(a.expiration_date,'YYYY-MM-DD')" value="@expiration_date_min@" operator="&gt;="></condition>
+					<condition name="TO_DATE(a.promise_date,'YYYY-MM-DD')" value="@promise_date_max@" operator="&lt;="></condition>
+					<condition name="TO_DATE(a.promise_date,'YYYY-MM-DD')" value="@promise_date_min@" operator="&gt;="></condition>
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="b.sales_rep_id" value="@seller_id@" operator="="></condition>
+					<condition name="a.currency_id"	value="@currency_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>customer_id,customer_name,n1,n30,n60,n90,n100</orderby>			
+			<column>date_invoiced,Fecha Factura,80,dd-MMM-yy</column>
+			<column>expiration_date,Fecha Vencimiento,105,dd-MMM-yy</column>
+			<column>promise_date,Fecha Promesa,85,dd-MMM-yy</column>
+			<column>customer_id,Id Cliente,55</column>
+			<column>customer_name,Cliente,130</column>			
+			<column>code,Folio,40</column>
+			<column>sales_rep_id,Agente de VentAS,0</column>
+			<column>n1,Por Vencer,90,c</column>
+			<column>n30,1  a 30,90,c</column>
+			<column>n60,31 a 60,90,c</column>
+			<column>n90,61 a 90,90,c</column>
+			<column>n100,MAS de 90,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,90,p</column>			
+		</command>
+
+
+		<command name="searchCustomerOldBalancesCondensed" type="SELECT" prepared="true">
+			<sqltext>
+			SELECT a.name,a.customer_id,a.code,sum(n1) AS n1,sum(n30) AS n30,sum(n60) AS n60,sum(n90) AS n90, sum(n100) AS n100, a.currency_id,a.currency_code,0.0 AS percent,sum(total) AS total
+			FROM
+			(
+			SELECT sale_invoices.customer_id, customers.name, customers.code, sum(grand_total - paid_amt)::numeric as n1, (null)::numeric as n30, (null)::numeric as n60, (null)::numeric as n90, (null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code, sum(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0
+			AND is_paid = '0'
+			AND sale_invoices.status &lt;&gt; 5
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') &lt;=  TO_DATE(@date_to_use@,'yyyy-mm-dd')
+			AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			AND sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code 
+			UNION
+			SELECT sale_invoices.customer_id, customers.name, customers.code, (null)::numeric as n1, sum(grand_total - paid_amt)::numeric as n30, (null)::numeric as n60, (null)::numeric as n90, (null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code, sum(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0
+			AND is_paid = '0'
+			AND sale_invoices.status &lt;&gt; 5
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;   0
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 30
+			AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			AND sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			UNION
+			SELECT sale_invoices.customer_id, customers.name, customers.code, (null)::numeric as n1, (null)::numeric as n30, sum(grand_total - paid_amt)::numeric as n60, (null)::numeric as n90, (null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code, sum(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0
+			AND is_paid = '0'
+			AND sale_invoices.status &lt;&gt; 5
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  30
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 60
+			AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			AND sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			UNION
+			SELECT sale_invoices.customer_id, customers.name, customers.code, (null)::numeric as n1, (null)::numeric as n30, (null)::numeric as n60, sum(grand_total - paid_amt)::numeric as n90, (null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code, sum(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0
+			AND is_paid = '0'
+			AND sale_invoices.status &lt;&gt; 5
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  60
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &lt;= 90
+			AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			AND sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			UNION
+			SELECT sale_invoices.customer_id, customers.name, customers.code, (null)::numeric as n1, (null)::numeric as n30, (null)::numeric as n60, (null)::numeric as n90, sum(grand_total - paid_amt)::numeric  as n100, sale_invoices.currency_id,currency.code as currency_code, sum(grand_total - paid_amt)::numeric as total
+			FROM sale_invoices INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0
+			AND is_paid = '0'
+			AND sale_invoices.status &lt;&gt; 5
+			AND TO_DATE(CURRENT_TIMESTAMP,'yyyy-mm-dd') -  TO_DATE(@date_to_use@,'yyyy-mm-dd') &gt;  90 
+			AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ AND TO_DATE(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ AND TO_DATE(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ AND TO_DATE(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			AND sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code 
+			) a
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>a.customer_id,a.name,a.code,a.currency_id,a.currency_code,percent</groupby>
+			<orderby>customer_id,n1,n30,n60,n90,n100</orderby>
+			<column>customer_id,Id Cliente,60</column>
+			<column>name,Cliente,120</column>			
+			<column>code,Código,60</column>
+			<column>n1,Por Vencer,90,c</column>
+			<column>n30,1  a 30,90,c</column>
+			<column>n60,31 a 60,90,c</column>
+			<column>n90,61 a 90,90,c</column>
+			<column>n100,Mas de 90,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,75,p</column>
+		</command>
+
+
+		<command name="searchCustomerForecastBalance" type="select" prepared="true">
+			<sqltext>
+			select a.date_invoiced,expiration_date,promise_date,a.customer_id,a.customer_name,a.code,b.sales_rep_id,n1,n30,n60,n90,n100,a.currency_id,a.currency_code,0.0 as percent,total
+			FROM
+			(
+			select customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(grand_total-paid_amt)::numeric as n1,
+			(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,
+			(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			where 1&gt;0 and is_paid = '0' and status &lt;&gt; 5 and date_part('@period@',current_timestamp)=date_part('@period@',@date_to_use@)
+			UNION
+			select customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric as n1,
+			(grand_total-paid_amt)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,
+			(grand_total-paid_amt)::numeric as total
+			from sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			where 1&gt;0 and is_paid = '0' and status &lt;&gt; 5 and date_part('@period@',current_timestamp)+1=date_part('@period@',@date_to_use@)
+			UNION
+			select customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric as n1,(null)::numeric as n30,
+			(grand_total-paid_amt)::numeric as n60,(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,(grand_total - paid_amt)::numeric as total
+			from sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			where 1&gt;0 and is_paid = '0' and status &lt;&gt; 5 and date_part('@period@',current_timestamp)+2=date_part('@period@',@date_to_use@)
+			UNION
+			select customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric as n1,(null)::numeric as n30,
+			(null)::numeric as n60,(grand_total-paid_amt)::numeric as n90,(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,
+			(grand_total-paid_amt)::numeric as total
+			from sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			where 1&gt;0 and is_paid = '0' and status &lt;&gt; 5 and date_part('@period@',current_timestamp)+3=date_part('@period@',@date_to_use@)
+			UNION
+			select customer_id,customer_name,invoice_doc_code,sale_invoices.date_invoiced,expiration_date,sale_invoices.promise_date,sale_invoices.code,(null)::numeric as n1,(null)::numeric as n30,
+			(null)::numeric as n60,(null)::numeric as n90,(grand_total-paid_amt)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,(grand_total-paid_amt)::numeric as total
+			from sale_invoices  
+			INNER JOIN currency ON sale_invoices.currency_id=currency.currency_id
+			where 1&gt;0 and is_paid = '0' and status &lt;&gt; 5 and date_part('@period@',current_timestamp)+4=date_part('@period@',@date_to_use@)
+			) a 
+			LEFT JOIN sale_orders b ON a.invoice_doc_code=b.code 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="to_date(a.date_invoiced,'YYYY-MM-DD')"	value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(a.date_invoiced,'YYYY-MM-DD')"	value="@created_date_min@" operator="&gt;="></condition>
+					<condition name="to_date(a.expiration_date,'YYYY-MM-DD')" value="@expiration_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(a.expiration_date,'YYYY-MM-DD')" value="@expiration_date_min@" operator="&gt;="></condition>					
+					<condition name="to_date(a.promise_date,'YYYY-MM-DD')" value="@promise_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(a.promise_date,'YYYY-MM-DD')" value="@promise_date_min@" operator="&gt;="></condition>
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+					<condition name="b.sales_rep_id" value="@seller_id@" operator="="></condition>
+					<condition name="a.currency_id"	value="@currency_id@" operator="="></condition>	
+				</conditions>
+			</where>
+			<orderby>customer_id,customer_name,n1,n30,n60,n90,n100</orderby>
+			<column>date_invoiced,Fecha Factura,80,dd-MMM-yy</column>
+			<column>expiration_date,Fecha Vencimiento,105,dd-MMM-yy</column>
+			<column>promise_date,Fecha Promesa,85,dd-MMM-yy</column>
+			<column>customer_id,Id Cliente,55</column>
+			<column>customer_name,Cliente,130</column>			
+			<column>code,Folio,40</column>
+			<column>sales_rep_id,Agente de Ventas,0</column>
+			<column>n1,Este Periodo,90,c</column>
+			<column>n30,2do Periodo,90,c</column>
+			<column>n60,3er Periodo,90,c</column>
+			<column>n90,4to Periodo,90,c</column>
+			<column>n100,5to Periodo,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,75,p</column>
+		</command>
+
+
+		<command name="searchCustomerForecastCondensed" type="select" prepared="true">
+			<sqltext>
+			select a.name,a.customer_id,a.code,sum(n1) as n1,sum(n30) as n30,sum(n60) as n60,sum(n90) as n90,sum(n100) as n100,a.currency_id,a.currency_code,0.0 as percent,sum(total) as total
+			FROM
+			(
+			select sale_invoices.customer_id,customers.name,customers.code,sum(grand_total-paid_amt)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+			(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+			INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0 and is_paid = '0' and sale_invoices.status &lt;&gt; 5 and date_part('@period@',current_timestamp)=date_part('@period@',@date_to_use@)
+			and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			and sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code 
+			
+			UNION
+			
+			select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,sum(grand_total-paid_amt)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+			(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+			INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0 and is_paid = '0' and sale_invoices.status &lt;&gt; 5 and date_part('@period@',current_timestamp)+1=date_part('@period@',@date_to_use@)
+			and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			and sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			
+			UNION
+			
+			select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,sum(grand_total-paid_amt)::numeric as n60,(null)::numeric as n90,
+			(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+			INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0 and is_paid = '0' and sale_invoices.status &lt;&gt; 5 and date_part('@period@',current_timestamp)+2=date_part('@period@',@date_to_use@)
+			and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			and sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			
+			UNION
+			
+			select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,sum(grand_total-paid_amt)::numeric as n90,
+			(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+			INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0 and is_paid = '0' and sale_invoices.status &lt;&gt; 5 and date_part('@period@',current_timestamp)+3=date_part('@period@',@date_to_use@)
+			and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			and sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			
+			UNION
+			
+			select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+			sum(grand_total-paid_amt)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)::numeric as total
+			from sale_invoices 
+			INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+			INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+			where 1&gt;0 and is_paid = '0' and sale_invoices.status &lt;&gt; 5 and date_part('@period@',current_timestamp)+4=date_part('@period@',@date_to_use@) 
+			and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+			and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+			and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+			and sale_invoices.currency_id in (@currency_id@)
+			group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code 
+			) a
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>a.customer_id,a.name,a.code,a.currency_id,a.currency_code,percent</groupby>
+			<orderby>customer_id,n1,n30,n60,n90,n100</orderby>
+			<column>name,Cliente,120</column>
+			<column>customer_id,ID Cliente,60</column>
+			<column>code,Código,60</column>
+			<column>n1,Este Periodo,90,c</column>
+			<column>n30,2do Periodo,90,c</column>
+			<column>n60,3er Periodo,90,c</column>
+			<column>n90,4to Periodo,90,c</column>
+			<column>n100,5to Periodo,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,40</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,60,p</column>
+		</command>
+
+
+		<command name="searchSaleInvoicePayments" type="select" prepared="true">
+			<sqltext>
+			SELECT
+			a.doc_id, b.code, c.type, a.total, a.created
+			FROM sale_payment_docs a
+			INNER JOIN sale_invoices b ON (a.doc_id = b.sale_invoice_id AND a.type = 1)
+			INNER JOIN sale_payments c ON (a.sale_payment_id = c.sale_payment_id)
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="to_date(a.created,'YYYY-MM-DD')"	value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(a.created,'YYYY-MM-DD')"	value="@created_date_min@"   operator="&gt;="></condition>
+				</conditions>
+			</where>			
+		</command>
+
+
+		<command name="searchCustomerOldBalancesTotals" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS name,'' AS n1,'' AS n30,'' AS n60,'' AS n90,'' AS n100,'' AS total,'' AS currency_code
+				FROM sale_payments 
+				WHERE sale_payment_id = -1
+			</sqltext>
+			<column>name,,90</column>
+			<column>n1,Por Vencer,90</column>
+			<column>n30,1  a 30,90</column>
+			<column>n60,31 a 60,90</column>
+			<column>n90,61 a 90,90</column>
+			<column>n100,Mas de 90,90</column>
+			<column>total,Total,100</column>
+			<column>currency_code,Moneda,50</column>
+		</command>
+
+
+		<command name="searchCustomerForecastTotals" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS name, '' AS n1,'' AS n30, '' AS n60 , '' AS n90, '' AS n100, '' AS total,'' AS currency_code
+				FROM sale_payments 
+				WHERE sale_payment_id = -1
+			</sqltext>
+			<column>name, ,90</column>
+			<column>n1,Este Periodo,90</column>
+			<column>n30,2do Periodo,90,c</column>
+			<column>n60,3er Periodo,90,c</column>
+			<column>n90,4to Periodo,90,c</column>
+			<column>n100,5to Periodo,90,c</column>
+			<column>total,Total,100</column>
+			<column>currency_code,Moneda,50</column>
+		</command>
+
+
+		<command name="searchPaymentReport" type="select" prepared="true">
+			<sqltext>
+			select 
+			created,sale_payment_id,  sale_pay_id,  customer_id,  cust_id, customer_name,code, payment_type, payment_type_id,  bank_name, bank_account_id, reference,
+			doc_type_name,  grand_total, total, credit_balance
+			FROM(
+			select sale_payments.created, sale_payments.sale_payment_id, sale_payments.sale_payment_id as sale_pay_id, 
+			sale_payments.customer_id, sale_payments.customer_id as cust_id, customers.name as customer_name,sale_payments.code,
+			payment_type.name as payment_type, 
+			payment_type.payment_type_id,
+			bank_accounts.name as bank_name, 
+			bank_accounts.bank_account_id, 
+			sale_payments.reference,
+			UPPER('Total') as doc_type_name,  grand_total, null as total, ROUND((grand_total - applied_amt), 2) as credit_balance
+			from sale_payments
+			inner join customers	     on sale_payments.customer_id         = customers.customer_id
+			inner join payment_type	     on sale_payments.type                = payment_type.payment_type_id
+			left join bank_accounts      on sale_payments.bank_account_id     = bank_accounts.bank_account_id
+			where 1&gt;0
+			AND (sale_payments.deleted  &lt;&gt; '1' OR sale_payments.deleted is null)
+			AND sale_payments.type != 12
+			UNION
+			select sale_payment_docs.created,sale_payment_docs.sale_payment_id , null as sale_pay_id, sale_payments.customer_id,
+			null as cust_id ,  null as customer_name, coalesce(sale_invoices.code,notes.code) as code,
+			null as payment_type, 
+			payment_type.payment_type_id,
+			null as bank_name, 
+			bank_accounts.bank_account_id,
+
+			 null as reference , payment_doc_type.name as doc_type_name,null as grand_total,  total, null as credit_balance
+			from sale_payment_docs
+			inner join sale_payments     on sale_payment_docs.sale_payment_id = sale_payments.sale_payment_id
+			inner join payment_type	     on sale_payments.type                = payment_type.payment_type_id
+			inner join payment_doc_type  on sale_payment_docs.type            = payment_doc_type.payment_doc_type_id
+			left  join bank_accounts      on sale_payments.bank_account_id     = bank_accounts.bank_account_id
+			left  join sale_invoices     on sale_payment_docs.doc_id          = sale_invoices.sale_invoice_id 
+			left  join notes             on sale_payment_docs.doc_id =  notes.note_id 
+			where 1&gt;0
+			AND (sale_payment_docs.deleted  &lt;&gt; '1' OR sale_payment_docs.deleted is null)
+			AND sale_payments.type != 12
+			) AS payment_report
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="to_date(created,'YYYY-MM-DD')"	value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(created,'YYYY-MM-DD')"	value="@created_date_min@"   operator="&gt;="></condition>
+					<condition name="customer_id"			value="@customer_id@" operator="="></condition>
+					<condition name= "payment_type_id"		value="@payment_type_id@" operator="="></condition>
+					<condition name= "bank_account_id"		value="@bank_account_id@" operator="="></condition>
+					<condition name= "reference"			value="@reference@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>sale_payment_id, sale_pay_id</orderby>
+			<column>sale_pay_id,ID Pago</column>	
+			<column>cust_id,ID Cliente</column>
+			<column>customer_name,Nombre del Cliente,190</column>			
+			<column>doc_type_name,Documento</column>
+			<column>code,Código,90</column>
+			<column>total,Monto</column>
+			<column>grand_total,Total</column>
+			<column>payment_type,Forma de Pago</column>
+			<column>bank_name,Banco</column>
+			<column>reference,Referencia</column>
+			<column>created,Fecha</column>
+			<column>credit_balance,Saldo a Favor</column>
+		</command>
+
+
+		<command name="searchCreditBalances" type="select" prepared="true">
+			<sqltext>
+			select 
+			created,doc_type_name, id,  id2,  customer_id,  cust_id, customer_name,code, payment_type, payment_type_id,  bank_name, bank_account_id, reference,
+			grand_total, total, COALESCE(credit_balance,0) AS credit_balance
+			FROM(
+			select sale_payments.created, sale_payments.sale_payment_id as id, sale_payments.sale_payment_id as id2, 
+			sale_payments.customer_id, sale_payments.customer_id as cust_id, customers.name as customer_name,sale_payments.code,
+			payment_type.name as payment_type, 
+			payment_type.payment_type_id,
+			bank_accounts.name as bank_name, 
+			bank_accounts.bank_account_id, 			
+			sale_payments.reference,
+			UPPER('Pago') as doc_type_name,  grand_total, null as total, ROUND((grand_total - applied_amt), 2) as credit_balance
+			from sale_payments
+			inner join customers	     on sale_payments.customer_id         = customers.customer_id
+			inner join payment_type	     on sale_payments.type                = payment_type.payment_type_id
+			left join bank_accounts      on sale_payments.bank_account_id     = bank_accounts.bank_account_id
+			where 1!=0
+			AND (sale_payments.deleted  != '1' OR sale_payments.deleted is null)
+			AND sale_payments.type != 12
+			AND ROUND((grand_total - applied_amt), 2)  &gt; 0
+
+			UNION
+
+			select sale_payment_docs.created,
+			sale_payment_docs.sale_payment_id  as id, null as id2, sale_payments.customer_id,
+			null as cust_id ,  null as customer_name, coalesce(sale_invoices.code,notes.code) as code,
+			null as payment_type, 			payment_type.payment_type_id,			null as bank_name, 
+			bank_accounts.bank_account_id,			
+			 null as reference , payment_doc_type.name as doc_type_name,null as grand_total,  total, null as credit_balance			
+			from sale_payment_docs
+			inner join sale_payments     on sale_payment_docs.sale_payment_id = sale_payments.sale_payment_id
+			inner join payment_type	     on sale_payments.type                = payment_type.payment_type_id
+			inner join payment_doc_type  on sale_payment_docs.type            = payment_doc_type.payment_doc_type_id
+			left  join bank_accounts      on sale_payments.bank_account_id     = bank_accounts.bank_account_id
+			left  join sale_invoices     on sale_payment_docs.doc_id          = sale_invoices.sale_invoice_id 
+			left  join notes             on sale_payment_docs.doc_id =  notes.note_id 
+			where 1!=0
+			AND (sale_payment_docs.deleted  != '1' OR sale_payment_docs.deleted is null)
+			AND sale_payments.type != 12
+			AND ROUND((sale_payments.grand_total - sale_payments.applied_amt), 2)  &gt; 0
+
+			UNION
+
+			select notes.created, notes.note_id as id, notes.note_id as id2, 
+			notes.customer_id, notes.customer_id as cust_id, customers.name as customer_name,notes.code,
+			null as payment_type, 
+			null as payment_type_id,
+			null as bank_name, 
+			null as bank_account_id, 			
+			null as reference,
+			UPPER('Nota de Credito') as doc_type_name, 
+			grand_total, 
+			null as total, 
+			ROUND((grand_total - invoice_applied_amt), 2) as credit_balance
+			from notes
+			inner join customers	     on notes.customer_id         = customers.customer_id			
+			where 1!=0
+			AND (notes.deleted  != '1' OR notes.deleted is null)
+			AND notes.type = 2
+			AND ROUND((grand_total - invoice_applied_amt), 2)  &gt; 0
+			AND invoice_applied_amt != grand_total
+			UNION
+			select note_lines.created,
+			note_lines.note_id , 
+			null as sale_pay_id, 
+			notes.customer_id,
+			null as cust_id ,  
+			null as customer_name, 
+			sale_invoice_code as code,
+			null as payment_type, 			
+			null as payment_type_id,			
+			null as bank_name, 
+			null as bank_account_id,			
+			null as reference , 
+			null as doc_type_name,
+			null as grand_total,  
+			note_lines.invoice_applied_amt as total, 
+			null as credit_balance	
+			from note_lines
+			inner join notes     on note_lines.note_id = notes.note_id
+			where 1!=0
+			AND (note_lines.deleted  != '1' OR note_lines.deleted is null)
+			AND notes.type = 2
+			AND ROUND((notes.grand_total - notes.invoice_applied_amt), 2)  &gt; 0
+			) AS payment_report
+
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="to_date(created,'YYYY-MM-DD')"	value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="to_date(created,'YYYY-MM-DD')"	value="@created_date_min@"   operator="&gt;="></condition>
+					<condition name="customer_id"			value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>id, id2,created</orderby>			
+			<column>id2,ID</column>	
+			<column>cust_id,ID Cliente</column>
+			<column>customer_name,Nombre del Cliente,190</column>			
+			<column>doc_type_name,Documento,110</column>
+			<column>code,Código,90</column>
+			<column>total,Monto</column>
+			<column>grand_total,Total</column>
+			<column>reference,Referencia</column>
+			<column>created,Fecha</column>
+			<column>credit_balance,Saldo a Favor</column>
+		</command>
+
+
+		<command name="searchCreditBalancesTotals" type="select" prepared="true">
+			<sqltext>
+				SELECT '' AS credit_balance
+				FROM sale_payments 
+			</sqltext>
+			<default>
+				sale_payment_id = -1
+			</default>
+			<column>total_lines,Movimientos,80</column>
+			<column>old_balance,Saldo Anterior,80</column>
+			<column>charges,Cargos,120</column>
+			<column>payments,Abonos,120</column>
+			<column>sale_inv_balance,Saldos,90</column>
+			<column>credit_balance,Saldo a Favor,90</column>
+		</command>
+
+
+		<command name="getTotalPayments" type="select" prepared="true">
+			<sqltext>
+			SELECT COALESCE(SUM(grand_total),0) AS total
+			FROM sale_payments
+			INNER JOIN customers 		ON  sale_payments.customer_id 	= customers.customer_id
+			INNER JOIN customer_accounts 	ON customers.customer_id 	= customer_accounts.customer_id
+			LEFT  JOIN bank_accounts	   on sale_payments.bank_account_id			= bank_accounts.bank_account_id
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="customer_accounts.payment_rule_type_id " value="@is_credit@" operator="="></condition>
+					<condition name="customer_accounts.payment_rule_type_id " value="@not_credit@" operator="&lt;&gt;"></condition>
+					<condition name="customers.type"	value="@customer_type@" operator="="></condition>
+					<condition name="customers.customer_id"	value="@customer_id@" operator="="></condition>	
+					<condition name="sale_payments.bank_account_id" value="@bank_account_id@" operator="="></condition>
+					<condition name="sale_payments.type" value="@sale_payment_type@" operator="="></condition>
+					<condition name="to_date(sale_payments.created,'YYYY-MM-DD')"	value="@created_date_max@"    operator="&lt;="></condition>
+					<condition name="to_date(sale_payments.created,'YYYY-MM-DD')"	value="@created_date_min@"   operator="&gt;="></condition>
+				</conditions>
+			</where>			
+		</command>
+
+
+		<command name="totalPaymentsTemplate" type="select" prepared="true">
+			<sqltext>
+			SELECT payment_type::text,cash::numeric,checks::numeric,transference::numeric,total::numeric
+			FROM
+			(
+			SELECT 'Local'::text		AS payment_type, 0 AS cash, 0 as checks, 0 as transference, 0 as total
+			UNION
+			SELECT 'Mostrador'::text	AS payment_type, 0 AS cash, 0 as checks, 0 as transference, 0 as total
+			UNION
+			SELECT 'Foranea'::text		AS payment_type, 0 AS cash, 0 as checks, 0 as transference, 0 as total
+			UNION
+			SELECT 'Contado'::text		AS payment_type, 0 AS cash, 0 as checks, 0 as transference, 0 as total
+			UNION
+			SELECT 'Total'::text		AS payment_type, 0 AS cash, 0 as checks, 0 as transference, 0 as total	
+			) AS temp1
+			</sqltext>
+			<column>payment_type,Tipo de Cobranza</column>	
+			<column>cash,Efectivo</column>
+			<column>checks,Cheques</column>			
+			<column>transference,Transferencia Bancaria</column>
+			<column>total,Total</column>			
+		</command>
+
+
+		<command name="totalCounterPaymentsTemplate" type="select" prepared="true">
+			<sqltext>
+			SELECT cash::numeric, cards::numeric, checks::numeric, transference::numeric, total::numeric
+			FROM (SELECT  0 AS cash, 0 as cards, 0 as checks, 0 as transference, 0 as total) As temp1
+			</sqltext>	
+			<column>payment_type,Tipo de Cobranza</column>	
+			<column>cash,Efectivo</column>
+			<column>cards,Tarjetas</column>
+			<column>checks,Cheques</column>			
+			<column>transference,Transferencia Bancaria</column>
+			<column>total,Total</column>			
+		</command>
+
+
+		<command name="searchReceivableAccounts" type="select" prepared="true">
+			<sqltext>
+				SELECT b.name as type_name,temp1.serie,temp1.code,temp1.type,temp1.is_document_shipped,temp1.doc_id,temp1.customer_id,c.name as customer_name,invoice_doc_code,temp1.created,temp1.invoiced,
+				temp1.expiration_date,temp1.subtotal,temp1.tax_amt,grand_total,paid_amt,currency_code,balance,temp1.exchange_rate,currency_id,project_name,temp1.created_by,temp1.promise_date
+				FROM
+				(
+				SELECT '0' as selected,sale_invoice_id as doc_id,is_document_shipped,/*1 as*/ sale_invoices.type,'Factura' AS type_name,sale_invoices.serie,sale_invoices.code,sale_invoices.invoice_doc_code,sale_invoices.subtotal,sale_invoices.tax_amt,
+				sale_invoices.exchange_rate,sale_invoices.grand_total,sale_invoices.created,sale_invoices.date_invoiced as invoiced,expiration_date,sale_invoices.paid_amt,
+				sale_invoices.grand_total-sale_invoices.paid_amt as balance,0.0 as pay_amt,sale_invoices.customer_id,sale_invoices.deleted,sale_invoices.is_paid,curr.code as currency_code,
+				sale_invoices.currency_id,/*projects.name*/ '' as project_name,u.name as created_by,promise_date,sale_invoices.store_id
+				FROM sale_invoices 
+				INNER JOIN currency curr ON curr.currency_id = sale_invoices.currency_id
+				/*LEFT JOIN sale_orders ON sale_invoices.sale_order_id=sale_orders.sale_order_id
+				LEFT JOIN projects ON projects.project_id=sale_orders.project_id*/
+				LEFT JOIN users u on u.usr_id=sale_invoices.created_by
+				WHERE 1>0 AND (sale_invoices.deleted &lt;&gt; '1' OR sale_invoices.deleted is null) AND sale_invoices.is_paid = '0' 
+				AND sale_invoices.status &lt;&gt; 5
+				--AND sale_invoices.grand_total &gt; 0
+				) AS temp1 
+				LEFT JOIN payment_doc_type b ON  temp1.type = b.payment_doc_type_id 
+				LEFT JOIN  customers c ON temp1.customer_id = c.customer_id 
+				/*LEFT JOIN customer_type d ON  c.type = d.customer_type_id*/
+				LEFT JOIN stores s ON  s.store_id = temp1.store_id
+			</sqltext>
+			<default>
+				(temp1.deleted &lt;&gt; '1' OR temp1.deleted is null) AND is_paid = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="temp1.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="temp1.store_id" value="@store_id@" operator="="></condition>
+					<condition name="c.type" value="@customer_type_id@" operator="="></condition>
+					<condition name="c.sales_rep_id" value="@sales_rep_id@" operator="="></condition>
+					<condition name="c.seller_id" value="@seller_id@" operator="="></condition>
+					<condition name="CURRENT_TIMESTAMP" value="@expirated@" operator="&gt;"></condition>
+					<condition name="CURRENT_TIMESTAMP" value="@not_expirated@" operator="&lt;="></condition>
+					<condition name="temp1.created" value="@created_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.created" value="@created_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.expiration_date" value="@expiration_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.expiration_date" value="@expiration_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.date_promised" value="@promise_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.date_promised" value="@promise_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.invoiced" value="@invoiced_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.invoiced" value="@invoiced_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.currency_code" value="@currency_code@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>created</orderby>				
+			<column>type,,0</column>
+			<column>is_document_shipped,Documento,0</column>
+			<column>doc_id,Documento,0</column>
+			<column>currency_id,Moneda,0</column>
+			<column>type_name,Documento,65</column>
+			<column>code,Folio,40</column>
+			<column>customer_id,Id Cliente,55</column>
+			<column>customer_name,Nombre del Cliente,150</column>
+			<column>created,Fecha Creación,85,dd-MMM-yy</column>
+			<column>invoiced,Fecha Factura,80,dd-MMM-yy</column>
+			<column>expiration_date,Vencimiento,75,dd-MMM-yy</column>
+			<column>promise_date,Fecha Promesa,85,dd-MMM-yy</column>			
+			<column>subtotal,Subtotal,90,c</column>	
+			<column>tax_amt,Impuesto,90,c</column>	
+			<column>grand_total,Monto,90,c</column>	
+			<column>paid_amt,Monto Cobrado,90,c</column>
+			<column>balance,Balance,90,c</column>
+			<column>currency_code,Moneda,60</column>
+			<column>exchange_rate,Tipo Cambio,90,#.####</column>
+			<column>store,Sucursal,100</column>
+			<column>project_name,Proyecto,120</column>
+			<column>created_by,Creado Por,100</column>
+		</command>
+
+
+
+		
+				<command name="searchTotalReceivableAccounts" type="select" prepared="true">
+				<sqltext>
+				SELECT COUNT(grand_total) AS total_lines, SUM(grand_total) AS grand_total,  SUM(paid_amt) AS paid_amt, SUM(balance) AS pending, currency_code,lorder,line
+				FROM
+				(
+
+				SELECT 1 as lorder,case when sale_invoices.currency_id=1 then upper('Pesos') else upper('Dolares') end as line,'0' as selected, sale_invoice_id as doc_id,  sale_invoices.type, 'Factura' AS type_name,  sale_invoices.code, CASE WHEN sale_invoices.type=3 THEN grand_total*-1 ELSE grand_total END as grand_total, sale_invoices.created, expiration_date,CASE WHEN sale_invoices.type=3 THEN paid_amt*-1 ELSE paid_amt END as paid_amt, CASE WHEN sale_invoices.type=3 THEN (grand_total - paid_amt)*-1 ELSE grand_total - paid_amt END as balance,   customer_id , sale_invoices.deleted, is_paid,curr.code as currency_code,promise_date,date_invoiced,sale_invoices.store_id
+				FROM sale_invoices INNER JOIN currency curr ON curr.currency_id=sale_invoices.currency_id
+				WHERE 1>0 AND (sale_invoices.deleted &lt;&gt; '1' OR sale_invoices.deleted is null) AND is_paid = '0' AND sale_invoices.status &lt;&gt; 5 
+				--AND sale_invoices.grand_total>0
+				UNION 
+				SELECT 2 as lorder,upper('TOTAL EN MXN') as line,'0' as selected, sale_invoice_id as doc_id,  1 as type, 'Factura' AS type_name,  sale_invoices.code, CASE WHEN sale_invoices.type=3 THEN   (grand_total*exchange_rate)*-1 ELSE grand_total*exchange_rate END as grand_total, sale_invoices.created, expiration_date, CASE WHEN sale_invoices.type=3 THEN paid_amt*-1 ELSE paid_amt END as paid_amt, CASE WHEN sale_invoices.type=3 THEN (grand_total*exchange_rate - paid_amt*exchange_rate)*-1 ELSE  (grand_total*exchange_rate - paid_amt*exchange_rate) END as balance,   customer_id , sale_invoices.deleted, is_paid,upper('MXN') as currency_code,promise_date,date_invoiced,sale_invoices.store_id
+				FROM sale_invoices INNER JOIN currency curr ON curr.currency_id=sale_invoices.currency_id
+				WHERE 1>0 AND (sale_invoices.deleted &lt;&gt; '1' OR sale_invoices.deleted is null) AND is_paid = '0' AND sale_invoices.status &lt;&gt; 5 
+				--AND sale_invoices.grand_total>0
+				) AS temp1 LEFT JOIN payment_doc_type b ON  temp1.type = b.payment_doc_type_id LEFT JOIN  customers c ON temp1.customer_id = c.customer_id /*LEFT JOIN customer_type d ON  c.type = d.customer_type_id*/
+
+			</sqltext>
+			<default>
+			(temp1.deleted &lt;&gt; '1' OR temp1.deleted is  null) 
+			AND is_paid = '0' 
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="temp1.customer_id" value="@customer_id@"      operator="="></condition>
+					<condition name="temp1.store_id" value="@store_id@"      operator="="></condition>
+					<condition name="c.type"            value="@customer_type_id@" operator="="></condition>
+					<condition name="c.sales_rep_id"    value="@sales_rep_id@"     operator="="></condition>
+					<condition name="c.seller_id"       value="@seller_id@"        operator="="></condition>
+
+					<condition name="CURRENT_TIMESTAMP"       value="@expirated@"           operator="&gt;"></condition>
+					<condition name="CURRENT_TIMESTAMP"       value="@not_expirated@"       operator="&lt;="></condition>
+
+					<condition name="temp1.created"	value="@created_date_max@"    operator="&lt;="></condition>
+					<condition name="temp1.created"	value="@created_date_min@"    operator="&gt;="></condition>
+					<condition name="temp1.expiration_date"	value="@expiration_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.expiration_date"	value="@expiration_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.date_invoiced"	value="@invoiced_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.date_invoiced"	value="@invoiced_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.promise_date" value="@promise_date_max@" operator="&lt;="></condition>
+					<condition name="temp1.promise_date" value="@promise_date_min@" operator="&gt;="></condition>
+					<condition name="temp1.currency_code"       value="@currency_code@"        operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>lorder,currency_code,line</groupby>
+			<orderby>lorder</orderby>
+			
+			<column>lorder,Orden,0</column>
+			<column>line,Tipo,100</column>
+			<column>total_lines,Documentos,75</column>
+			<column>grand_total,Monto, 160,c</column>	
+			<column>paid_amt,Monto Cobrado,160,c</column>
+			<column>pending,Monto Pendiente,160,c</column>
+			<column>currency_code,Moneda,60</column>
+			
+		</command>
+
+
+		<command name="getCustomerPromises" type="select" prepared="true">
+			<sqltext>
+			select b.customer_id as customer_id,  to_char(a.created,'YYYY-MM-DD') as created, to_char(a.promised_date,'YYYY-MM-DD') as promised, b.name as customer_name, a.description as description
+			from customer_promises a, customers b
+			</sqltext>
+
+			<default>
+			a.customer_id = b.customer_id
+			</default>
+			<where>
+			<conditions innercondition="AND" outercondition="OR">
+				<condition name="to_date(a.created,'YYYY-MM-DD')"	value="@created_date_max@"    operator="&lt;="></condition>
+				<condition name="to_date(a.created,'YYYY-MM-DD')"	value="@created_date_min@"    operator="&gt;="></condition>		
+				<condition name="a.customer_id" value="@customer_id@"      operator="="></condition>
+			</conditions>
+			</where>
+			<orderby>created</orderby>	
+			<column>created,Fecha</column>	
+			<column>promised,Promesa</column>
+			<column>customer_id,ID Cliente,60</column>
+			<column>customer_name,Nombre Cliente,250</column>			
+			<column>description,Promesa,280</column>			
+		</command>
+
+
+		<!--
+		<command name="searchSalePaymentNotes" type="select" prepared="true">
+			<sqltext>
+				SELECT
+				a.note_id, a.code, a.invoice_id, a.grand_total, a.created, a.paid_amt, a.grand_total - a.paid_amt as balance, 0.0 as pay_amt, '0' as selected
+				FROM notes a
+
+			</sqltext>
+			<default>
+			(a.deleted &lt;&gt; '1' OR a.deleted is null) AND a.is_paid = '0' AND a.type = 1 
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby></groupby>
+			<orderby>note_id</orderby>
+			<column>code,Código</column>
+			<column>created,Fecha</column>
+			<column>invoice_id,Factura</column>
+			<column>grand_total,Monto</column>			
+			<column>balance,Balance</column>
+			<column>pay_amt,Pago</column>
+			<column>selected,Seleccionar</column>
+		</command>
+		<command name="searchSalePaymentInvoices" type="select" prepared="true">
+			<sqltext>
+				SELECT
+				a.invoice_id, a.code, a.grand_total, a.created, a.paid_amt, a.grand_total - a.paid_amt as balance, 0.0 as pay_amt, '0' as selected
+				FROM invoices a
+			</sqltext>
+			<default>
+			(a.deleted &lt;&gt; '1' OR a.deleted is null) AND a.is_paid = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>invoice_id</orderby>
+			<column>code,Código</column>
+			<column>created,Fecha</column>
+			<column>grand_total,Monto</column>			
+			<column>balance,Balance</column>
+			<column>pay_amt,Pago</column>
+			<column>selected,Seleccionar</column>
+		</command>
+		-->
+		<!-- Payments Detail  End-->
+	<!-- To DataGrids End -->
+
+		<command name="searchSalePaymentReport" type="select" prepared="true">
+			<sqltext>
+				SELECT a.code,TO_CHAR(a.date_invoiced,'dd/MM/yyyy') AS date_invoiced,a.customer_id,b.name AS customer_name,a.products_subtotal,a.services_subtotal,a.tax_amt,a.grand_total,
+				a.exchange_rate AS invoice_exchange_rate,a.products_subtotal_pesos,a.services_subtotal_pesos,a.total_pesos-a.subtotal_pesos AS tax_amt_pesos,a.total_pesos,
+				a.total_pesos - a.grand_total AS complementaria,c.exchange_rate,d.total_base_currency,d.total_base_currency-a.total_pesos AS diferencia,TO_CHAR(d.payment_date,'dd/MM/yyyy') AS payment_date,
+				e.name AS bank_name
+				FROM sale_invoices a
+				INNER JOIN customers b ON (a.customer_id = b.customer_id)
+				LEFT JOIN sale_payment_docs c ON (a.sale_invoice_id = c.doc_id)
+				LEFT JOIN sale_payments d ON (c.sale_payment_id = d.sale_payment_id)
+				LEFT JOIN banks e ON (d.bank_id = e.bank_id)
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">				
+					<condition name="a.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="d.bank_account_id" value="@bank_account_id@" operator="="></condition>
+					<condition name="d.reference" value="@reference@" operator="="></condition>
+					<condition name="d.code" value="@code@" operator="="></condition>
+					<condition name="d.type" value="@payment_type@" operator="="></condition>
+					<condition name="d.status" value="@status@" operator="="></condition>
+					<condition name="d.currency_id" value="@currency_id@" operator="="></condition>
+					<condition name="TO_CHAR(a.date_invoiced,'yyyy/MM/dd')" value="@invoiced_date_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(a.date_invoiced,'yyyy/MM/dd')" value="@invoiced_date_min@" operator="&gt;="></condition>
+					<condition name="TO_CHAR(d.payment_date,'yyyy/MM/dd')" value="@payment_date_max@" operator="&lt;="></condition>
+					<condition name="TO_CHAR(d.payment_date,'yyyy/MM/dd')" value="@payment_date_min@" operator="&gt;="></condition>
+				</conditions>
+			</where>
+			<column>code,Folio,60</column>
+			<column>date_invoiced,Fecha Factura,70</column>
+			<column>customer_id,Id Cliente,70</column>
+			<column>customer_name,Nombre Cliente,200</column>
+			<column>products_subtotal,Subtotal Productos,100,c</column>
+			<column>services_subtotal,Subtotal Servicios,100,c</column>
+			<column>tax_amt,IVA,80,c</column>
+			<column>grand_total,Monto,100,c</column>
+			<column>invoice_exchange_rate,Tipo de Cambio Factura,125,c</column>
+			<column>products_subtotal_pesos,Subtotal Productos MX,120,c</column>
+			<column>services_subtotal_pesos,Subtotal Servicios MX,120,c</column>
+			<column>tax_amt_pesos,IVA MX,100,c</column>
+			<column>total_pesos,Monto MX,100,c</column>
+			<column>complementaria,Complementaria,100,c</column>
+			<column>exchange_rate,Tipo de Cambio Cobro,120,c</column>
+			<column>total_base_currency,Monto Cobro,100,c</column>
+			<column>diferencia,Diferencia,100,c</column>
+			<column>payment_date,Fecha Cobro,80</column>
+			<column>bank_name,Banco,150</column>
+		</command>
+
+		
+		<command name="searchCustomerOldBalancesCondensedAtDate" type="select" prepared="true">
+		<sqltext>
+			select a.name,a.customer_id,a.code,sum(n1) as n1,sum(n30) as n30,sum(n60) as n60,sum(n90) as n90,sum(n100) as n100,a.currency_id,a.currency_code,0.0 as percent,sum(total) as total
+			FROM
+			(
+				select sale_invoices.customer_id,customers.name,customers.code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt; @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') &lt;=  to_date(@date_to_use@,'yyyy-mm-dd')
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n30,(null)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;   0
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 30
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  30
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 60
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n90,(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  60
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 90
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+				sum(grand_total-paid_amt) + COALESCE(sum(cobrado),0)::numeric  as n100,sale_invoices.currency_id,currency.code as currency_code,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and  to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  90 
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+			) a
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>a.customer_id,a.name,a.code,a.currency_id,a.currency_code,percent</groupby>
+			<orderby>customer_id,n1,n30,n60,n90,n100</orderby>			
+			<column>customer_id,Id Cliente,60</column>
+			<column>name,Cliente,120</column>			
+			<column>code,Código,60</column>
+			<column>n1,Por Vencer,90,c</column>
+			<column>n30,1  a 30,90,c</column>
+			<column>n60,31 a 60,90,c</column>
+			<column>n90,61 a 90,90,c</column>
+			<column>n100,Mas de 90,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,75,p</column>
+		</command>
+
+
+		<command name="searchCustomerOldBalancesAtDate" type="SELECT" prepared="true">
+			<sqltext>
+			SELECT a.name,a.customer_id,a.sale_invoice_code,SUM(n1) AS n1,SUM(n30) AS n30,SUM(n60) AS n60,SUM(n90) AS n90,SUM(n100) AS n100,a.currency_id,a.currency_code,0.0 AS percent,SUM(total) AS total
+			FROM
+			(
+				SELECT sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code AS sale_invoice_code,SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS n1,(null)::numeric AS n30,
+				(null)::numeric AS n60,(null)::numeric AS n90,(null)::numeric AS n100, sale_invoices.currency_id,currency.code AS currency_code,SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS total
+				FROM sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	SELECT coalesce(spd.total,0) AS cobrado,doc_id 
+					FROM sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					WHERE to_date(sp.payment_date,'YYYY-MM-DD') &gt; @created_date_max@ AND status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				WHERE 1&gt;0
+				AND (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				AND to_date(@created_date_max@,'yyyy-mm-dd') &lt;=  to_date(@date_to_use@,'yyyy-mm-dd')
+				AND to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				AND to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				AND to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				AND sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				SELECT sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code AS sale_invoice_code,(null)::numeric AS n1,SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS n30,
+				(null)::numeric AS n60,(null)::numeric AS n90,(null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS total
+				FROM sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	SELECT coalesce(spd.total,0) AS cobrado,doc_id 
+					FROM sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					WHERE to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				WHERE 1&gt;0
+				AND (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;   0
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 30
+				AND to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				AND to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				AND to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				AND sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				SELECT sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code AS sale_invoice_code,(null)::numeric AS n1,(null)::numeric as n30,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS n60,(null)::numeric AS n90,(null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS total
+				FROM sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	SELECT coalesce(spd.total,0) AS cobrado,doc_id 
+					FROM sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					WHERE to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				WHERE 1&gt;0
+				AND (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  30
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 60
+				AND to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				AND to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				AND to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				AND sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				SELECT sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code AS sale_invoice_code,(null)::numeric AS n1,(null)::numeric AS n30,(null)::numeric as n60,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS n90,(null)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS total
+				FROM sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	SELECT coalesce(spd.total,0) AS cobrado,doc_id 
+					FROM sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					WHERE to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				WHERE 1&gt;0
+				AND (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  60
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 90
+				AND to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				AND to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				AND to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				AND sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				SELECT sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code AS sale_invoice_code,(null)::numeric AS n1,(null)::numeric as n30,(null)::numeric AS n60,(null)::numeric AS n90,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS n100,sale_invoices.currency_id,currency.code AS currency_code,
+				SUM(grand_total-paid_amt)+COALESCE(SUM(cobrado),0)::numeric AS total
+				FROM sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	SELECT coalesce(spd.total,0) AS cobrado,doc_id 
+					FROM sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					WHERE to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				WHERE 1&gt;0
+				AND (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and  to_date(sale_invoices.cancelled_updated,'yyyy-mm-dd')>@created_date_max@)) 
+				AND to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  90 
+				AND to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				AND to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				AND to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				AND sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.code,sale_invoices.currency_id,currency.code
+			) a
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>a.customer_id,a.name,a.code,a.sale_invoice_code,a.currency_id,a.currency_code,percent</groupby>
+			<orderby>customer_id,n1,n30,n60,n90,n100</orderby>			
+			<column>date_invoiced,Fecha Factura,80,dd-MMM-yy</column>
+			<column>expiration_date,Fecha Vencimiento,105,dd-MMM-yy</column>
+			<column>promise_date,Fecha Promesa,85,dd-MMM-yy</column>
+			<column>customer_id,Id Cliente,55</column>
+			<column>name,Cliente,130</column>			
+			<column>sale_invoice_code,Folio,40</column>
+			<column>sales_rep_id,Agente de VentAS,0</column>
+			<column>n1,Por Vencer,90,c</column>
+			<column>n30,1  a 30,90,c</column>
+			<column>n60,31 a 60,90,c</column>
+			<column>n90,61 a 90,90,c</column>
+			<column>n100,MAS de 90,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,90,p</column>			
+		</command>
+
+		<command name="searchCustomerOldBalancesAtDateValorized" type="SELECT" prepared="true">
+			<sqltext>
+			select name,customer_id,code,sum(n1) as n1,sum(n30) as n30,sum(n60) as n60,sum(n90) as n90,sum(n100) as n100,1 as currency_id,'MX' as currency_code,0.0 as percent,sum(total) as total ,sum(sales) as sales,sum(credit_days) as credit_days
+			from
+			(	
+			select name,customer_id,code,case when currency_id = 2 then sum(n1)*10.6813 else sum(n1) end as n1,case when currency_id = 2 then sum(n30)*10.6813 else sum(n30) end as n30,case when currency_id = 2 then sum(n60)*10.6813 else sum(n60) end as n60,case when currency_id = 2 then sum(n90)*10.6813 else sum(n90) end as n90,case when currency_id = 2 then sum(n100)*10.6813 else sum(n100) end as n100,0.0 as percent,case when currency_id=2 then sum(total)*10.6813 else sum(total) end as total ,sum(sales) as sales ,credit_days
+			from
+			(
+			select a.name,a.customer_id,a.code,sum(n1) as n1,sum(n30) as n30,sum(n60) as n60,sum(n90) as n90,sum(n100) as n100,a.currency_id,a.currency_code,0.0 as percent,sum(total) as total,sum(sales) as sales,credit_days
+			FROM
+			(
+				select sale_invoices.customer_id,customers.name,customers.code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total,0 as sales,0 as credit_days
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt; @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@)) 
+				and to_date(@created_date_max@,'yyyy-mm-dd') &lt;=  to_date(@date_to_use@,'yyyy-mm-dd')
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n30,(null)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total,0 as sales,0 as credit_days
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@))
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;   0
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 30
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+				
+				UNION
+				
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n60,
+				(null)::numeric as n90,(null)::numeric as n100,sale_invoices.currency_id,currency.code as currency_code,sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total,0 as sales,0 as credit_days
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@))
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  30
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 60
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as n90,(null)::numeric as n100, sale_invoices.currency_id,currency.code as currency_code,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total,0 as sales,0 as credit_days
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@))
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  60
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &lt;= 90
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+
+				UNION
+
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+				sum(grand_total-paid_amt) + COALESCE(sum(cobrado),0)::numeric  as n100,sale_invoices.currency_id,currency.code as currency_code,
+				sum(grand_total-paid_amt)+COALESCE(sum(cobrado),0)::numeric as total,0 as sales,0 as credit_days
+				from sale_invoices 
+				INNER JOIN customers ON customers.customer_id=sale_invoices.customer_id 
+				INNER JOIN currency ON sale_invoices.currency_id = currency.currency_id
+				LEFT JOIN 
+				(	select coalesce(spd.total,0) as cobrado,doc_id 
+					from sale_payment_docs spd
+					INNER JOIN sale_payments sp ON sp.sale_payment_id=spd.sale_payment_id 
+					where to_date(sp.payment_date,'YYYY-MM-DD') &gt;  @created_date_max@ and status &lt;&gt; 3
+				) temp ON temp.doc_id=sale_invoices.sale_invoice_id
+				where 1&gt;0
+				and (sale_invoices.status &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@))
+				and to_date(@created_date_max@,'yyyy-mm-dd') -  to_date(@date_to_use@,'yyyy-mm-dd') &gt;  90 
+				and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'YYYY-MM-DD') &gt;= @created_date_min@
+				and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &lt;=  @expiration_date_max@ and to_date(sale_invoices.expiration_date,'YYYY-MM-DD') &gt;= @expiration_date_min@
+				and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &lt;=  @promise_date_max@ and to_date(sale_invoices.promise_date,'YYYY-MM-DD') &gt;= @promise_date_min@
+				and sale_invoices.currency_id in (@currency_id@)
+				group by sale_invoices.customer_id,customers.name,customers.code,sale_invoices.currency_id,currency.code
+
+				UNION 
+
+				select sale_invoices.customer_id,customers.name,customers.code,(null)::numeric as n1,(null)::numeric as n30,(null)::numeric as n60,(null)::numeric as n90,
+				null::numeric  as n100,1,'MX' as currency_code,
+				null::numeric as total, sum(sale_invoices.total_pesos) as sales,customer_accounts.credit_days from sale_invoices
+				left join customers on customers.customer_id=sale_invoices.customer_id 
+				inner join customer_Accounts on customer_Accounts.customer_id=customers.customer_id
+				where (sale_invoices.status  &lt;&gt; 5 or (sale_invoices.status=5 and sale_invoices.updated>@created_date_max@))
+				and to_date(sale_invoices.date_invoiced,'yyyy-mm-dd') &lt;=  @created_date_max@ and to_date(sale_invoices.date_invoiced,'yyyy-mm-dd') &gt;= @sales_date_min@
+				group by sale_invoices.customer_id,customers.name,customers.code,customer_accounts.credit_days
+			) a GROUP BY a.customer_id,a.name,a.code,a.currency_id,a.currency_code,percent,a.credit_days ORDER BY customer_id,n1,n30,n60,n90,n100
+			) temp2 group by customer_id,name,code,currency_id,credit_days
+
+			) temp3 
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="AND">
+					<condition name="a.customer_id"	value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>customer_id,name,code,percent</groupby>
+			<orderby></orderby>			
+			<column>customer_id,Id Cliente,60</column>
+			<column>name,Cliente,120</column>			
+			<column>code,Código,60</column>
+			<column>n1,Por Vencer,90,c</column>
+			<column>n30,1  a 30,90,c</column>
+			<column>n60,31 a 60,90,c</column>
+			<column>n90,61 a 90,90,c</column>
+			<column>n100,Mas de 90,90,c</column>
+			<column>currency_id,Moneda,0</column>
+			<column>currency_code,Moneda,50</column>
+			<column>total,Total,90,c</column>
+			<column>percent,% del Total,75,p</column>
+			<column>sales,Ventas,80,c</column>
+			<column>credit_days,Dias Credito,75</column>
+		</command>
+
+		<command name="insertIncome" type="insert">
+			<sqltext>
+				INSERT INTO treasury_incomes (treasury_incomes_id,$company_id$,$income_date$,$amount$,$currency_id$,$bank_account_id$,$reference$,$code$,$description$,$treasury_income_concept_id$,$bpartner_id$,$affected_docs$,$comments$,$payment_type_id$,$local_code$,$treasury_income_status_id$,$is_conciliated$,$sync_date$,created,updated,$created_by$,$updated_by$,$activated$,$deleted$,$has_accountant_policy$) VALUES(@treasury_incomes_id@,@company_id@,@income_date@,@amount@,@currency_id@,@bank_account_id@,@reference@,@code@,@description@,@treasury_income_concept_id@,@bpartner_id@,@affected_docs@,@comments@,@payment_type_id@,@local_code@,@treasury_income_status_id@,@is_conciliated@,@sync_date@,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,@created_by@,@updated_by@,@activated@,@deleted@,@has_accountant_policy@)
+			</sqltext>
+		</command>
+
+		<command name="insertIncomesInvoices" type="insert">
+			<sqltext>
+				INSERT INTO treasury_incomes_invoices (treasury_incomes_invoices_id,$treasury_incomes_id$,$invoice_code$) VALUES(Nextval('sq_treasury_incomes_invoices'),@treasury_incomes_id@,@invoice_code@)
+			</sqltext>
+		</command>
+
+	
+	</commands>
+</bnet-xsql>

@@ -1,0 +1,603 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<bnet-xsql>
+	<commands>
+		<command name="newInvoice" type="insert">
+			<sqltext>
+				INSERT INTO sale_invoices ($sale_invoice_id$,$customer_id$,$subtotal$,$grand_total$,$created$,$updated$,$created_by$,$updated_by$,$customer_name$,$customer_address$,$street$,$no_ext$,$no_int$,$neighborhood$,$city$,$state$,$postal_code$,$credit_days$,$date_invoiced$,$expiration_date$,$expiration_date_original$,$promise_date$,$project_id$,$type$,$currency_id$,$status$,$tax_amt$,$store_id$,$code$,$invoice_doc_code$,$discount_amt$,$description$,$pay_method$,$acc_number$,$pay_method_id$,$pay_method_cond$,$cfdi_usage_id$,$tip_amt$,$is_paid$,$paid_amt$,$serie$,$remark$,$subtotal_pesos$,$total_pesos$,$exchange_rate$)
+				VALUES			  (@sale_invoice_id@,@customer_id@,@subtotal@,@grand_total@,@created@,@updated@,@created_by@,@updated_by@,@customer_name@,@customer_address@,@street@,@no_ext@,@no_int@,@neighborhood@,@city@,@state@,@postal_code@,@credit_days@,@date_invoiced@,@expiration_date@,@expiration_date_original@,@promise_date@,@project_id@,@type@,@currency_id@,@status@,@tax_amt@,@store_id@,@code@,@invoice_doc_code@,@discount_amt@,@description@,@pay_method@,@acc_number@,@pay_method_id@,@pay_method_cond@,@cfdi_usage_id@,@tip_amt@,@is_paid@,@paid_amt@,@serie@,@remark@,@subtotal_pesos@,@total_pesos@,@exchange_rate@)
+			</sqltext>
+		</command>
+		<command name="updateInvoice" type="update">
+			<sqltext>
+				update sale_invoices set $customer_id$=@customer_id@,$subtotal$=@subtotal@,$grand_total$=@grand_total@,$updated$=@updated@,$updated_by$=@updated_by@,$customer_name$=@customer_name@,$customer_address$=@customer_address@,$credit_days$=@credit_days@,$date_invoiced$=@date_invoiced@,$expiration_date$=@expiration_date@,$expiration_date_original$=@expiration_date_original@,$promise_date$=@promise_date@,$project_id$=@project_id@,$type$=@type@,$currency_id$=@currency_id@,$tax_amt$=@tax_amt@,$store_id$=@store_id@,$code$=@code@,$invoice_doc_code$=@invoice_doc_code@,$discount_amt$=@discount_amt@,$description$=@description@,$street$=@street@,$no_ext$=@no_ext@,$no_int$=@no_int@,$neighborhood$=@neighborhood@,$city$=@city@,$state$=@state@,$postal_code$=@postal_code@,$pay_method_id$=@pay_method_id@,$pay_method_cond$=@pay_method_cond@,$cfdi_usage_id$=@cfdi_usage_id@
+				where sale_invoice_id=@sale_invoice_id@
+			</sqltext>
+		</command>
+
+		<command name="updateInvoiceConfig" type="update">
+			<sqltext>
+				update sale_invoice_config set 
+				$cer_route$=@cer_route@,$key_route$=@key_route@,$serie$=@serie@,$folio$=@folio@,$rfc$=@rfc@,$legal_name$=@legal_name@,$fiscal_regime_id$=@fiscal_regime_id@,$address$=@address@,$address2$=@address2@,$address3$=@address3@,$telephone$=@telephone@,$webpage$=@webpage@,$csd_password$=@csd_password@,$cer_serie$=@cer_serie@,$cer_data$=@cer_data@,$fiscal_regime$=@fiscal_regime@,$cp$=@cp@,$ftp_password$=@ftp_password@,$ftp_user$=@ftp_user@,$ftp_route$=@ftp_route@,$timbrado_user$=@timbrado_user@,$timbrado_password$=@timbrado_password@
+				where sale_inv_cfg_id=@sale_inv_cfg_id@
+			</sqltext>
+		</command>
+
+		<command name="newInvoiceLine" type="insert">
+			<sqltext>
+				INSERT INTO sale_invoice_lines ($sale_invoice_id$,$sale_invoiceln_id$,$product_id$,$qty_saled$,$unitary_price$,$discount_amt$,$updated$,$invoiced_product_code$,$subtotal$,$line_grand_total$,$description$,$store_id$,$unit$,$cve_unit$,$sat_code$,$tax_percent$,$import_doc_code$)
+				VALUES (@sale_invoice_id@,@sale_invoiceln_id@,@product_id@,@qty_saled@,@unitary_price@,@discount_amt@,@updated@,@invoiced_product_code@,@subtotal@,@line_grand_total@,@description@,@store_id@,@unit@,@cve_unit@,@sat_code@,@tax_percent@,@import_doc_code@)
+			</sqltext>
+		</command>
+
+		<command name="setAmountInvoiced" type="update">
+			<sqltext>
+				UPDATE service_orders SET $amount_invoiced$=@amount_invoiced@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="service_order_id" value="@service_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+		<command name="updateServiceOrderLine" type="update">
+			<sqltext>
+				UPDATE service_order_lines SET $product_id$=@product_id@,$product_code$=@product_code@,$qty_required$=@qty_required@,$qty_to_order$=@qty_to_order@,$product_cost$=@product_cost@,$service_order_id$=@service_order_id@,$product_name$=@product_name@,$product_category_id$=@product_category_id@,$discount$=@discount@,$subtotal$=@subtotal@,$total$=@total@,$price_u$=@price_u@,$service_order_line_id$=@service_order_line_id@,$supplier_id$=@supplier_id@,$product_header$=@product_header@,$updated$=@updated@,$qty_from_inv$=@qty_from_inv@,$inventory_cost$=@inventory_cost@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="service_order_line_id" value="@service_order_line_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+		<command name="loadServiceOrderDataProducts" type="select" prepared="true">
+			<sqltext>
+				SELECT qty_required,sol.product_name, price_u, total_sale, so.customer_id, bp.legal_name as name
+				, sol.product_id, sol.product_code, credit_days, bp.address, bp.legal_code, so.amount_invoiced,bp.bpartner_id,bp.neighborhood,bp.postal_code,so.discount,cust.pay_method,cust.acc_number,u.name as unit
+				FROM service_orders so
+				INNER JOIN service_order_lines sol on so.service_order_id = sol.service_order_id
+				INNER JOIN products p ON p.product_id=sol.product_id
+				INNER JOIN units u ON u.unit_id=p.unit_id
+				INNER JOIN customers cust on cust.customer_id = so.customer_id
+				INNER JOIN business_partners bp on bp.bpartner_id = cust.bpartner_id
+			</sqltext>
+			<default>
+			so.amount_total > 0 AND sol.deleted = '0' and sol.used=true
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="so.service_order_id" value="@service_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>service_order_line_id</orderby>
+			<column>product_name,Producto,200</column>
+			<column>price_u,Precio,100,c</column>
+			<column>qty_required,Cantidad,100</column>
+			<column>total_sale,Total,100,c</column>
+			<column>unit,Unidad,80</column>
+			<column>customer_id,Id Cl,0</column>
+			<column>bpartner_id,Id BP,0</column>
+			<column>name,Nombre,0</column>
+			<column>product_id,PID,0</column>
+			<column>product_code,PC,0</column>
+			<column>credit_days,CD,0</column>
+			<column>address,A,0</column>
+			<column>neighborhood,A,0</column>
+			<column>postal_code,A,0</column>
+			<column>legal_code,LC,0</column>
+			<column>amount_invoiced,AI,0</column>
+			<column>discount,Desc,0</column>
+		</command>
+
+		<command name="loadServiceOrderDataHeaders" type="select" prepared="true">
+			<sqltext>
+				SELECT DISTINCT 1.0 as qty, sol.product_header,SUM(total_sale) as total
+				, so.customer_id, bp.legal_name as name, credit_days, bp.address, bp.legal_code, so.amount_invoiced,bp.bpartner_id,bp.neighborhood,bp.postal_code,so.discount,cust.pay_method,cust.acc_number
+				FROM service_orders so
+				INNER JOIN service_order_lines sol on so.service_order_id = sol.service_order_id
+				INNER JOIN customers cust on cust.customer_id = so.customer_id
+				INNER JOIN business_partners bp on bp.bpartner_id = cust.bpartner_id
+			</sqltext>
+			<default>
+			/*sol.has_order = TRUE AND*/ sol.deleted = '0'  and sol.used=true
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="so.service_order_id" value="@service_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<groupby>sol.product_header,so.customer_id,bp.legal_name,cust.credit_days, bp.address, bp.legal_code, so.amount_invoiced,bp.bpartner_id,bp.neighborhood,bp.postal_code,so.discount</groupby>
+			<column>qty,Cantidad,100</column>
+			<column>product_header,Partida,200,c</column>
+			<column>total,Total,100,c</column>
+			<column>customer_id,Id Cl,0</column>
+			<column>bpartner_id,Id BP,0</column>
+			<column>name,Nombre,0</column>
+			<column>credit_days,CD,0</column>
+			<column>address,A,0</column>
+			<column>neighborhood,A,0</column>
+			<column>postal_code,A,0</column>
+			<column>legal_code,LC,0</column>
+			<column>amount_invoiced,AI,0</column>
+			<column>discount,Desc,0</column>
+		</command>
+
+		<command name="loadEmptyInvoiceGrid" type="select">
+			<sqltext>
+				SELECT ''as code,1.0 as qty_required, '' as product_name,0.0 as price_u, 0.0 as total_sale,upper('SERV') as unit,'01010101' as sat_code, upper('E48') as cve_unit,16 as tax_percent, 0.0 as discount_amt
+				FROM pos_props where 1=0
+			</sqltext>
+			<default>
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="so.service_order_id" value="@service_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>code,Codigo,60</column>
+			<column>qty_required,Cantidad,60</column>
+			<column>product_name,Concepto,290</column>
+			<column>price_u,Precio,100</column>
+			<column>total_sale,Total,100</column>
+			<column>customer_id,Id Cl,0</column>
+			<column>bpartner_id,Id BP,0</column>
+			<column>name,Nombre,0</column>
+			<column>credit_days,CD,0</column>
+			<column>address,A,0</column>
+			<column>neighborhood,A,0</column>
+			<column>postal_code,A,0</column>
+			<column>legal_code,LC,0</column>
+			<column>amount_invoiced,AI,0</column>
+			<column>amount_total,AT,0</column>
+			<column>discount,Desc,0</column>
+			<column>unit,Unidad,80</column>
+			<column>tax_percent,Tasa,50</column>
+			<column>discount_amt,Desc,50,c</column>
+			<column>sat_code,Cve SAT,80</column>
+			<column>cve_unit,Cve Unidad,80</column>
+		</command>
+
+		<command name="findInvoicesByOrder" type="select" prepared="true">
+			<sqltext>
+				SELECT project_id,si.code::int,pdt.name as typ, invoice_doc_code as legal_code, si.customer_name as name,si.street,si.no_ext,si.no_int,si.neighborhood,si.city,si.state,si.postal_code, si.customer_address as address, si.grand_total,curr.code as currency, si.date_invoiced, sale_invoice_id,sis.name as status,si.paid_amt, is_paid,si.subtotal AS sub
+				,s.name as store, si.created,si.type as typid,si.status as statid,si.customer_id,si.discount_amt as discount,si.expiration_date,si.credit_days,si.store_id,si.tax_amt,sello,bp.emails,si.fecha_cfd,si.pay_method,si.acc_number,si.UUID,si.pay_method_id,si.description,si.tip_amt,si.created_by,si.serie
+				,pm.name as pay_method_text,si.pay_method_cond,si.cfdi_usage_id,cfu.name as cfdi_usage,si.currency_id,si.exchange_rate,bp.city_id,bp.state_id@remark@
+				FROM sale_invoices si
+				LEFT JOIN customers cust on cust.customer_id = si.customer_id
+				LEFT JOIN business_partners bp on cust.bpartner_id = bp.bpartner_id
+				INNER JOIN stores s ON s.store_id=si.store_id
+				INNER JOIN sale_invoice_status sis ON sis.invoice_status_id=si.status
+				INNER JOIN payment_doc_type pdt ON pdt.payment_doc_type_id=si.type
+				INNER JOIN currency curr ON curr.currency_id=si.currency_id
+				LEFT JOIN cfdi_usage cfu ON cfu.code=si.cfdi_usage_id
+				LEFT JOIN pay_method pm ON pm.code=si.pay_method_cond
+				@remarkjoin@
+			</sqltext>
+			<default>
+			si.deleted = '0'
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="si.sale_invoice_id" value="@sale_invoice_id@" operator="="></condition>
+					<condition name="si.project_id" value="@service_order_id@" operator="="></condition>
+					<condition name="si.store_id" value="@store_id@" operator="="></condition>
+					<condition name="si.status" value="@status@" operator="="></condition>
+					<condition name="si.code" value="@code@" operator="="></condition>
+					<condition name="si.status" value="@cancelstatus@" operator="&lt;&gt;"></condition>
+					<condition name="si.type" value="@type@" operator="="></condition>
+					<condition name="bp.legal_code" value="@legal_code@" operator="ILIKE"></condition>
+					<condition name="bp.name" value="@name@" operator="ILIKE"></condition>
+					<condition name="si.date_invoiced" value="@created_min@" operator="&gt;="></condition>
+					<condition name="si.date_invoiced" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>code</orderby>
+			<column>project_id,Proy ID,60</column>
+			<column>code,Folio,60</column>
+			<column>typ,Tipo,60</column>
+			<column>typid,Tipo,0</column>
+			<column>legal_code,RFC,90</column>
+			<column>customer_id,CID,0</column>
+			<column>name,Nombre,100</column>
+			<column>street,Calle,180</column>
+			<column>no_ext,Ext,60</column>
+			<column>no_int,Int,60</column>
+			<column>neighborhood,Col,120</column>
+			<column>city,Mun,100</column>
+			<column>state,Edo,100</column>
+			<column>postal_code,CP,60</column>
+			<column>address,Direccion,100</column>
+			<column>grand_total,Total,100,c</column>
+			<column>date_invoiced,Fecha Facturada,100,dd-MMM-yyyy</column>
+			<column>created,Creación,100,dd-MMM-yy hh:mm:ss tt</column>
+			<column>expiration_date,Vence,100,dd-MMM-yy hh:mm:ss tt</column>
+			<column>sale_invoice_id,ID,0</column>
+			<column>status,Status,50</column>
+			<column>statid,Status,0</column>
+			<column>paid_amt,Cobrado,70,c</column>
+			<column>is_paid,Pagada,0</column>
+			<column>sub,Subtotal,0</column>
+			<column>tax_amt,IVA,80,c</column>
+			<column>rfc,Rfc usado,0</column>
+			<column>store,Sucursal,90</column>
+			<column>discount,Desc,0</column>
+			<column>description,Desc,0</column>
+			<column>credit_days,Dias,0</column>
+			<column>store_id,Sucursal,0</column>
+			<column>emails,Email,60</column>
+			<column>sello,Sello,60</column>
+			<column>fecha_cfd,Fecha CFD,120,dd-MMM-yy hh:mm:ss tt</column>
+			<column>pay_method,Met Pago,60</column>
+			<column>acc_number,N Cta,60</column>
+			<column>pay_method_id,Met Pago,50</column>
+			<column>pay_method_cond,Met Pago,0</column>
+			<column>pay_method_text,Met Pago,50</column>
+			<column>cfdi_usage_id,Uso,0</column>
+			<column>cfdi_usage,Uso,50</column>
+			<column>serie,Serie,50</column>
+			<column>tip_amt,Propina,50,c</column>
+			<column>remark,OC,50</column>
+			<column>currency_id,Cid,0</column>
+			<column>currency,Moneda,50</column>
+			<column>exchange_rate,T. Cambio,70</column>
+			<column>created_by,Cread,25</column>
+		</command>
+
+		<command name="invoiceReport" type="select" prepared="true">
+			<sqltext>
+				SELECT fecha_cfd,upper('A') as serie,si.code::int,pdt.name as typ, legal_code, si.customer_name as name, si.customer_address as address,si.street,si.no_ext,si.no_int,si.neighborhood,si.city,si.state,si.postal_code, grand_total, date_invoiced, sale_invoice_id,sis.name as status,si.paid_amt, is_paid,si.subtotal AS sub
+				,s.name as store, si.created,si.type as typid,si.status as statid,si.customer_id,si.discount_amt as discount,si.expiration_date,si.credit_days,si.store_id,si.tax_amt::numeric(16,2),sello,bp.emails,
+				CASE WHEN si.status=5 then 0 ELSE 1 END as estado,cancelled_updated
+				FROM sale_invoices si
+				INNER JOIN customers cust on cust.customer_id = si.customer_id
+				INNER JOIN business_partners bp on cust.bpartner_id = bp.bpartner_id
+				INNER JOIN stores s ON s.store_id=si.store_id
+				INNER JOIN sale_invoice_status sis ON sis.invoice_status_id=si.status
+				INNER JOIN payment_doc_type pdt ON pdt.payment_doc_type_id=si.type
+			</sqltext>
+			<default>
+			si.deleted = '0' and sello is not null
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="si.project_id" value="@service_order_id@" operator="="></condition>
+					<condition name="si.store_id" value="@store_id@" operator="="></condition>
+					<condition name="si.status" value="@status@" operator="="></condition>
+					<condition name="si.code" value="@code@" operator="="></condition>
+					<condition name="si.status" value="@cancelstatus@" operator="&lt;&gt;"></condition>
+					<condition name="si.type" value="@type@" operator="="></condition>
+					<condition name="bp.legal_code" value="@legal_code@" operator="ILIKE"></condition>
+					<condition name="bp.name" value="@name@" operator="ILIKE"></condition>
+					<condition name="si.fecha_cfd" value="@created_min@" operator="&gt;="></condition>
+					<condition name="si.fecha_cfd" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="si.project_id" value="@service_order_id@" operator="="></condition>
+					<condition name="si.store_id" value="@store_id@" operator="="></condition>
+					<condition name="si.status" value="@status@" operator="="></condition>
+					<condition name="si.code" value="@code@" operator="="></condition>
+					<condition name="si.status" value="@cancelstatus@" operator="&lt;&gt;"></condition>
+					<condition name="si.type" value="@type@" operator="="></condition>
+					<condition name="bp.legal_code" value="@legal_code@" operator="ILIKE"></condition>
+					<condition name="bp.name" value="@name@" operator="ILIKE"></condition>
+					<condition name="si.fecha_cfd" value="@created_min@" operator="&lt;"></condition>
+					<condition name="si.cancelled_updated" value="@created_min@" operator="&gt;="></condition>
+					<condition name="si.cancelled_updated" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby>code</orderby>
+			<column>project_id,Proy ID,60</column>
+			<column>serie,Serie,35</column>
+			<column>code,Folio,80</column>
+			<column>typ,Tipo,80</column>
+			<column>typid,Tipo,0</column>
+			<column>legal_code,RFC,100</column>
+			<column>customer_id,CID,0</column>
+			<column>name,Nombre,100</column>
+			<column>street,Calle,180</column>
+			<column>no_ext,Ext,60</column>
+			<column>no_int,Int,60</column>
+			<column>neighborhood,Col,120</column>
+			<column>city,Mun,100</column>
+			<column>state,Edo,100</column>
+			<column>postal_code,CP,60</column>
+			<column>address,Direccion,100</column>
+			<column>grand_total,Total,100,c</column>
+			<column>date_invoiced,Fecha Facturada,100,dd-MMM-yyyy</column>
+			<column>created,Creación,100,dd-MMM-yy hh:mm:ss tt</column>
+			<column>expiration_date,Vence,100,dd-MMM-yy hh:mm:ss tt</column>
+			<column>fecha_cfd,Fecha CFD,120,dd-MMM-yy hh:mm:ss tt</column>
+			<column>sale_invoice_id,ID,0</column>
+			<column>status,Status,50</column>
+			<column>statid,Status,0</column>
+			<column>paid_amt,Cobrado,70,c</column>
+			<column>is_paid,Pagada,0</column>
+			<column>sub,Subtotal,0</column>
+			<column>tax_amt,IVA,80,c</column>
+			<column>rfc,Rfc usado,0</column>
+			<column>store,Sucursal,90</column>
+			<column>discount,Desc,0</column>
+			<column>credit_days,Dias,0</column>
+			<column>store_id,Sucursal,0</column>
+			<column>emails,Email,60</column>
+			<column>sello,Sello,60</column>
+			<column>estado,Estatus,60</column>
+			<column>cancelled_updated,Fecha Cancelación,120,dd-MMM-yy hh:mm:ss tt</column>
+		</command>
+
+		<command name="findInvoiceLines" type="select" prepared="true">
+			<sqltext>
+				SELECT invoiced_product_code as code,qty_saled as qty_required, description as product_name, unitary_price as price_u, line_grand_total as total_sale, COALESCE(unit,upper('NA')) as unit
+				,sl.sat_code,sl.cve_unit,sl.tax_percent,sl.discount_amt,sl.import_doc_code
+				FROM sale_invoice_lines sl
+			</sqltext>
+			<default>
+			
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="sl.sale_invoice_id" value="@sale_invoice_id@" operator="="></condition>
+					<condition name="sale_invoice_id" value="@sale_invoice_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>sale_invoiceln_id</orderby>
+			<column>code,Código,60</column>
+			<column>qty_required,Cantidad,60</column>
+			<column>product_name,Concepto,290</column>
+			<column>price_u,Precio,100,c</column>
+			<column>total_sale,Total,100,c</column>
+			<column>unit,Unidad,100</column>
+			<column>sat_code,Clave SAT,65</column>
+			<column>cve_unit,Clave Unidad,65</column>
+			<column>tax_percent,Tasa,50</column>
+			<column>discount_amt,Desc,50,c</column>
+			<column>import_doc_code,Pedimento,0</column>
+		</command>
+
+
+		<command name="checkInvoiceId" type="select" prepared="true">
+			<sqltext>
+				SELECT sale_invoice_id,code
+				FROM sale_invoices
+			</sqltext>
+			<default>
+			status &lt;&gt; 5
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="code" value="@code@" operator="ilike"></condition>
+					<condition name="store_id" value="@store_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<column>sale_invoice_id,SID,0</column>
+		</command>
+
+		<command name="loadCustomers" type="select" prepared="true">
+			<sqltext>
+				SELECT  customer_id,code,cust.legal_code,cust.name,cust.legal_name,
+				cust.address as street, cust.no_ext, cust.no_int,cust.neigh,cust.city_name1,cust.state_code1,cust.postal_code1,
+				/*cust.address || cust.neighborhood || cust.city_name || cust.state_code || postal_code as address,*/ /*credit_days,*/emails,pay_method,acc_number
+				,cust.pay_method_cond,COALESCE(cust.cfdi_usage_id,'-1') as cfdi_usage_id,state_id,city_id
+				FROM
+				(
+				SELECT cu.customer_id,bupa.legal_code,cu.name,bupa.legal_name, bupa.address, upper(',COL. ') || COALESCE(bupa.neighborhood,'') as neighborhood, ', ' || c.city_name as city_name
+				, ', ' || s.state_code as state_code, upper(', CP ') || COALESCE(postal_code,'')  as postal_code /*,ca.credit_days*/,bupa.emails,cu.code,cu.pay_method,cu.acc_number,cu.pay_method_cond,cu.cfdi_usage_id,COALESCE(bupa.neighborhood,'') as neigh,bupa.no_ext,bupa.no_int,
+				c.city_name as city_name1,s.state_code as state_code1,COALESCE(postal_code,'')  as postal_code1,bupa.state_id,bupa.city_id
+				FROM customers cu
+				INNER JOIN business_partners bupa on cu.bpartner_id = bupa.bpartner_id
+				INNER JOIN states s ON s.state_id=bupa.state_id
+				INNER JOIN cities c ON c.city_id=bupa.city_id
+				/*LEFT JOIN customer_accounts ca ON ca.customer_id=cu.customer_id*/
+				) cust
+			</sqltext>
+			<default>
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="legal_code" value="@legal_code@" operator="ILIKE"></condition>
+					<condition name="cust.name" value="@name@" operator="ILIKE"></condition>
+					<condition name="cust.customer_id" value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>name</orderby>
+			<column>customer_id,ID,60</column>
+			<column>legal_code,RFC,120</column>
+			<column>name,Nombre,220</column>
+			<column>street,Calle,180</column>
+			<column>no_ext,Ext,60</column>
+			<column>no_int,Int,60</column>
+			<column>neigh,Col,120</column>
+			<column>city_name1,Mun,100</column>
+			<column>state_code1,Edo,100</column>
+			<column>postal_code1,CP,60</column>
+
+			<column>address,Direccion,680</column>
+			<column>credit_days,Credito,40</column>
+			<column>emails,Email,60</column>
+			<column>code,Código,60</column>
+			<column>pay_method,Metodo Pago,60</column>
+			<column>acc_number,Cuenta,60</column>
+			<column>pay_method_cond,Cond Pago,60</column>
+			<column>cfdi_usage_id,Uso CFDI,60</column>
+
+		</command>
+
+
+		<command name="loadSubCustomers" type="select" prepared="true">
+			<sqltext>
+				SELECT  subcustomer_id,customer_id,code,cust.name,
+				cust.address,cust.neighborhood,cust.city,state,cust.zipcode,contact,phone FROM subcustomers cust
+			</sqltext>
+			<default>
+			  @code@
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="cust.name" value="@name@" operator="ILIKE"></condition>
+					<condition name="cust.customer_id" value="@customer_id@" operator="="></condition>
+				</conditions>
+			</where>
+			<orderby>name</orderby>
+
+		</command>
+
+		<command name="cancelInvoice" type="update">
+			<sqltext>
+				UPDATE sale_invoices SET status=5,cancelled_updated=CURRENT_TIMESTAMP
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="sale_invoice_id" value="@sale_invoice_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+		<command name="updateInvoicedTotal" type="update">
+			<sqltext>
+				UPDATE service_orders SET $amount_invoiced$=amount_invoiced-@subtotal@
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="service_order_id" value="@service_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+		<command name="updateOutOrders" type="update">
+			<sqltext>
+				UPDATE inouts SET invoice_code=null
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="invoice_code" value="@invoice_code@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+
+		<command name="deletePchOrderLines" type="update">
+			<sqltext>
+				UPDATE pch_order_lines SET $deleted$='1'
+			</sqltext>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="pch_order_id" value="@pch_order_id@" operator="="></condition>
+				</conditions>
+			</where>
+		</command>
+
+		<command name="insertGuide" type="insert">
+			<sqltext>
+				INSERT INTO subcustomer_guides ($subcustomer_guide_id$,$subcustomer_id$,$customer_id$,$guide$,$created_by$,$created$,$updated$,$recolection_date$,$solicitant$,$schedule$,$caddress$,$cneighborhood$,$cstate$,$ccity$,$czipcode$,$creference$,$cphone$,$ccontact$,$destination_type$,$name$,$address$,$neighborhood$,$zipcode$,$state_id$,$state$,$city_id$,$city$,$contact$,$phone$,$packtype$,$content$,$weight$,$width$,$length$,$height$,$insured$,$value$,$extra_info$)
+				VALUES (@subcustomer_guide_id@,@subcustomer_id@,@customer_id@,@guide@,@created_by@,@created@,@updated@,@recolection_date@,@solicitant@,@schedule@,@caddress@,@cneighborhood@,@cstate@,@ccity@,@czipcode@,@creference@,@cphone@,@ccontact@,@destination_type@,@name@,@address@,@neighborhood@,@zipcode@,@state_id@,@state@,@city_id@,@city@,@contact@,@phone@,@packtype@,@content@,@weight@,@width@,@length@,@height@,@insured@,@value@,@extra_info@)
+			</sqltext>
+		</command>
+
+		<command name="insertSubCustomer" type="insert">
+			<sqltext>
+				INSERT INTO subcustomers ($subcustomer_id$,$customer_id$,$created_by$,$created$,$updated$,$code$,$name$,$address$,$neighborhood$,$zipcode$,$state$,$city$,$contact$,$phone$)
+				VALUES (@subcustomer_id@,@customer_id@,@created_by@,@created@,@updated@,@code@,@name@,@address@,@neighborhood@,@zipcode@,@state@,@city@,@contact@,@phone@)
+			</sqltext>
+		</command>
+		
+		<command name="updateSubCustomer" type="update">
+			<sqltext>
+				UPDATE subcustomers SET $name$=@name@,$updated$=@updated@,$address$=@address@,$neighborhood$=@neighborhood@,$state$=@state@,$city$=@city@,$zipcode$=@zipcode@,$contact$=@contact@,$phone$=@phone@ WHERE $customer_id$=@customer_id@ AND $code$ LIKE @code@
+			</sqltext>
+		</command>
+
+
+		<command name="getLastGuide" type="select" prepared="true">
+			<sqltext>
+				SELECT min_guide,cg.max_guide,lastused,contact,address1,neighborhood,city,state,phones,postal_code,schedule,address_reference,customer FROM customer_guide_range cg 
+				INNER JOIN  ( SELECT MAX(max_guide) as max_guide FROM customer_guide_range WHERE customer_id = @customer_id@ @authorized@) mx ON mx.max_guide=cg.max_guide 
+				INNER JOIN (SELECT COALESCE(MAX(guide),0) as lastused from subcustomer_guides where customer_id=@customer_id@) lu ON 1=1
+				INNER JOIN (SELECT c.name as customer,bpa.name as contact,bpa.address1,bpa.neighborhood,bpa.city,bpa.state,bpa.phones,bpa.postal_code,bpa.schedule,bpa.address_reference FROM bpartner_addresses bpa 
+				INNER JOIN customers c ON c.bpartner_id=bpa.bpartner_id WHERE c.customer_id=@customer_id@
+				) ca ON 1=1
+				where customer_id=@customer_id@ @authorized@ 
+			</sqltext>
+			<default>
+			
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="cg.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="cg.created" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			<column>code,Código,60</column>
+			<column>qty_required,Cantidad,60</column>
+			<column>product_name,Concepto,290</column>
+			<column>price_u,Precio,100,c</column>
+			<column>total_sale,Total,100,c</column>
+			<column>unit,Unidad,100</column>
+			<column>sat_code,Clave SAT,65</column>
+			<column>cve_unit,Clave Unidad,65</column>
+			<column>tax_percent,Tasa,50</column>
+			<column>discount_amt,Desc,50,c</column>
+			<column>import_doc_code,Pedimento,0</column>
+		</command>
+
+
+
+		<command name="getCustomerGuides" type="select" prepared="true">
+			<sqltext>
+				select mx.customer_id,c.name,max_guide,COALESCE(lastused,0) as lastused FROM 
+				(select MAX(max_guide) as max_guide,customer_id  FROM customer_guide_range where authorized_by is not null group by customer_id ) mx
+				LEFT JOIN
+				(SELECT COALESCE(MAX(guide),0) as lastused,customer_id from subcustomer_guides group by customer_id) lu ON lu.customer_id=mx.customer_id
+				INNER JOIN customers c on c.customer_id=mx.customer_id
+			</sqltext>
+			<default>
+			
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="cg.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="cg.created" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			
+		</command>
+
+
+		<command name="getRanges" type="select" prepared="true">
+			<sqltext>
+				SELECT customer_guide_range_id,cg.customer_id,c.name as customer,auth_guides,min_guide,max_guide,u.name as created_by,a.name as authorized_by,cg.created,cg.authorized
+				FROM customer_guide_range cg
+				INNER JOIN customers c ON c.customer_id=cg.customer_id
+				INNER JOIN users u ON u.usr_id=cg.created_by
+				LEFT JOIN users a ON a.usr_id=cg.authorized_by
+			</sqltext>
+			<default>
+			
+			</default>
+			<where>
+				<conditions innercondition="AND" outercondition="OR">
+					<condition name="cg.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="cg.authorized_by" value="@authorized@" operator="is"></condition>
+					<condition name="cg.created" value="@created_min@" operator="&gt;="></condition>
+					<condition name="cg.created" value="@created_max@" operator="&lt;="></condition>
+				</conditions>
+			</where>
+			<orderby></orderby>
+			<column>code,Código,60</column>
+			<column>qty_required,Cantidad,60</column>
+			<column>product_name,Concepto,290</column>
+			<column>price_u,Precio,100,c</column>
+			<column>total_sale,Total,100,c</column>
+			<column>unit,Unidad,100</column>
+			<column>sat_code,Clave SAT,65</column>
+			<column>cve_unit,Clave Unidad,65</column>
+			<column>tax_percent,Tasa,50</column>
+			<column>discount_amt,Desc,50,c</column>
+			<column>import_doc_code,Pedimento,0</column>
+		</command>
+
+	</commands>
+</bnet-xsql>
+
