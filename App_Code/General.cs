@@ -26,7 +26,7 @@ public static class General
     {
         try
         {
-            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("AKIAJRNPBPV7ERUUVV5A", "yUee/cFzynnxt3L9VT6JYjurU3cjz46L3uVBXyGo");
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("4KIAJRNPBPV7ERUUVV5A", "yUee/cFzynnxt3L9VT6JYjurU3cjz46L3uVBXyG0");
             var stream = new MemoryStream();
             MimeMessage objMessage = new MimeMessage();
             string[] emls = email.Split(',');
