@@ -26,7 +26,9 @@ public static class General
     {
         try
         {
-            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("4KIAJRNPBPV7ERUUVV5A", "yUee/cFzynnxt3L9VT6JYjurU3cjz46L3uVBXyG0");
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceConfig config = new Amazon.SimpleEmail.AmazonSimpleEmailServiceConfig();
+            config.RegionEndpoint = Amazon.RegionEndpoint.USEast1;
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("AKIAI6NU4VLLI32AI2UA", Cryptography.Decrypt("NdL0xWLhvbF6pvu3hw1FtluhPmUc1jAuWKgj6mb4V89KztEq6MjEhQoiCPLVv4y9"), config);
             var stream = new MemoryStream();
             MimeMessage objMessage = new MimeMessage();
             string[] emls = email.Split(',');
@@ -44,7 +46,7 @@ public static class General
             objMessage.WriteTo(stream);
             Amazon.SimpleEmail.Model.SendRawEmailRequest mailObj = new Amazon.SimpleEmail.Model.SendRawEmailRequest(new RawMessage(stream));
             SendRawEmailResponse response = client.SendRawEmail(mailObj);
-            string res = response.SendRawEmailResult.MessageId;
+            string res = response.MessageId;
 
             //System.Net.Mail.MailMessage aMessage = new System.Net.Mail.MailMessage();
             //aMessage.From = new System.Net.Mail.MailAddress("mailing@evoctus.com", "Evoctus Invoice");
@@ -81,7 +83,9 @@ public static class General
     {
         try
         {
-            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("AKIAJRNPBPV7ERUUVV5A", "yUee/cFzynnxt3L9VT6JYjurU3cjz46L3uVBXyGo");
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceConfig config = new Amazon.SimpleEmail.AmazonSimpleEmailServiceConfig();
+            config.RegionEndpoint = Amazon.RegionEndpoint.USEast1;
+            Amazon.SimpleEmail.AmazonSimpleEmailServiceClient client = new Amazon.SimpleEmail.AmazonSimpleEmailServiceClient("AKIAI6NU4VLLI32AI2UA", Cryptography.Decrypt("NdL0xWLhvbF6pvu3hw1FtluhPmUc1jAuWKgj6mb4V89KztEq6MjEhQoiCPLVv4y9"), config);
             var stream = new MemoryStream();
             MimeMessage objMessage = new MimeMessage();
             string[] emls = email.Split(',');
@@ -99,7 +103,7 @@ public static class General
             objMessage.WriteTo(stream);
             Amazon.SimpleEmail.Model.SendRawEmailRequest mailObj = new Amazon.SimpleEmail.Model.SendRawEmailRequest(new RawMessage(stream));
             SendRawEmailResponse response = client.SendRawEmail(mailObj);
-            string res = response.SendRawEmailResult.MessageId;
+            string res = response.MessageId;
 
             System.Net.Mail.MailMessage aMessage = new System.Net.Mail.MailMessage();
             aMessage.From = new System.Net.Mail.MailAddress("mailing@inf.com.mx", "InfnIT Invoice");
