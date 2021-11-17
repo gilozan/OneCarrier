@@ -64,6 +64,10 @@ public partial class Default : System.Web.UI.Page
                 if (!string.IsNullOrEmpty(Request.Params["loadID"]))
                     prms = Request.Params["loadID"];
             }
+            if (pageType == "minvalmx")
+            {
+                actn = "minvalmx";
+            }
 
         }
         else { actn = "dash"; }

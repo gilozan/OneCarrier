@@ -16,6 +16,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using Newtonsoft.Json;
+using System.Net;
 
 public partial class GetHint : System.Web.UI.Page
 {
@@ -4328,6 +4329,39 @@ public partial class GetHint : System.Web.UI.Page
 
     }
 
-    
-   
+    [WebMethod(EnableSession = true)]
+    public static string GetToken(string userid)
+    {
+        System.Data.DataTable dt = new System.Data.DataTable();
+        Hzone.Api.Database.DataHelper DataHelper = new Hzone.Api.Database.DataHelper();
+        DataHelper.ConnectionType = Hzone.Api.Database.ConnectionType.Odbc;
+        DataHelper.ConnectionUrl = ConfigurationManager.ConnectionStrings["Local"].ConnectionString;
+        DataHelper.Connect();
+        DataHelper.Query("SELECT bp.legal_code,usr.login_name,bp.description FROM business_partners bp inner join users usr on bp.bpartner_id=usr.bpartner_id where usr.usr_id = '" + userid + "';");
+
+        string result = "";
+        string clienteRFC = ""; //legal_code
+        string empresaRFC = ""; //legal_code
+        string cuenta = "";
+
+        if (DataHelper.exception.Message == "No Exception")
+        {
+            clienteRFC = DataHelper.DataTable.Rows[0]["legal_code"].ToString();
+            empresaRFC = DataHelper.DataTable.Rows[0]["description"].ToString();
+            cuenta = DataHelper.DataTable.Rows[0]["login_name"].ToString();
+        }
+
+        string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
+        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+        HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        {
+            result = streamReader.ReadToEnd();
+        }
+
+        return result;
+    }
+
+
+
 }

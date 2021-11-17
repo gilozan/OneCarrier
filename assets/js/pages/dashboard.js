@@ -4121,6 +4121,21 @@ function setControl(e){
     $('#clkControl').val(e.name); 
 }
 
+function getToken(usrId) { 
+    var urlMethod = "GetHint.aspx/GetToken";
+    var jsonData = "{'userid': '" + usrId + "'}";
+    SendAjax(urlMethod, jsonData, ReturnGetToken);
+}
+
+function ReturnGetToken(msg) {
+
+    var ms = JSON.parse(msg.d);
+    if (ms.data.Token != "")
+        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token='" + ms.data.Token + "'");
+    else
+        console.log(ms.error);
+ 
+}
 // Class initialization on page load
 jQuery(document).ready(function() {
     KTDashboard.init();
@@ -4564,6 +4579,14 @@ jQuery(document).ready(function() {
     if($("#actn").val()=="auth"){
         getCatalog("GetHint.aspx/GetCatalog","customer","customers","customer_id","name","code","","","ORDER BY name");
     }
+    if ($("#actn").val() == "minvalmx") {
+        var usrId = $("#userid").val();
+        /*http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=eyJhbGciOiJIUzI1NiIsInR5c...wjweufmqlt59f70383678m4dn*/
+        getToken(usrId);
+        //$('#frame').attr("src", "");
+
+    }
+    console.log($("#actn").val());
     if($("#actn").val()=="minv"){
         if($("#params").val()!="")
             loadInvoice($("#params").val());

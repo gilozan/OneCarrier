@@ -127,6 +127,8 @@
                                  <% if (sessionType == "")
                                    { %>
                                 <li class="kt-menu__item <%if(pageType=="minv"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-file-invoice"></i><span class="kt-menu__link-text">Generar guía</span></a></li>
+                                <li class="kt-menu__item <%if(pageType=="minvalmx"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-file-invoice"></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
+
                                 <% } %>
                                 <% if (sessionType == "5")
                                    { %>
@@ -367,7 +369,8 @@
 										<%if (pageType == "dash") { Response.Write("Dashboard"); } if (pageType == "auth") { Response.Write("Autorización"); }
                                           if (pageType == "inv") { Response.Write("Facturas de proveedores"); } if (pageType == "docs") { Response.Write("Alta documentos"); }
                                           if (pageType == "minv") { Response.Write("Generar guía"); } if (pageType == "sinv") { Response.Write("Facturas"); }
-                                          if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }%> </h3>
+                                          if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }
+										  if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </h3>
 									<span class="kt-subheader__separator kt-hidden"></span>
 									<div class="kt-subheader__breadcrumbs">
 										<a href="?dash" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -379,7 +382,8 @@
 											<%if (pageType == "dash") { Response.Write("Dashboard"); } if (pageType == "auth") { Response.Write("Autorización"); } 
 											    if (pageType == "inv") { Response.Write("Facturas de proveedores"); } if (pageType == "docs") { Response.Write("Alta documentos"); }
                                                 if (pageType == "minv") { Response.Write("Generar guía"); } if (pageType == "sinv") { Response.Write("Facturas"); }
-                                                if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }%> </a>
+                                                if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }
+												if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </a>
 
 										<!-- <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Active link</span> -->
 									</div>
@@ -548,121 +552,111 @@
 							<!--End::Row-->
                             
                           <!-- begin:: PurchaseInvoices -->
-                          <div class="row" id="invrow" <%if(pageType!="dash"){Response.Write("style=display:none");} %>> 
-                            <div class="col-xl-12 order-lg-2 order-xl-1">
-									<div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
-										<div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
-											<div class="kt-portlet__head-label">
-												<h3 class="kt-portlet__head-title">
-													Reporte de guías utilizadas
-												</h3>
-											</div>
-											<div class="kt-portlet__head-toolbar">
-												<div class="dropdown dropdown-inline">
-													<button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-														<i class="flaticon-more-1"></i>
-													</button>
-													<div class="dropdown-menu dropdown-menu-right dropdown-menu-md dropdown-menu-fit">
+                            <div class="row" id="invrow" <%if (pageType != "dash") { Response.Write("style=display:none"); } %>>
+                                <div class="col-xl-12 order-lg-2 order-xl-1">
+                                    <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
+                                        <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
+                                            <div class="kt-portlet__head-label">
+                                                <h3 class="kt-portlet__head-title">Reporte de guías utilizadas
+                                                </h3>
+                                            </div>
+                                            <div class="kt-portlet__head-toolbar">
+                                                <div class="dropdown dropdown-inline">
+                                                    <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="flaticon-more-1"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-md dropdown-menu-fit">
 
-														<!--begin::Nav-->
-														
-														<!--end::Nav-->
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="kt-portlet__body">
+                                                        <!--begin::Nav-->
 
-											<!--begin: Datatable -->
-											<div class="kt-datatable" id="kt_datatable_latest_orders"></div>
+                                                        <!--end::Nav-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-portlet__body">
+
+                                            <!--begin: Datatable -->
+                                            <div class="kt-datatable" id="kt_datatable_latest_orders"></div>
 
                                             <!--begin: Search Form -->
-									            <form class="kt-form kt-form--fit kt-margin-b-20" id="forma_reporte">
-										            <div class="row kt-margin-b-20">
-											            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
-												            <label>Fecha:</label>
-												            <div class="input-daterange input-group" id="kt_datepicker">
-													            <input type="text" class="form-control kt-input" name="start" placeholder="Desde" data-col-index="5" />
-													            <div class="input-group-append">
-														            <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
-													            </div>
-													            <input type="text" class="form-control kt-input" name="end" placeholder="Hasta" data-col-index="5" />
-                                                                <input type="hidden" name="dsStartDate" id="dsStartDate">
-                                                                <input type="hidden" name ="dsEndDate" id="dsEndDate">
-												            </div>
-											            </div>
-											           
-                                                        <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                                            <form class="kt-form kt-form--fit kt-margin-b-20" id="forma_reporte">
+                                                <div class="row kt-margin-b-20">
+                                                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                                                        <label>Fecha:</label>
+                                                        <div class="input-daterange input-group" id="kt_datepicker">
+                                                            <input type="text" class="form-control kt-input" name="start" placeholder="Desde" data-col-index="5" />
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+                                                            </div>
+                                                            <input type="text" class="form-control kt-input" name="end" placeholder="Hasta" data-col-index="5" />
+                                                            <input type="hidden" name="dsStartDate" id="dsStartDate">
+                                                            <input type="hidden" name="dsEndDate" id="dsEndDate">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                                                         <div class="kt-space-20"></div>
-                                                            
-											            </div>
-                                                        
-                                                        
-                                                        <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+
+                                                    </div>
+
+
+                                                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                                                         <div class="kt-space-20"></div>
-                                                            <button class="btn btn-primary btn-brand--icon" data-toggle="kt-tooltip" title="Buscar" id="kt_search" onclick="getQuotes(true); return false;"> <!---->
-													            <span>
-														            <i class="la la-search"></i>
-														            <span>Buscar</span>
-													            </span>
-												            </button>
-                                                            &nbsp;&nbsp;
+                                                        <button class="btn btn-primary btn-brand--icon" data-toggle="kt-tooltip" title="Buscar" id="kt_search" onclick="getQuotes(true); return false;">
+                                                            <!---->
+                                                            <span>
+                                                                <i class="la la-search"></i>
+                                                                <span>Buscar</span>
+                                                            </span>
+                                                        </button>
+                                                        &nbsp;&nbsp;
 												            <button class="btn btn-secondary btn-secondary--icon kt_reset" onclick="javascript:;" id="kt_reset">
-													            <span>
-														            <i class="la la-close"></i>
-														            <span>Limpiar</span>
-													            </span>
-												            </button>
-                                                            
-                                                            <input type="hidden" id="pID" name="pID" value="">
-											            </div>
-										            </div>
-									            </form>
+                                                                <span>
+                                                                    <i class="la la-close"></i>
+                                                                    <span>Limpiar</span>
+                                                                </span>
+                                                            </button>
 
-                                                <table class="table table-hover table-checkable order-column dataTable no-footer" id="tablasesiones" role="grid" aria-describedby="sample_1_info">
-                                                    <thead bgcolor="#f6f7fd">
-                                                        <tr role="row">
-                                                            <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" ID : activate to sort column descending" style="width: 35px;"> 
-                                                                ID 
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Username : activate to sort column ascending" style="width: 206px;"> 
-                                                                Nombre 
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" ID : activate to sort column descending" style="width: 35px;"> 
-                                                                Cliente 
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Tipo : activate to sort column ascending" style="width: 40px;"> 
-                                                                Guia
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 80px;"> 
-                                                                Creado
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 80px;"> 
-                                                                Recolección 
-                                                            </th>
-                                                             <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 50px;"> 
-                                                                Tipo
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 86px;"> 
-                                                                Envío 
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 86px;"> 
-                                                                Inf Adicional 
-                                                            </th>
-                                                            <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 90px;"> 
-                                                                Acción 
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    </tbody>
-                                                </table>     
+                                                        <input type="hidden" id="pID" name="pID" value="">
+                                                    </div>
+                                                </div>
+                                            </form>
 
-											<!--end: Datatable -->
-										</div>
-									</div>
-								</div>
+                                            <table class="table table-hover table-checkable order-column dataTable no-footer" id="tablasesiones" role="grid" aria-describedby="sample_1_info">
+                                                <thead bgcolor="#f6f7fd">
+                                                    <tr role="row">
+                                                        <th class="sorting_asc" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" ID : activate to sort column descending" style="width: 35px;">ID 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Username : activate to sort column ascending" style="width: 206px;">Nombre 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-sort="ascending" aria-label=" ID : activate to sort column descending" style="width: 35px;">Cliente 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Tipo : activate to sort column ascending" style="width: 40px;">Guia
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 80px;">Creado
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 80px;">Recolección 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 50px;">Tipo
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 86px;">Envío 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 86px;">Inf Adicional 
+                                                        </th>
+                                                        <th class="sorting" tabindex="0" aria-controls="sample_1" rowspan="1" colspan="1" aria-label=" Email : activate to sort column ascending" style="width: 90px;">Acción 
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+
+                                            <!--end: Datatable -->
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
                            <!-- end:: PurchaseInvoices -->
                             
                           <!-- begin:: DocUpload -->
@@ -1361,6 +1355,20 @@
                             </div>
                             </div>
                           <!-- end:: Make Invoice -->
+
+						<!-- begin:: Make Invoice -->
+                            <div class="row" id="makeinvoiceAlmex" <%if (pageType != "minvalmx") { Response.Write("style=display:none"); } else { Response.Write("style=min-height:100%;min-width:100%;"); } %>>
+                                <div class="col-xl-12 order-lg-2 order-xl-1">
+                                    <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile" style="min-height:100%;min-width:100%">
+                                        <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm" style="min-height:100%;min-width:100%">
+                                            <div class="kt-portlet__body" style="min-height:100%;min-width:100%">
+                                                <iframe id="frame" src="<%--http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=1&EmpresaRFC=2&Cuenta=3--%>" style="min-height: 100%; min-width: 100%"></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          <!-- end:: Make InvoiceAlmex -->
                           
                           <!-- begin:: Invoices -->
                           <div class="row" id="sinvrow" <%if(pageType!="sinv"){Response.Write("style=display:none");} %>> 
@@ -2513,7 +2521,7 @@
 														<div class="col-lg-4">
                                                             <span class="form-text text-muted">Monto cobro</span>
 															<input type="number" class="form-control form-control-danger" readonly="readonly" placeholder="" id="sppay_total" name="sppay_total" value="">
-												            </select>
+												            <%--</select>--%>
 														</div>
 														<div class="col-lg-4">
 															<span class="form-text text-muted">Moneda</span>
@@ -2873,6 +2881,9 @@
 
 		<!-- begin::Global Config(global config for global JS sciprts) -->
 		<script>
+
+            //$("#loadPageAlmex").load("https://www.google.com/index.htm");
+
 		    var KTAppOptions = {
 		        "colors": {
 		            "state": {
@@ -2901,7 +2912,7 @@
 		            }
 		        }
 		    };
-		</script>
+        </script>
 
         <% Response.Write(scripts); %>
 
