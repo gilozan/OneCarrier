@@ -4351,7 +4351,7 @@ public partial class GetHint : System.Web.UI.Page
             cuenta = DataHelper.DataTable.Rows[0]["login_name"].ToString();
         }
 
-        string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
+        string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFCe=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
         HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -4360,7 +4360,7 @@ public partial class GetHint : System.Web.UI.Page
         }
 
         return result;
-    }
+  }
 
 
 
