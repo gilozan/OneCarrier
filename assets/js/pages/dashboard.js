@@ -4130,10 +4130,10 @@ function getToken(usrId) {
 function ReturnGetToken(msg) {
 
     var ms = JSON.parse(msg.d);
-    if (ms.statusCode == "0" || ms.message == "Value cannot be null. (Parameter 'value')" || ms.HasError=="true")
+    if (ms.statusCode == "0" || ms.message == "Value cannot be null. (Parameter 'value')" || ms.HasError == "true")
         swal.fire("Error", "Hubo un problema al generar el Token.", "error");
     else
-        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token='" + ms.data.Token + "'");
+        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
  
 }
 // Class initialization on page load

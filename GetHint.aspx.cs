@@ -4358,6 +4358,9 @@ public partial class GetHint : System.Web.UI.Page
         {
             result = streamReader.ReadToEnd();
         }
+        
+
+        //result.Replace("{\"data\":{\"Token\":", "{\"data\":{\"Token\":\"http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=");
 
         return result;
   }
