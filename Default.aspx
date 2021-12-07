@@ -45,7 +45,7 @@
 	<!-- end::Head -->
 
 	<!-- begin::Body -->
-	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed  <%if(toggleOn){Response.Write("kt-brand--minimize kt-aside--minimize");} %> kt-page--loading">
+	<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--fixed kt-subheader--solid kt-aside--enabled kt-aside--fixed  <%if (toggleOn) { Response.Write("kt-brand--minimize kt-aside--minimize"); } %> kt-page--loading">
 
 		<!-- begin:: Page -->
 
@@ -111,31 +111,33 @@
 					<div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
 						<div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1" data-ktmenu-dropdown-timeout="500">
 							<ul class="kt-menu__nav ">
-								<li class="kt-menu__item <%if(pageType=="dash"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=dash" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-home"></i><span class="kt-menu__link-text">Dashboard</span></a></li>
+								<li class="kt-menu__item <%if (pageType == "dash") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=dash" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-home"></i><span class="kt-menu__link-text">Dashboard</span></a></li>
                                 <% if (sessionType == "5")
-                                   { %>
-                                    <li class="kt-menu__item <%if(pageType=="docs"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=docs" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-interface-4"></i><span class="kt-menu__link-text">Carga Documento</span></a></li>
+                                    { %>
+                                    <li class="kt-menu__item <%if (pageType == "docs") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=docs" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-interface-4"></i><span class="kt-menu__link-text">Carga Documento</span></a></li>
                                     <% }%>
-                                 <% if (sessionType == "1"  || sessionType == "2" )
-                                   { %>
-                                    <li class="kt-menu__item <%if(pageType=="auth"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=auth" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-checkmark"></i><span class="kt-menu__link-text">Autorizar guías</span></a></li>
+                                 <% if (sessionType == "1" || sessionType == "2")
+                                     { %>
+                                    <li class="kt-menu__item <%if (pageType == "auth") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=auth" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-checkmark"></i><span class="kt-menu__link-text">Autorizar guías</span></a></li>
                                     <% }%>
-                                <% if (sessionType == "5" )
-                                   { %>
-                                <li class="kt-menu__item <%if(pageType=="inv"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=inv" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-checking"></i><span class="kt-menu__link-text">Carga Facturas</span></a></li>
+                                <% if (sessionType == "5")
+                                    { %>
+                                <li class="kt-menu__item <%if (pageType == "inv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=inv" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-checking"></i><span class="kt-menu__link-text">Carga Facturas</span></a></li>
                                 <% } %>
                                  <% if (sessionType == "")
-                                   { %>
-                                <li class="kt-menu__item <%if(pageType=="minv"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-file-invoice"></i><span class="kt-menu__link-text">Generar guía</span></a></li>
-                                <li class="kt-menu__item <%if(pageType=="minvalmx"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-file-invoice"></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
+                                     { %>
+                                <li class="kt-menu__item <%if (pageType == "minv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
+                                    <img src="assets/media/logos/Potosinos.jpeg"  style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía</span></a></li>
+                                <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
+									<img src="assets/media/logos/OneCarrier.jpeg" style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
 
                                 <% } %>
                                 <% if (sessionType == "5")
-                                   { %>
-                                <li class="kt-menu__item <%if(pageType=="sinv"){Response.Write("kt-menu__item--active");} %>" aria-haspopup="true"><a href="?actn=sinv" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-folder-1"></i><span class="kt-menu__link-text">Facturas</span></a></li>
+                                    { %>
+                                <li class="kt-menu__item <%if (pageType == "sinv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=sinv" class="kt-menu__link "><i class="kt-menu__link-icon flaticon-folder-1"></i><span class="kt-menu__link-text">Facturas</span></a></li>
                                 <% } %>
                                 <% if (sessionType == "5")
-                                   { %>
+                                    { %>
                                 <li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-icon flaticon2-next"></i><span class="kt-menu__link-text">Credito y cobranza</span><i class="kt-menu__ver-arrow la la-angle-right"></i></a>
 									<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
 										<ul class="kt-menu__subnav">
@@ -317,7 +319,7 @@
 										<img class="kt-hidden" alt="Pic" src="assets/media/users/300_25.jpg" />
 
 										<!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-										<span id="userbadge" class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"><%  Response.Write(Session["nomusuario"].ToString().Substring(0,1));%></span>
+										<span id="userbadge" class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"><%  Response.Write(Session["nomusuario"].ToString().Substring(0, 1));%></span>
 									</div>
 								</div>
 								<div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
@@ -366,11 +368,15 @@
 							<div class="kt-container  kt-container--fluid ">
 								<div class="kt-subheader__main">
 									<h3 class="kt-subheader__title">
-										<%if (pageType == "dash") { Response.Write("Dashboard"); } if (pageType == "auth") { Response.Write("Autorización"); }
-                                          if (pageType == "inv") { Response.Write("Facturas de proveedores"); } if (pageType == "docs") { Response.Write("Alta documentos"); }
-                                          if (pageType == "minv") { Response.Write("Generar guía"); } if (pageType == "sinv") { Response.Write("Facturas"); }
-                                          if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }
-										  if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </h3>
+										<%if (pageType == "dash") { Response.Write("Dashboard"); }
+                                            if (pageType == "auth") { Response.Write("Autorización"); }
+                                            if (pageType == "inv") { Response.Write("Facturas de proveedores"); }
+                                            if (pageType == "docs") { Response.Write("Alta documentos"); }
+                                            if (pageType == "minv") { Response.Write("Generar guía"); }
+                                            if (pageType == "sinv") { Response.Write("Facturas"); }
+                                            if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); }
+                                            if (pageType == "cob") { Response.Write("Cobranza"); }
+                                            if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </h3>
 									<span class="kt-subheader__separator kt-hidden"></span>
 									<div class="kt-subheader__breadcrumbs">
 										<a href="?dash" class="kt-subheader__breadcrumbs-home"><i class="flaticon2-shelter"></i></a>
@@ -379,11 +385,15 @@
 											Inicio </a>
 										<span class="kt-subheader__breadcrumbs-separator"></span>
 										<a href="#" class="kt-subheader__breadcrumbs-link">
-											<%if (pageType == "dash") { Response.Write("Dashboard"); } if (pageType == "auth") { Response.Write("Autorización"); } 
-											    if (pageType == "inv") { Response.Write("Facturas de proveedores"); } if (pageType == "docs") { Response.Write("Alta documentos"); }
-                                                if (pageType == "minv") { Response.Write("Generar guía"); } if (pageType == "sinv") { Response.Write("Facturas"); }
-                                                if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); } if (pageType == "cob") { Response.Write("Cobranza"); }
-												if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </a>
+											<%if (pageType == "dash") { Response.Write("Dashboard"); }
+                                                if (pageType == "auth") { Response.Write("Autorización"); }
+                                                if (pageType == "inv") { Response.Write("Facturas de proveedores"); }
+                                                if (pageType == "docs") { Response.Write("Alta documentos"); }
+                                                if (pageType == "minv") { Response.Write("Generar guía"); }
+                                                if (pageType == "sinv") { Response.Write("Facturas"); }
+                                                if (pageType == "cxc") { Response.Write("Cuentas por cobrar"); }
+                                                if (pageType == "cob") { Response.Write("Cobranza"); }
+                                                if (pageType == "minvalmx") { Response.Write("Generar guía Almex"); }%> </a>
 
 										<!-- <span class="kt-subheader__breadcrumbs-link kt-subheader__breadcrumbs-link--active">Active link</span> -->
 									</div>
@@ -424,8 +434,8 @@
 						<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
 							
                           <!-- begin:: Dashboard -->
-                          <div class="row" <%if(pageType!="xxx"){Response.Write("style=display:none");} %>> 
-                            <div class="col-xl-<%if (sessionType == "1" || sessionType == "2" || sessionType == "3" || sessionType == "5"){Response.Write("6");}else{Response.Write("12");} %> order-lg-2 order-xl-1" >
+                          <div class="row" <%if (pageType != "xxx") { Response.Write("style=display:none"); } %>> 
+                            <div class="col-xl-<%if (sessionType == "1" || sessionType == "2" || sessionType == "3" || sessionType == "5") { Response.Write("6"); } else { Response.Write("12"); } %> order-lg-2 order-xl-1" >
 
 									<!--begin:: Widgets/Revenue Change-->
 									<div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile">
@@ -474,7 +484,7 @@
 									<!--end:: Widgets/Revenue Change-->
 								</div>
                             
-                            <div class="col-xl-6 order-lg-2 order-xl-1" <%if (sessionType == "4"){Response.Write("style=display:none");} %>>
+                            <div class="col-xl-6 order-lg-2 order-xl-1" <%if (sessionType == "4") { Response.Write("style=display:none"); } %>>
 
 									<!--begin:: Widgets/Daily Sales-->
 									<div class="kt-portlet kt-portlet--height-fluid">
@@ -503,7 +513,7 @@
                           <!-- end:: Dashboard -->
 
                           <!--Begin::Row-->
-							<div class="row" <%if(pageType!="dash" | sessionType == ""){Response.Write("style=display:none");}%>>
+							<div class="row" <%if (pageType != "dash" | sessionType == "") { Response.Write("style=display:none"); }%>>
 								<div class="col-lg-12 order-lg-3 order-xl-1">
 
 									<!--begin:: Widgets/Best Sellers-->
@@ -660,7 +670,7 @@
                            <!-- end:: PurchaseInvoices -->
                             
                           <!-- begin:: DocUpload -->
-                          <div class="row" id="docuprow" <%if(pageType!="docs"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="docuprow" <%if (pageType != "docs") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1" >
                                 <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                                     <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -729,7 +739,7 @@
                           <!-- end:: DocUpload -->
 
                           <!--begin:: Guide Authorize-->
-                          <div class="row" <%if(pageType!="auth"){Response.Write("style=display:none");}%> >
+                          <div class="row" <%if (pageType != "auth") { Response.Write("style=display:none"); }%> >
                             
                             <div class="col-xl-12 order-lg-2 order-xl-1" >
                                 <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
@@ -900,7 +910,7 @@
 						  <!--end:: Guide Authorize-->
                            
                           <!-- begin:: InvoiceUpload -->
-                          <div class="row" id="invuprow" <%if(pageType!="inv"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="invuprow" <%if (pageType != "inv") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1" >
                                 <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                                     <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -1051,7 +1061,7 @@
                           <!-- end:: InvoiceUpload -->
 
                           <!-- begin:: Make Invoice -->
-                          <div class="row" id="makeinvoice" <%if(pageType!="minv"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="makeinvoice" <%if (pageType != "minv") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1" >
                                 <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
                                     <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -1371,7 +1381,7 @@
                           <!-- end:: Make InvoiceAlmex -->
                           
                           <!-- begin:: Invoices -->
-                          <div class="row" id="sinvrow" <%if(pageType!="sinv"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="sinvrow" <%if (pageType != "sinv") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1">
 									<div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
 										<div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -1582,7 +1592,7 @@
                           <!-- end:: Invoices -->
                           
                           <!-- begin:: Receivable Accounts -->
-                          <div class="row" id="cxcrow" <%if(pageType!="cxc"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="cxcrow" <%if (pageType != "cxc") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1">
 									<div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
 										<div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -1779,7 +1789,7 @@
                           <!-- end:: Receivable Accounts-->
                           
                              <!-- begin:: Cobranza -->
-                          <div class="row" id="cobrow" <%if(pageType!="cob"){Response.Write("style=display:none");} %>> 
+                          <div class="row" id="cobrow" <%if (pageType != "cob") { Response.Write("style=display:none"); } %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1">
 									<div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile ">
 										<div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm">
@@ -2884,34 +2894,34 @@
 
             //$("#loadPageAlmex").load("https://www.google.com/index.htm");
 
-		    var KTAppOptions = {
-		        "colors": {
-		            "state": {
-		                "brand": "#5d78ff",
-		                "dark": "#282a3c",
-		                "light": "#ffffff",
-		                "primary": "#5867dd",
-		                "success": "#34bfa3",
-		                "info": "#36a3f7",
-		                "warning": "#ffb822",
-		                "danger": "#fd3995"
-		            },
-		            "base": {
-		                "label": [
-							"#c5cbe3",
-							"#a1a8c3",
-							"#3d4465",
-							"#3e4466"
-						],
-		                "shape": [
-							"#f0f3ff",
-							"#d9dffa",
-							"#afb4d4",
-							"#646c9a"
-						]
-		            }
-		        }
-		    };
+            var KTAppOptions = {
+                "colors": {
+                    "state": {
+                        "brand": "#5d78ff",
+                        "dark": "#282a3c",
+                        "light": "#ffffff",
+                        "primary": "#5867dd",
+                        "success": "#34bfa3",
+                        "info": "#36a3f7",
+                        "warning": "#ffb822",
+                        "danger": "#fd3995"
+                    },
+                    "base": {
+                        "label": [
+                            "#c5cbe3",
+                            "#a1a8c3",
+                            "#3d4465",
+                            "#3e4466"
+                        ],
+                        "shape": [
+                            "#f0f3ff",
+                            "#d9dffa",
+                            "#afb4d4",
+                            "#646c9a"
+                        ]
+                    }
+                }
+            };
         </script>
 
         <% Response.Write(scripts); %>
