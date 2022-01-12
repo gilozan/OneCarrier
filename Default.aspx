@@ -126,10 +126,10 @@
                                 <% } %>
                                  <% if (sessionType == "")
                                      { %>
-                                <li class="kt-menu__item <%if (pageType == "minv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
-                                    <img src="assets/media/logos/Potosinos.jpeg"  style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía</span></a></li>
-                                <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
-									<img src="assets/media/logos/OneCarrier.jpeg" style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
+                                <li class="kt-menu__item <%if (pageType == "minv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:80px">
+                                    <img src="assets/media/logos/Potosinos.jpeg"  style="min-width:80px"/></i>&nbsp;<span style="font-size: 20px; font-family: arial narrow" class="kt-menu__link-text">Generar guía</span></a></li>
+                                <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:80px">
+									<img src="assets/media/logos/OneCarrier.jpeg" style="min-width:80px"/></i>&nbsp;<span style="font-size: 20px; font-family: arial narrow" class="kt-menu__link-text">Generar guía &nbsp;&nbsp;&nbsp;&nbsp;</span></a></li>
 
                                 <% } %>
                                 <% if (sessionType == "5")
