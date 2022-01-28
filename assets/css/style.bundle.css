@@ -41,6 +41,30 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
+.is-required:after {
+    content: '*';
+    margin-right: 10px;
+    color: red;
+    font-weight: bold;
+    font-size:small;
+}
+
+.is-valid-rfc:after {
+    content: 'CORRECTO';
+    /*content: '✓';*/
+    margin-left: 5px;
+    color: green;
+    font-weight: bold;
+    font-size: smaller;
+}
+.is-invalid-rfc:after {
+    content: 'INCORRECTO';
+    margin-left: 5px;
+    color: red;
+    font-weight: bold;
+    font-size: smaller;
+}
+
 html {
   font-family: sans-serif;
   line-height: 1.15;

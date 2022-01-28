@@ -119,6 +119,7 @@
                                  <% if (sessionType == "1" || sessionType == "2")
                                      { %>
                                     <li class="kt-menu__item <%if (pageType == "auth") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=auth" class="kt-menu__link "><i class="kt-menu__link-icon flaticon2-checkmark"></i><span class="kt-menu__link-text">Autorizar guías</span></a></li>
+								    <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa fa-file-invoice"></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
                                     <% }%>
                                 <% if (sessionType == "5")
                                     { %>
@@ -126,10 +127,34 @@
                                 <% } %>
                                  <% if (sessionType == "")
                                      { %>
-                                <li class="kt-menu__item <%if (pageType == "minv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minv" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
-                                    <img src="assets/media/logos/Potosinos.jpeg"  style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía</span></a></li>
-                                <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true"><a href="?actn=minvalmx" class="kt-menu__link "><i class="kt-menu__link-icon fa" style="min-width:40%">
-									<img src="assets/media/logos/OneCarrier.jpeg" style="min-width:60%"/></i><span class="kt-menu__link-text">Generar guía Almex</span></a></li>
+                                <hr />
+                                <li class="kt-menu__item <%if (pageType == "minv") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true">
+                                    <a href="?actn=minv" class="" style="text-align:center">
+                                        <i class="kt-menu__link-icon fa" style="min-width: 25%">
+                                            <img src="assets/media/logos/Potosino.jpeg" style="min-width: 25%;min-height:25%;width:187px;width:98px" />
+                                        </i>                                 
+                                    </a>
+                                    <a href="?actn=minv" class=""style="text-align:center">
+                                        <i class="kt-menu__link-icon fa" style="min-width: 100%;">
+                                            <span class="" style="min-width: 50%; font-family:'Arial Narrow';font-size:12px;text-align:center;color:#000000">Generar guía
+                                            </span>
+                                        </i>
+                                    </a>
+                                </li>
+                                <hr />
+                                <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true">
+                                    <a href="?actn=minvalmx" class="" style="text-align:center">
+                                        <i class="kt-menu__link-icon fa" style="min-width: 25%;">
+                                            <img src="assets/media/logos/OneCarrier.jpeg" style="min-width: 25%;width:187px;width:98px"/>
+                                        </i>
+                                    </a>
+                                    <a href="?actn=minvalmx" class="" style="text-align: center">
+                                        <i class="kt-menu__link-icon fa" style="min-width: 100%;">
+                                            <span class="" style="min-width: 50%; font-family:'Arial Narrow'; font-size: 12px; text-align: center; color: #000000">Generar guía
+                                            </span>
+                                        </i>
+                                    </a>
+                                </li>
 
                                 <% } %>
                                 <% if (sessionType == "5")
@@ -404,8 +429,12 @@
 													<path d="M4.875,20.75 C4.63541667,20.75 4.39583333,20.6541667 4.20416667,20.4625 L2.2875,18.5458333 C1.90416667,18.1625 1.90416667,17.5875 2.2875,17.2041667 C2.67083333,16.8208333 3.29375,16.8208333 3.62916667,17.2041667 L4.875,18.45 L8.0375,15.2875 C8.42083333,14.9041667 8.99583333,14.9041667 9.37916667,15.2875 C9.7625,15.6708333 9.7625,16.2458333 9.37916667,16.6291667 L5.54583333,20.4625 C5.35416667,20.6541667 5.11458333,20.75 4.875,20.75 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
 													<path d="M2,11.8650466 L2,6 C2,4.34314575 3.34314575,3 5,3 L19,3 C20.6568542,3 22,4.34314575 22,6 L22,15 C22,15.0032706 21.9999948,15.0065399 21.9999843,15.009808 L22.0249378,15 L22.0249378,19.5857864 C22.0249378,20.1380712 21.5772226,20.5857864 21.0249378,20.5857864 C20.7597213,20.5857864 20.5053674,20.4804296 20.317831,20.2928932 L18.0249378,18 L12.9835977,18 C12.7263047,14.0909841 9.47412135,11 5.5,11 C4.23590829,11 3.04485894,11.3127315 2,11.8650466 Z M6,7 C5.44771525,7 5,7.44771525 5,8 C5,8.55228475 5.44771525,9 6,9 L15,9 C15.5522847,9 16,8.55228475 16,8 C16,7.44771525 15.5522847,7 15,7 L6,7 Z" fill="#000000" />
 												</g>
-											</svg> </a>
-                                            <div class="btn" onclick="getQuotes(true);")></div>
+											</svg>
+
+										</a>
+                                            <div class="btn" onclick="getQuotes(true);")>
+
+                                            </div>
 										
                                           </form>
 											<div class="dropdown-menu dropdown-menu-fit dropdown-menu-md dropdown-menu-right">
@@ -597,10 +626,10 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+<%--                                                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                                                         <div class="kt-space-20"></div>
 
-                                                    </div>
+                                                    </div>--%>
 
 
                                                     <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
@@ -1177,98 +1206,142 @@
 														<span class="form-text text-muted">Persona de Contacto:</span>
                                                         <input type="text" class="form-control" placeholder="" name="ccontact" value="">			
 													</div>
-												</div>
+												</div>												
+												<!--Remitente-->
+												<!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion v3 -DIC-10-2021-->
+                                                <div class="form-group row form-group-marginless">
+													<!--Input para el RFC-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted" id="rfcValidationRemitente"><span class="is-required"></span>RFC</span>
+                                                        <input type="text" class="form-control" placeholder="" id="rfcRemitente" name="rfcRemitente" value="">
+                                                    </div>
+													<!--Fin-->
+													<!--ControlComboBox para Residencia Fiscal-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted"><span class="is-required"></span>Residencia Fiscal</span>
+                                                        <select class="form-control" id="fiscalRecidenceRemitente" name="fiscalRecidenceRemitente" onchange="">
+                                                            <option value="-1">Seleccione</option>
+                                                            <option value="1">México - (M.X)</option>
+                                                            <option value="2">Estados Unidos - (U.S)</option>
+                                                        </select>
+                                                    </div>
+													<!--Fin-->
+													<!--ControlComboBox para el Numero de Identificación Fiscal-->
+                                                    <div class="col-lg-4" id="divNumFiscalRemitente">
+                                                        <span class="form-text text-muted"><span class="is-required"></span>Número de Identificación Fiscal</span>
+                                                        <input type="number" class="form-control" placeholder="" id="numIdentFiscalRemitente" name="numIdentFiscalRemitente" value="">
+                                                    </div>
+													<!--Fin-->
+                                                </div>
 
-                                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
+                                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-md" style="border-color:#000000"></div>
 
-												<div class="form-group row form-group-marginless">
-                                                    
+												<!--Destino ↓↓-->
+                                                <div class="form-group row form-group-marginless">
                                                     <!--<label class="col-lg-1 col-form-label">RFC:</label>-->
-													<div class="col-lg-4">
-                                                       <span class="form-text text-muted">Fecha de recolección</span>
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Fecha de recolección</span>
                                                         <input type="date" class="form-control" placeholder="" name="recdate" value="">
-													</div>
-													<!--<label class="col-lg-1 col-form-label">Nombre:</label>-->
-                                                     <div class="col-lg-4 col-xs-5">
-                                                        <span class="form-text text-muted"> Nombre corto</span>
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Nombre:</label>-->
+                                                    <div class="col-lg-4 col-xs-5">
+                                                        <span class="form-text text-muted">Nombre corto</span>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend"><span class="input-group-text" id="Span1"><a href="javascritp:;" class="kt-link" data-toggle="modal" data-target="#kt_customers_modal" onclick="getCustomers();"><i class="fa fa-search  kt-font-primary"></i></a></span></div>
-														    <input type="text" class="form-control" name="shortname" placeholder="" value="" onblur="getSubCustomer(this.value)">
-														</div>
-													</div>
+                                                            <input type="text" class="form-control" name="shortname" placeholder="" value="" onblur="getSubCustomer(this.value)">
+                                                        </div>
+                                                    </div>
                                                     <div class="col-lg-4 col-xs-5">
-                                                        <span class="form-text text-muted"> Nombre de la Empresa o persona</span>
-                                                        <input type="text" class="form-control" placeholder="" name="name" value="">			
-													</div>
-													
-													
-													<!--<label class="col-lg-1 col-form-label">Correo:</label>-->
-													<div class="col-lg-4">
-                                                        
-													</div>
-												</div>
-												<div class="form-group row form-group-marginless">
-													<!--<label class="col-lg-1 col-form-label">Calle:</label>-->
-													<div class="col-lg-4">
-														<span class="form-text text-muted">Calle</span>
-                                                        <input type="text" class="form-control" placeholder="" name="address" value="">
-													</div>
-													<!--<label class="col-lg-1 col-form-label">Colonia:</label>-->
-													<div class="col-lg-4">
-                                                            <span class="form-text text-muted">Colonia</span>
-                                                        <div class="kt-input-icon">
-															<input type="text" class="form-control" placeholder="" name="neighborhood" value="">
-															<span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i class="la la-map-marker"></i></span></span>
-														</div>
-													</div>
+                                                        <span class="form-text text-muted">Nombre de la Empresa o persona</span>
+                                                        <input type="text" class="form-control" placeholder="" name="name" value="">
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Correo:</label>-->
                                                     <div class="col-lg-4">
-															
-													</div>
-												</div>
-												<div class="form-group row form-group-marginless">
-                                                <!--<label class="col-lg-1 col-form-label">Estado:</label>-->
-													<div class="col-lg-4">
-                                                            <span class="form-text text-muted">Estado</span>
-                                                            <input type="text" class="form-control" placeholder="" name="state" value="">
-                                                            <!--<select class="form-control kt-input select2" id="state" name="state">
-												            </select>
-                                                            <input type="hidden" name="statename" id="statename">-->
-														
-													</div>
-													<!--<label class="col-lg-1 col-form-label">Municipio:</label>-->
-													<div class="col-lg-4">
-                                                            <span class="form-text text-muted">Ciudad</span>
-                                                            <input type="text" class="form-control" placeholder="" name="city" value="">
-                                                            <!--<select class="form-control kt-input select2" id="city" name="city">
-												            </select>
-                                                            <input type="hidden" name="cityname" id="cityname">-->
-														
-													</div>
-                                                    <!--<label class="col-lg-1 col-form-label">CP:</label>-->
-													<div class="col-lg-4">
-													</div>
-                                                   
-												</div>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group row form-group-marginless">
-															<!--<label class="col-lg-1 col-form-label">Cond Pago:</label>-->
-																	<div class="col-lg-4">
-                                                                        <span class="form-text text-muted">Persona de contacto</span>
-																		<input type="text" class="form-control form-control-danger" placeholder="" name="contact" value="">
-																	</div>
-                                                            <!--<label class="col-lg-1 col-form-label">Ord Compra:</label>-->
-																	<div class="col-lg-4">
-																		<span class="form-text text-muted">Teléfono</span>
-																		<input type="text" class="form-control form-control-danger" placeholder="" name="phone" value="">
-																		
-																	</div>
-                                                                  <!--<label class="col-lg-1 col-form-label">Pedimento:</label>-->
-																	<div class="col-lg-4">
-																		    
-																		
-																	</div>
-														</div>
-                                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
+                                                    <!--<label class="col-lg-1 col-form-label">Calle:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Calle</span>
+                                                        <input type="text" class="form-control" placeholder="" name="address" value="">
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Colonia:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Colonia</span>
+                                                        <div class="kt-input-icon">
+                                                            <input type="text" class="form-control" placeholder="" name="neighborhood" value="">
+                                                            <span class="kt-input-icon__icon kt-input-icon__icon--right"><span><i class="la la-map-marker"></i></span></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row form-group-marginless">
+                                                    <!--<label class="col-lg-1 col-form-label">Estado:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Estado</span>
+                                                        <input type="text" class="form-control" placeholder="" name="state" value="">
+                                                        <!--<select class="form-control kt-input select2" id="state" name="state">
+												            </select>
+                                                            <input type="hidden" name="statename" id="statename">-->
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Municipio:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Ciudad</span>
+                                                        <input type="text" class="form-control" placeholder="" name="city" value="">
+                                                        <!--<select class="form-control kt-input select2" id="city" name="city">
+												            </select>
+                                                            <input type="hidden" name="cityname" id="cityname">-->
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">CP:</label>-->
+                                                    <div class="col-lg-4">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row form-group-marginless">
+                                                    <!--<label class="col-lg-1 col-form-label">Cond Pago:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Persona de contacto</span>
+                                                        <input type="text" class="form-control form-control-danger" placeholder="" name="contact" value="">
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Ord Compra:</label>-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted">Teléfono</span>
+                                                        <input type="text" class="form-control form-control-danger" placeholder="" name="phone" value="">
+                                                    </div>
+                                                    <!--<label class="col-lg-1 col-form-label">Pedimento:</label>-->
+                                                    <div class="col-lg-4">
+                                                    </div>
+                                                </div>
+                                                <!--Destino-->
+                                                <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion v3 -DIC-10-2021-->
+                                                <div class="form-group row form-group-marginless">
+                                                    <!--Input para el RFC-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted" id="rfcValidationDestino"><span class="is-required"></span>RFC</span>
+                                                        <input type="text" class="form-control" placeholder="" id="rfcDestino" name="rfcDestino" value="">
+                                                    </div>
+                                                    <!--Fin-->
+                                                    <!--ControlComboBox para Residencia Fiscal-->
+                                                    <div class="col-lg-4">
+                                                        <span class="form-text text-muted"><span class="is-required"></span>Residencia Fiscal</span>
+                                                        <select class="form-control" id="fiscalRecidenceDestino" name="fiscalRecidenceDestino" onchange="">
+                                                            <option value="-1">Seleccione</option>
+                                                            <option value="1">México - (M.X)</option>
+                                                            <option value="2">Estados Unidos - (U.S)</option>
+                                                        </select>
+                                                    </div>
+                                                    <!--Fin-->
+                                                    <!--ControlComboBox para el Numero de Identificación Fiscal-->
+                                                    <div class="col-lg-4" id="divNumFiscalDestino">
+                                                        <span class="form-text text-muted"><span class="is-required"></span>Número de Identificación Fiscal</span>
+                                                        <input type="number" class="form-control" placeholder="" id="numIdentFiscalDestino" name="numIdentFiscalDestino" value="">
+                                                    </div>
+                                                    <!--Fin-->
+                                                </div>
+												<!--Fin Destino ↑↑-->
+
+                                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-md" style="border-color: #000000"></div>
 
                                                    
                                                 <div class="form-group row form-group-marginless">
@@ -1287,8 +1360,6 @@
 														<input type="text" class="form-control" placeholder="" name="content" value="">													
 													</div>
 												</div>
-
-
                                                 <div class="form-group row form-group-marginless">
 													<!--<label class="col-lg-1 col-xs-3 col-form-label"><a href="" class="btn btn-bold btn-sm btn-label-brand kt-link" data-toggle="modal" data-target="#kt_customers_modal" onclick="getCustomers();">Cliente</a><div class="kt-space-5"></div></label>-->
 													<div class="col-lg-2">
@@ -1299,8 +1370,7 @@
 													<!--<label class="col-lg-1 col-xs-3 col-form-label">Serie:</label>-->
 													<div class="col-lg-2 col-xs-3">
 														<span class="form-text text-muted">Ancho</span>
-                                                        <input type="number" class="form-control" placeholder="" name="width" value="">															
-														
+                                                        <input type="number" class="form-control" placeholder="" name="width" value="">																												
 													</div>
                                                     <!--<label class="col-lg-1 col-xs-3 col-form-label">Folio:</label>-->
 													<div class="col-lg-2">
@@ -1312,7 +1382,6 @@
                                                         <input type="number" class="form-control" placeholder="" name="height" value="">			
 													</div>
 												</div>
-
                                                 <div class="form-group row form-group-marginless">
 													<!--<label class="col-lg-1 col-xs-3 col-form-label"><a href="" class="btn btn-bold btn-sm btn-label-brand kt-link" data-toggle="modal" data-target="#kt_customers_modal" onclick="getCustomers();">Cliente</a><div class="kt-space-5"></div></label>-->
 													<div class="col-lg-4 col-xs-5">
@@ -1334,8 +1403,88 @@
 													</div>
 												</div>
 
-
-											</div>
+												<div class="kt-separator kt-separator--border-dashed kt-separator--space-lg" style="border-color:transparent"></div>
+                                                <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion (Datos Complementarios de la Mercancía) v3 -DIC-10-2021-->
+                                                <h3 class="kt-portlet__head-title">Mercancia Complementaria
+                                                </h3>
+                                                <br />
+                                                <div class="form-group row form-group-marginless" id="divDetalleMercancia">
+                                                    <div id="kt_repeater_1">
+                                                        <div class="form-group form-group-last row" id="kt_repeater_1">
+                                                            <div data-repeater-list="" class="col-lg-12">
+                                                                <div data-repeater-item class="form-group row align-items-center" id="removeLinePadre">
+                                                                    <div class="col-lg-3" hidden="hidden" id="removeLineHijo">
+                                                                        <input type="text" class="form-control kt-input" id="ServiceLineId" name="ServiceLineId" />
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted">Clave Producto</span><input type="number" class="form-control " placeholder="" name="lnCodeProd" id="lnCodeProd" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted">Descripción</span><input type="text" class="form-control " placeholder="" name="lnDescription" id="lnDescription" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted ">Cantidad</span><input type="number" class="form-control ln-leavep" placeholder="" name="lnQty" id="lnQty" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted">Clave Unidad</span><input type="text" class="form-control " placeholder="" name="lnCodeUnit" id="lnCodeUnit" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted">Peso</span><input type="number" class="form-control " placeholder="" name="lnWeight" id="lnWeight" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted ">Fracción Arancelaria</span><input type="number" class="form-control" placeholder="" name="lnTfraction" id="lnTfraction" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="kt-form__group--inline">
+                                                                            <div class="kt-form__control">
+                                                                                <span class="form-text text-muted ">UUID</span><input type="number" class="form-control" placeholder="" name="lnUUID" id="lnUUID" value="">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-1 col-xs-6" id="removeLineHijo">
+                                                                        <a href="javascript:;" id="btnlnRemoveServicesRepeater" name="btnRemoveLn" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
+                                                                            <i class="la la-trash-o"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group form-group-last row">
+                                                            <div class="col-lg-4">
+                                                                <a href="javascript:;" id="btnlnServicesRepeater" data-repeater-create="" class="btn btn-bold btn-sm btn-label-brand">
+                                                                    <i class="la la-plus"></i>Agregar
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+												<div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                                                </div>
+											
 											<div class="kt-portlet__foot">
 												<div class="kt-form__actions">
 													<div class="row">
@@ -1350,8 +1499,11 @@
 													</div>
 												</div>
 											</div>
-										</form>
+											</div>
 
+											<%--Mercancia Complementaria--%>
+
+										</form>
 										<!--end::Form-->
                                 </div>
                             </div>
@@ -1581,8 +1733,7 @@
 									</div>
 								</div>
                                 </div> 
-                          <!-- end:: Invoices -->
-                          
+                          <!-- end:: Invoices -->                     
                           <!-- begin:: Receivable Accounts -->
                           <div class="row" id="cxcrow" <%if(pageType!="cxc"){Response.Write("style=display:none");} %>> 
                             <div class="col-xl-12 order-lg-2 order-xl-1">
@@ -1622,16 +1773,13 @@
 																</a>
 															</li>
 														</ul>
-
 														<!--end::Nav-->
 													</div>
 												</div>
 											</div>
 										</div>
 										<div class="kt-portlet__body">
-
 											<!--begin: Datatable -->
-
                                             <!--begin: Search Form -->
 									            <form class="kt-form kt-form--fit kt-margin-b-20" id="frmcxc">
 										            <div class="row kt-margin-b-20">

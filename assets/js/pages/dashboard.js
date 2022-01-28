@@ -2795,6 +2795,20 @@ function saveGuide(){
             ccontact: {
                 required: true
             },
+            rfcRemitente: {
+                required: true
+            },
+            numIdentFiscalRemitente: {
+                required: true,
+                maxlength: 50
+            },
+            rfcDestino: {
+                required: true
+            },
+            numIdentFiscalDestino: {
+                required: true,
+                maxlength: 50
+            },
         }
     });  
 
@@ -2814,6 +2828,12 @@ function saveGuide(){
     if($("#cmbinsured").val()==1 & $("#invoicevalue").val()==""){
         doReturn=true;
         swal.fire("Revisar valor factura", "Debe establecer valor factura", "warning");
+    }
+    if ($("#fiscalRecidenceRemitente").val() == -1) {
+        $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
+    }
+    if ($("#fiscalRecidenceDestino").val() == -1) {
+        $("#fiscalRecidenceDestino").addClass("is-invalid"); doReturn = true;
     }
 
     console.log($("#cansave").val());
@@ -3794,31 +3814,32 @@ function getLastGuide(id,auth)
 }
 
 function ReturnLastGuide(msg) {
-    var ms=JSON.parse(msg.d);
-      console.log(ms.lastused);
-      if(ms.auth=='True'){
+    var ms = JSON.parse(msg.d);
+    console.log(ms.lastused);
+    if (ms.auth == 'True') {
         $("#guidesleft").html(ms.available);
-        if(+ms.available<6)
-            swal.fire("Atención","Quedan sólo "+ ms.available + " guías disponibles, favor de ponerse en contacto con un representante para solicitar más guías", "warning");
-        document.getElementsByName("fullname")[0].value=ms.contact;
-        document.getElementsByName("schedule")[0].value=ms.schedule;
-        document.getElementsByName("caddress")[0].value=ms.address;
-        document.getElementsByName("cneighborhood")[0].value=ms.neighborhood;
-        document.getElementsByName("czipcode")[0].value=ms.zipcode;
-        document.getElementsByName("creference")[0].value=ms.reference;
-        document.getElementsByName("ccity")[0].value=ms.city.toUpperCase();
-        document.getElementsByName("cstate")[0].value=ms.state.toUpperCase();
-        document.getElementsByName("cphone")[0].value=ms.phone;
-        document.getElementsByName("ccontact")[0].value=ms.contact;
-        
-      }
-      else
-      {
-        document.getElementsByName("range")[0].value=ms.range;
-        document.getElementsByName("lastused")[0].value=ms.lastused;
-        document.getElementsByName("custname")[0].value=ms.customer;
-    
-      }
+        if (+ms.available < 6)
+            swal.fire("Atención", "Quedan sólo " + ms.available + " guías disponibles, favor de ponerse en contacto con un representante para solicitar más guías", "warning");
+        document.getElementsByName("fullname")[0].value = ms.contact;
+        document.getElementsByName("schedule")[0].value = ms.schedule;
+        document.getElementsByName("caddress")[0].value = ms.address;
+        document.getElementsByName("cneighborhood")[0].value = ms.neighborhood;
+        document.getElementsByName("czipcode")[0].value = ms.zipcode;
+        document.getElementsByName("creference")[0].value = ms.reference;
+        document.getElementsByName("ccity")[0].value = ms.city.toUpperCase();
+        document.getElementsByName("cstate")[0].value = ms.state.toUpperCase();
+        document.getElementsByName("cphone")[0].value = ms.phone;
+        document.getElementsByName("ccontact")[0].value = ms.contact;
+        document.getElementsByName("rfcRemitente")[0].value = ms.rfcRemitente;
+
+
+    }
+    else {
+        document.getElementsByName("range")[0].value = ms.range;
+        document.getElementsByName("lastused")[0].value = ms.lastused;
+        document.getElementsByName("custname")[0].value = ms.customer;
+
+    }
 }
 
 function checkZip()
@@ -4133,14 +4154,89 @@ function ReturnGetToken(msg) {
     if (ms.statusCode == "0" || ms.message == "Value cannot be null. (Parameter 'value')" || ms.HasError == "true")
         swal.fire("Error", "Hubo un problema al generar el Token.", "error");
     else
-        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
+        //$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
+        $('#frame').attr("src", "http://166.62.93.54/ProconectaWeb/Pages/Inicio.aspx?token=" + ms.data.Token + "");
  
+}
+//Validacion Select Portosinos
+$("#fiscalRecidenceRemitente").change(function () {
+    //1 == México
+    if ($("#fiscalRecidenceRemitente").val() == 1) {
+        //Ocultamos El numero de Identificacion Fiscal
+        $("#divNumFiscalRemitente").css('display', 'none');
+    }
+    else
+        $("#divNumFiscalRemitente").css('display', 'block');
+});
+
+$("#fiscalRecidenceDestino").change(function () {
+    //1 == México
+    if ($("#fiscalRecidenceDestino").val() == 1) {
+        //Ocultamos El numero de Identificacion Fiscal
+        $("#divNumFiscalDestino").css('display', 'none');
+    }
+    else
+        $("#divNumFiscalDestino").css('display', 'block');
+});
+//Validacion Select DetalleMercancia
+//$("#cmbpacktype").change(function () {
+//    //1 == Paquete
+//    if ($("#cmbpacktype").val() == 1) {
+//        //Ocultamos El numero de Identificacion Fiscal
+//        $("#divDetalleMercancia").css('display', 'none');
+//    }
+//    else
+//        $("#divDetalleMercancia").css('display', 'block');
+//});
+
+//Validacion RFC Potosinos
+function ValidaRFC() {
+
+    // patron del RFC, persona moral
+    let _rfc_pattern_pm = "^(([A-ZÑ&]{3})([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\\d])|[3][01])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{3})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\\d])|[3][0])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{3})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\\d])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{3})([0-9]{2})[0][2]([0][1-9]|[1][0-9]|[2][0-8])([A-Z0-9]{3}))$";
+    // patron del RFC, persona fisica
+    let _rfc_pattern_pf = "^(([A-ZÑ&]{4})([0-9]{2})([0][13578]|[1][02])(([0][1-9]|[12][\\d])|[3][01])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{4})([0-9]{2})([0][13456789]|[1][012])(([0][1-9]|[12][\\d])|[3][0])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{4})([02468][048]|[13579][26])[0][2]([0][1-9]|[12][\\d])([A-Z0-9]{3}))|" +
+        "(([A-ZÑ&]{4})([0-9]{2})[0][2]([0][1-9]|[1][0-9]|[2][0-8])([A-Z0-9]{3}))$";
+
+    var rfcRemitente = document.getElementById("rfcRemitente").value;
+    var rfcDestino = document.getElementById("rfcDestino").value;
+
+    if (rfcRemitente != "") {
+        if (rfcRemitente.match(_rfc_pattern_pm) || rfcRemitente.match(_rfc_pattern_pf)) {
+            $("#rfcRemitente").removeClass("is-invalid");
+            $("#rfcValidationRemitente").addClass("is-valid-rfc");
+        } else {
+            $("#rfcValidationRemitente").removeClass("is-valid-rfc");
+            $("#rfcRemitente").addClass("is-invalid");
+        }
+    }
+    if (rfcDestino != "") {
+        if (rfcDestino.match(_rfc_pattern_pm) || rfcDestino.match(_rfc_pattern_pf)) {
+            $("#rfcDestino").removeClass("is-invalid");
+            $("#rfcValidationDestino").addClass("is-valid-rfc");
+        } else {
+            $("#rfcValidationDestino").removeClass("is-valid-rfc");
+            $("#rfcDestino").addClass("is-invalid");
+        }
+    }
 }
 // Class initialization on page load
 jQuery(document).ready(function() {
     KTDashboard.init();
     //var table = $('#kt_datatable_latest_orders').KTDatatable();
 
+    $("#rfcRemitente").blur(function () {
+        ValidaRFC();
+    });
+
+    $("#rfcDestino").blur(function () {
+        ValidaRFC();
+    });
 
     var table = $('#tablasesiones').DataTable({
         

@@ -730,6 +730,7 @@ public partial class GetHint : System.Web.UI.Page
                 result += ",\"zipcode\":\"" + dh.DataTable.Rows[0]["postal_code"].ToString() + "\"";
                 result += ",\"schedule\":\"" + dh.DataTable.Rows[0]["schedule"].ToString() + "\"";
                 result += ",\"reference\":\"" + dh.DataTable.Rows[0]["address_reference"].ToString() + "\"";
+                result += ",\"rfcRemitente\":\"" + dh.DataTable.Rows[0]["rfc"].ToString() + "\"";
                 result += ",\"auth\":\"" + auth + "\"";
                 result += "}";
             }
@@ -2592,13 +2593,14 @@ public partial class GetHint : System.Web.UI.Page
         string customerID = "" + HttpContext.Current.Session["customerid"];
         ht.Add("@customer_id@", customerID, "False");
         ht.Add("@authorized@", "AND authorized_by is not null", "False");
-        
+
         dh.ExecuteCommand("getLastGuide", ht);
         int max_guide = 0;
         int lastused = 0;
         int guide = 0;
-        DateTime recDate=DateTime.Today;
+        DateTime recDate = DateTime.Today;
         //string range = GetVal(form, "range");
+        string subguide_id = "";
         if (dh.exception.Message == "No Exception")
         {
             max_guide = Convert.ToInt32(dh.DataTable.Rows[0]["max_guide"]);
@@ -2609,7 +2611,7 @@ public partial class GetHint : System.Web.UI.Page
             else
             {
                 ht = new Bnet.Next.Collections.Hashtable();
-                string subguide_id = dh.QueryScalar("SELECT nextval('sq_subcustomer_guides')").ToString();
+                subguide_id = dh.QueryScalar("SELECT nextval('sq_subcustomer_guides')").ToString();
                 ht.Add("@subcustomer_guide_id@", subguide_id, "False");
                 ht.Add("@subcustomer_id@", 1, "False");
                 ht.Add("@customer_id@", customerID, "False");
@@ -2619,19 +2621,19 @@ public partial class GetHint : System.Web.UI.Page
                     string rdate = GetVal(form, "recdate");
                     recDate = Convert.ToDateTime(rdate);
                 }
-                catch 
-                { 
+                catch
+                {
                 }
                 ht.Add("@recolection_date@", recDate.ToString("yyyy-MM-dd"), "True");
                 ht.Add("@created_by@", userid, "False");
                 ht.Add("@created@", "CURRENT_TIMESTAMP", "False");
                 ht.Add("@updated@", "CURRENT_TIMESTAMP", "False");
-                string deltype=GetVal(form, "cmbDeliveryType");
+                string deltype = GetVal(form, "cmbDeliveryType");
                 if (deltype == "1")
                     deltype = "DOMICILIO";
                 else
                     deltype = "OCURRE";
-                ht.Add("@destination_type@",deltype, "True");
+                ht.Add("@destination_type@", deltype, "True");
                 ht.Add("@zipcode@", GetVal(form, "destinyzip"), "True");
                 ht.Add("@solicitant@", GetVal(form, "fullname"), "True");
                 ht.Add("@schedule@", GetVal(form, "schedule"), "True");
@@ -2673,27 +2675,48 @@ public partial class GetHint : System.Web.UI.Page
                 ht.Add("@value@", GetVal(form, "invoicevalue"), "True");
                 ht.Add("@extra_info@", GetVal(form, "extrainfo"), "True");
 
+                //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
+                //Remitente
+                ht.Add("@rem_legal_code@", GetVal(form, "rfcRemitente"), "True");
+                string residenceFiscal = GetVal(form, "fiscalRecidenceRemitente");
+                string numResidenceFiscal = "";
+                if (residenceFiscal == "1")
+                {
+                    ht.Add("@rem_fiscal_residence_number@", numResidenceFiscal, "True");
+                    ht.Add("@rem_fiscal_residence @", residenceFiscal, "True");
+                }
+                else
+                {
+                    ht.Add("@rem_fiscal_residence @", residenceFiscal, "True");
+                    ht.Add("@rem_fiscal_residence_number@", GetVal(form, "numIdentFiscalRemitente"), "True");
+                }
+
+
                 dh.ExecuteCommand("insertGuide", ht);
                 if (dh.exception.Message != "No Exception")
                     result = "{\"response\":\"error\",\"message\":\"No se pudo insertar en la base de datos\",\"error\":\"" + General.parseJSON(dh.exception.Message) + "\"}";
                 else
                 {
+                    System.Collections.ArrayList prods = new System.Collections.ArrayList();
+                    string[] prod = new string[10];
+                    ProdLine prodLine = new ProdLine();
+
                     string path = RecOrderProcess(dh, subguide_id.ToString());
                     string pdfFile = subguide_id + ".pdf";
 
                     ht = new Bnet.Next.Collections.Hashtable();
 
-                    string code=GetVal(form, "shortname").ToString();
-                    if(code!="")
+                    string code = GetVal(form, "shortname").ToString();
+                    if (code != "")
                     {
-                        
+
                         string subcustid = dh.QueryScalar("SELECT nextval('sq_subcustomers')").ToString();
                         ht.Add("@subcustomer_id@", subcustid, "False");
                         ht.Add("@customer_id@", customerID, "False");
                         ht.Add("@created_by@", userid, "False");
                         ht.Add("@created@", "CURRENT_TIMESTAMP", "False");
                         ht.Add("@updated@", "CURRENT_TIMESTAMP", "False");
-                        ht.Add("@code@", code.ToUpper() , "True");
+                        ht.Add("@code@", code.ToUpper(), "True");
                         ht.Add("@name@", GetVal(form, "name"), "True");
                         ht.Add("@address@", GetVal(form, "address"), "True");
                         ht.Add("@neighborhood@", GetVal(form, "neighborhood"), "True");
@@ -2703,11 +2726,84 @@ public partial class GetHint : System.Web.UI.Page
                         ht.Add("@contact@", GetVal(form, "contact"), "True");
                         ht.Add("@phone@", GetVal(form, "phone"), "True");
 
+                        //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
+                        //Destino
+                        ht.Add("@dest_legal_code@", GetVal(form, "rfcDestino"), "True");
+                        string residenceDestino = GetVal(form, "fiscalRecidenceDestino");
+                        string numResidenceDestino = "";
+                        if (residenceDestino == "1")
+                        {
+                            ht.Add("@dest_fiscal_residence_number@", numResidenceDestino, "True");
+                            ht.Add("@dest_fiscal_residence@", residenceDestino, "True");
+                        }
+                        else
+                        {
+                            ht.Add("@dest_fiscal_residence@", residenceDestino, "True");
+                            ht.Add("@dest_fiscal_residence_number@", GetVal(form, "numIdentFiscalDestino"), "True");
+                        }
+
                         dh.Query("select code from subcustomers where customer_id=" + customerID + " and lower(code) ilike '" + code + "'").ToString();
                         if (dh.Next())
                             dh.ExecuteCommand("updateSubCustomer", ht);
                         else
                             dh.ExecuteCommand("insertSubCustomer", ht);
+
+                        if (dh.exception.Message != "No Exception")
+                            throw new Exception(dh.exception.Message);
+
+                        //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
+                        //Mercancia Complementaria Detalle Productos
+
+
+                        #region Obtener Lineas
+
+                        for (int i = 0; i < form.Length; i++)
+                        {
+                            if (form[i].name.Contains("[lnCodeProd]")) { prodLine.codeProd = form[i].value; }
+                            if (form[i].name.Contains("[lnDescription]")) { prodLine.description = form[i].value; }
+                            if (form[i].name.Contains("[lnQty]")) { prodLine.quantity = form[i].value; }
+                            if (form[i].name.Contains("[lnCodeUnit]")) { prodLine.codigoUnitario = form[i].value; }
+                            if (form[i].name.Contains("[lnWeight]")) { prodLine.weight = form[i].value; }
+                            if (form[i].name.Contains("[lnTfraction]")) { prodLine.tFraction = form[i].value; }
+                            if (form[i].name.Contains("[lnUUID]"))
+                            { 
+                                prodLine.uuid = form[i].value;
+                                prods.Add(prodLine);
+                                prodLine = new ProdLine();
+                            }
+
+                            
+                        }
+                        #endregion
+
+                        for (int a = 0; a < prods.Count; a++)
+                        {
+                            ht = new Bnet.Next.Collections.Hashtable();
+
+                            string prodLineId = dh.QueryScalar("select Nextval('sq_detail_products')").ToString();
+                            ht.Add("@detail_product_id@", prodLineId, "False");
+                            ht.Add("@subcustomer_guide_id@", subguide_id, "False");
+                            ht.Add("@code_prod@", ((ProdLine)prods[a]).codeProd, "True");
+                            ht.Add("@description@", ((ProdLine)prods[a]).description, "True");
+                            ht.Add("@quantity@", ((ProdLine)prods[a]).quantity, "True");
+                            ht.Add("@code_unity@", ((ProdLine)prods[a]).codigoUnitario, "True");
+                            ht.Add("@weight@", ((ProdLine)prods[a]).weight, "True");
+                            ht.Add("@tariff_fraction@", ((ProdLine)prods[a]).tFraction, "True");
+                            ht.Add("@uuid@", ((ProdLine)prods[a]).uuid, "True");
+                            ht.Add("@created_by@", userid, "False");
+                            ht.Add("@created@", "CURRENT_TIMESTAMP", "False");
+                            ht.Add("@updated@", "CURRENT_TIMESTAMP", "False");
+
+                            dh.ExecuteCommand("newInsertProductsLine", ht);
+
+                            
+                            if (dh.exception.Message != "No Exception")
+                                throw new Exception(dh.exception.Message);
+                        }
+
+                        //Fin
+
+
                     }
 
                     result = "{\"response\":\"success\",\"message\":\"\",\"guide\":\"" + guide + "\",\"path\":\"" + path + "\",\"pdfFile\":\"" + pdfFile + "\"}";
@@ -2717,8 +2813,8 @@ public partial class GetHint : System.Web.UI.Page
         else
             result = "{\"response\":\"error\",\"message\":\"No se pudo insertar en la base de datos\",\"error\":\"" + General.parseJSON(dh.exception.Message) + "\"}";
 
-        
-        
+
+
         dh.Disconnect();
 
         return result;
@@ -4351,7 +4447,8 @@ public partial class GetHint : System.Web.UI.Page
             cuenta = DataHelper.DataTable.Rows[0]["login_name"].ToString();
         }
 
-        string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
+        //string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
+        string url = "http://166.62.93.54/ProconectaApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
         HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
         HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
@@ -4365,6 +4462,18 @@ public partial class GetHint : System.Web.UI.Page
         return result;
   }
 
+    public class ProdLine
+    {
+        public string codeProd { get; set; }
+        public string description { get; set; }
+        public string quantity { get; set; }
+        public string codigoUnitario { get; set; }
+        public string weight { get; set; }
+        public string tFraction { get; set; }
+        public string uuid { get; set; }
+        public int serviceLineID { get; set; }
 
+
+    }
 
 }

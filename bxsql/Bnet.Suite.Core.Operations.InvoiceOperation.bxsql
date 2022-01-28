@@ -489,16 +489,16 @@
 
 		<command name="insertGuide" type="insert">
 			<sqltext>
-				INSERT INTO subcustomer_guides ($subcustomer_guide_id$,$subcustomer_id$,$customer_id$,$guide$,$created_by$,$created$,$updated$,$recolection_date$,$solicitant$,$schedule$,$caddress$,$cneighborhood$,$cstate$,$ccity$,$czipcode$,$creference$,$cphone$,$ccontact$,$destination_type$,$name$,$address$,$neighborhood$,$zipcode$,$state_id$,$state$,$city_id$,$city$,$contact$,$phone$,$packtype$,$content$,$weight$,$width$,$length$,$height$,$insured$,$value$,$extra_info$)
-				VALUES (@subcustomer_guide_id@,@subcustomer_id@,@customer_id@,@guide@,@created_by@,@created@,@updated@,@recolection_date@,@solicitant@,@schedule@,@caddress@,@cneighborhood@,@cstate@,@ccity@,@czipcode@,@creference@,@cphone@,@ccontact@,@destination_type@,@name@,@address@,@neighborhood@,@zipcode@,@state_id@,@state@,@city_id@,@city@,@contact@,@phone@,@packtype@,@content@,@weight@,@width@,@length@,@height@,@insured@,@value@,@extra_info@)
-			</sqltext>
+        INSERT INTO subcustomer_guides ($subcustomer_guide_id$,$subcustomer_id$,$customer_id$,$guide$,$created_by$,$created$,$updated$,$recolection_date$,$solicitant$,$schedule$,$caddress$,$cneighborhood$,$cstate$,$ccity$,$czipcode$,$creference$,$cphone$,$ccontact$,$destination_type$,$name$,$address$,$neighborhood$,$zipcode$,$state_id$,$state$,$city_id$,$city$,$contact$,$phone$,$packtype$,$content$,$weight$,$width$,$length$,$height$,$insured$,$value$,$extra_info$,$rem_legal_code$,$rem_fiscal_residence$,$rem_fiscal_residence_number$)
+        VALUES (@subcustomer_guide_id@,@subcustomer_id@,@customer_id@,@guide@,@created_by@,@created@,@updated@,@recolection_date@,@solicitant@,@schedule@,@caddress@,@cneighborhood@,@cstate@,@ccity@,@czipcode@,@creference@,@cphone@,@ccontact@,@destination_type@,@name@,@address@,@neighborhood@,@zipcode@,@state_id@,@state@,@city_id@,@city@,@contact@,@phone@,@packtype@,@content@,@weight@,@width@,@length@,@height@,@insured@,@value@,@extra_info@,@rem_legal_code@,@rem_fiscal_residence@,@rem_fiscal_residence_number@)
+      </sqltext>
 		</command>
 
 		<command name="insertSubCustomer" type="insert">
 			<sqltext>
-				INSERT INTO subcustomers ($subcustomer_id$,$customer_id$,$created_by$,$created$,$updated$,$code$,$name$,$address$,$neighborhood$,$zipcode$,$state$,$city$,$contact$,$phone$)
-				VALUES (@subcustomer_id@,@customer_id@,@created_by@,@created@,@updated@,@code@,@name@,@address@,@neighborhood@,@zipcode@,@state@,@city@,@contact@,@phone@)
-			</sqltext>
+        INSERT INTO subcustomers ($subcustomer_id$,$customer_id$,$created_by$,$created$,$updated$,$code$,$name$,$address$,$neighborhood$,$zipcode$,$state$,$city$,$contact$,$phone$,$dest_legal_code$,$dest_fiscal_residence$,$dest_fiscal_residence_number$)
+        VALUES (@subcustomer_id@,@customer_id@,@created_by@,@created@,@updated@,@code@,@name@,@address@,@neighborhood@,@zipcode@,@state@,@city@,@contact@,@phone@,@dest_legal_code@,@dest_fiscal_residence@,@dest_fiscal_residence_number@)
+      </sqltext>
 		</command>
 		
 		<command name="updateSubCustomer" type="update">
@@ -507,17 +507,26 @@
 			</sqltext>
 		</command>
 
+    <command name="newInsertProductsLine" type="insert">
+      <sqltext>
+        INSERT INTO detail_products ($detail_product_id$,$subcustomer_guide_id$,$code_prod$,$description$,$quantity$,$code_unity$,$weight$,$tariff_fraction$,$uuid$,$created_by$,$created$,$updated_by$,$updated$)
+
+        VALUES (@detail_product_id@,@subcustomer_guide_id@,@code_prod@,@description@,@quantity@,@code_unity@,@weight@,@tariff_fraction@,@uuid@,@created_by@,@created@,@updated@)
+      </sqltext>
+    </command>
+
 
 		<command name="getLastGuide" type="select" prepared="true">
 			<sqltext>
-				SELECT min_guide,cg.max_guide,lastused,contact,address1,neighborhood,city,state,phones,postal_code,schedule,address_reference,customer FROM customer_guide_range cg 
-				INNER JOIN  ( SELECT MAX(max_guide) as max_guide FROM customer_guide_range WHERE customer_id = @customer_id@ @authorized@) mx ON mx.max_guide=cg.max_guide 
-				INNER JOIN (SELECT COALESCE(MAX(guide),0) as lastused from subcustomer_guides where customer_id=@customer_id@) lu ON 1=1
-				INNER JOIN (SELECT c.name as customer,bpa.name as contact,bpa.address1,bpa.neighborhood,bpa.city,bpa.state,bpa.phones,bpa.postal_code,bpa.schedule,bpa.address_reference FROM bpartner_addresses bpa 
-				INNER JOIN customers c ON c.bpartner_id=bpa.bpartner_id WHERE c.customer_id=@customer_id@
-				) ca ON 1=1
-				where customer_id=@customer_id@ @authorized@ 
-			</sqltext>
+        SELECT min_guide,cg.max_guide,lastused,contact,address1,neighborhood,city,state,phones,postal_code,schedule,address_reference,customer,rfc FROM customer_guide_range cg
+        INNER JOIN  ( SELECT MAX(max_guide) as max_guide FROM customer_guide_range WHERE customer_id = @customer_id@ @authorized@) mx ON mx.max_guide=cg.max_guide
+        INNER JOIN (SELECT COALESCE(MAX(guide),0) as lastused from subcustomer_guides where customer_id=@customer_id@) lu ON 1=1
+        INNER JOIN (SELECT c.name as customer,bpa.name as contact,bpa.address1,bpa.neighborhood,bpa.city,bpa.state,bpa.phones,bpa.postal_code,bpa.schedule,bpa.address_reference FROM bpartner_addresses bpa
+        INNER JOIN customers c ON c.bpartner_id=bpa.bpartner_id WHERE c.customer_id=@customer_id@
+        ) ca ON 1=1
+        inner join (select bp.legal_code as rfc from customers cbp inner join business_partners bp on bp.bpartner_id = cbp.bpartner_id WHERE cbp.customer_id=@customer_id@)cbp ON 1=1
+        where customer_id=@customer_id@ @authorized@
+      </sqltext>
 			<default>
 			
 			</default>
