@@ -4448,14 +4448,15 @@ public partial class GetHint : System.Web.UI.Page
         }
 
         //string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
-        string url = "http://166.62.93.54/ProconectaApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
-        HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-        HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-        using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-        {
-            result = streamReader.ReadToEnd();
-        }
-        
+        /*string url = "http://166.62.93.54/ProconectaApi/Configuracion/GetParameters?ClienteRFC=" +*/
+        result = "CLIENTERFC=".ToUpper() + clienteRFC.ToString() + "&EmpresaRFC=".ToUpper() + empresaRFC.ToString() + "&Cuenta=".ToUpper() + cuenta.ToString() + "";
+        //HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+        //HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+        //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+        //{
+        //    result = streamReader.ReadToEnd();
+        //}
+
 
         //result.Replace("{\"data\":{\"Token\":", "{\"data\":{\"Token\":\"http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=");
 

@@ -4150,12 +4150,12 @@ function getToken(usrId) {
 
 function ReturnGetToken(msg) {
 
-    var ms = JSON.parse(msg.d);
-    if (ms.statusCode == "0" || ms.message == "Value cannot be null. (Parameter 'value')" || ms.HasError == "true")
+   
+    if (msg.d == "" || msg.d == "null" || msg.d == null)
         swal.fire("Error", "Hubo un problema al generar el Token.", "error");
     else
         //$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
-        $('#frame').attr("src", "http://166.62.93.54/ProconectaWeb/Pages/Inicio.aspx?token=" + ms.data.Token + "");
+        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/Pages/Inicio.aspx?" + msg.d + "");
  
 }
 //Validacion Select Portosinos
@@ -4237,6 +4237,27 @@ jQuery(document).ready(function() {
     $("#rfcDestino").blur(function () {
         ValidaRFC();
     });
+
+    var path = window.location.href;
+    var page = path.substr(path.lastIndexOf("/") + 1);
+
+
+    //if (page == "Default.aspx?actn=minvalmx") {
+
+    //    $("#kt_header").css("display", "none");
+    //    $("#kt_footer").css("display", "none");
+    //    $("#kt_subheader").css("display", "none");
+    //    $("#kt_aside").css("display", "none");
+        
+
+    //}
+    //else {
+    //    $("#kt_header").css("display", "block");
+    //    $("#kt_footer").css("display", "block");
+    //    $("#kt_subheader").css("display", "block");
+    //    $("#kt_aside").css("display", "block");
+    //    $("#kt_wrapper").css("display", "block");
+    //}
 
     var table = $('#tablasesiones').DataTable({
         
@@ -4679,6 +4700,9 @@ jQuery(document).ready(function() {
         var usrId = $("#userid").val();
         /*http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=eyJhbGciOiJIUzI1NiIsInR5c...wjweufmqlt59f70383678m4dn*/
         getToken(usrId);
+        $("#almexModal").modal("show");
+        $('.modal-content').css('max-height', $(window).height() * 0.8);
+       
         //$('#frame').attr("src", "");
 
     }

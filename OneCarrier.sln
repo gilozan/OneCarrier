@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Onecarrier", ".", "{70A6D56A-31F2-4D5C-A33D-823A61DD779C}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1778
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "OneCarrier", ".", "{70A6D56A-31F2-4D5C-A33D-823A61DD779C}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/Maver"
@@ -20,6 +22,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Onecarrier", ".", "{70A6D56
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "50096"
 		VWDDynamicPort = "false"
+		SlnRelativePath = "..\OneCarrier\"
 	EndProjectSection
 EndProject
 Global
@@ -27,10 +30,13 @@ Global
 		Debug|.NET = Debug|.NET
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{70A6D56A-31F2-4D5C-A33D-823A61DD779C}.Debug|.NET.ActiveCfg = Debug|.NET
-		{70A6D56A-31F2-4D5C-A33D-823A61DD779C}.Debug|.NET.Build.0 = Debug|.NET
+		{70A6D56A-31F2-4D5C-A33D-823A61DD779C}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{70A6D56A-31F2-4D5C-A33D-823A61DD779C}.Debug|.NET.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B57304EB-3DE4-40E3-A8CC-5A50AE5D3CA9}
 	EndGlobalSection
 EndGlobal

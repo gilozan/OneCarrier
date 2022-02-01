@@ -1511,17 +1511,34 @@
                           <!-- end:: Make Invoice -->
 
 						<!-- begin:: Make Invoice -->
-                            <div class="row" id="makeinvoiceAlmex" <%if (pageType != "minvalmx") { Response.Write("style=display:none"); } else { Response.Write("style=min-height:100%;min-width:100%;"); } %>>
-                                <div class="col-xl-12 order-lg-2 order-xl-1">
-                                    <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile" style="min-height:100%;min-width:100%">
-                                        <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm" style="min-height:100%;min-width:100%">
-                                            <div class="kt-portlet__body" style="min-height:100%;min-width:100%">
-                                                <iframe id="frame" src="<%--http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=1&EmpresaRFC=2&Cuenta=3--%>" style="min-height: 100%; min-width: 100%"></iframe>
+                        	<!-- Modal -->
+<%--                        <div class="modal fade" id="almexModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+<%--                                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">--%>
+                                        <div class="row" id="makeinvoiceAlmex" <%if (pageType != "minvalmx") { Response.Write("style=display:none"); } else { Response.Write("style=min-height:100%;min-width:100%;"); } %>>
+                                            <div class="col-xl-12 order-lg-2 order-xl-1">
+                                                <div class="kt-portlet kt-portlet--height-fluid kt-portlet--mobile" style="min-height: 100%; min-width: 100%">
+                                                    <div class="kt-portlet__head kt-portlet__head--lg kt-portlet__head--noborder kt-portlet__head--break-sm" style="min-height: 100%; min-width: 100%">
+                                                        <div class="kt-portlet__body" style="min-height: 100%; min-width: 100%">
+                                                            <iframe id="frame" src="<%--http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=1&EmpresaRFC=2&Cuenta=3--%>" style="min-height: 100%; min-width: 100%"></iframe>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
+<%--                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </div>
                             </div>
+                        </div>--%>
                           <!-- end:: Make InvoiceAlmex -->
                           
                           <!-- begin:: Invoices -->
