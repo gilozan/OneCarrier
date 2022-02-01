@@ -4143,7 +4143,7 @@ function setControl(e){
 }
 
 function getToken(usrId) { 
-    var urlMethod = "GetHint.aspx/GetToken";
+    var urlMethod = "almex.aspx/GetToken";
     var jsonData = "{'userid': '" + usrId + "'}";
     SendAjax(urlMethod, jsonData, ReturnGetToken);
 }
@@ -4227,7 +4227,7 @@ function ValidaRFC() {
 }
 // Class initialization on page load
 jQuery(document).ready(function() {
-    KTDashboard.init();
+
     //var table = $('#kt_datatable_latest_orders').KTDatatable();
 
     $("#rfcRemitente").blur(function () {
@@ -4242,22 +4242,12 @@ jQuery(document).ready(function() {
     var page = path.substr(path.lastIndexOf("/") + 1);
 
 
-    //if (page == "Default.aspx?actn=minvalmx") {
+    if (page == "almex.aspx") {
 
-    //    $("#kt_header").css("display", "none");
-    //    $("#kt_footer").css("display", "none");
-    //    $("#kt_subheader").css("display", "none");
-    //    $("#kt_aside").css("display", "none");
-        
-
-    //}
-    //else {
-    //    $("#kt_header").css("display", "block");
-    //    $("#kt_footer").css("display", "block");
-    //    $("#kt_subheader").css("display", "block");
-    //    $("#kt_aside").css("display", "block");
-    //    $("#kt_wrapper").css("display", "block");
-    //}
+        getToken(usrId);
+        $("#body").addClass("kt-aside__brand-aside-toggler kt-aside__brand-aside-toggler--active kt-aside--minimize");
+    }
+    KTDashboard.init();
 
     var table = $('#tablasesiones').DataTable({
         
