@@ -117,7 +117,7 @@ public partial class almex_almex : System.Web.UI.Page
         DataHelper.ConnectionType = Hzone.Api.Database.ConnectionType.Odbc;
         DataHelper.ConnectionUrl = ConfigurationManager.ConnectionStrings["Local"].ConnectionString;
         DataHelper.Connect();
-        DataHelper.Query("SELECT bp.legal_code,usr.login_name,bp.description FROM business_partners bp inner join users usr on bp.bpartner_id=usr.bpartner_id where usr.usr_id = '" + userid + "';");
+        DataHelper.Query("SELECT bp.legal_code,usr.login_name,bp.description FROM business_partners bp inner join users usr on bp.bpartner_id=usr.bpartner_id where usr.usr_id = " + userid);
 
         string result = "";
         string clienteRFC = ""; //legal_code

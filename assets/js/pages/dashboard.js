@@ -4155,8 +4155,8 @@ function ReturnGetToken(msg) {
         swal.fire("Error", "Hubo un problema al generar el Token.", "error");
     else
         //$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
-        /*$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/Pages/Inicio.aspx?" + msg.d + "");*/
-        $('#frame').attr("src", "http://proconecta.savi-mex.com/Web/Pages/Inicio.aspx?" + msg.d + "");
+        $('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/Pages/Inicio.aspx?" + msg.d + "");
+        /*$('#frame').attr("src", "https://www.google.ie/gwt/x?u=http://proconecta.savi-mex.com/Web/Pages/Inicio.aspx?" + msg.d + "");*/
  
 }
 //Validacion Select Portosinos
@@ -4244,7 +4244,7 @@ jQuery(document).ready(function() {
 
 
     if (page == "almex.aspx") {
-
+        var usrId = $("#userid").val();
         getToken(usrId);
         $("#body").addClass("kt-aside__brand-aside-toggler kt-aside__brand-aside-toggler--active kt-aside--minimize");
     }

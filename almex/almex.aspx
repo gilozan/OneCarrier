@@ -33,7 +33,6 @@
     <link rel="shortcut icon" href="../assets/media/logos/OneCarrier.ico" />
 </head>
 <body id="body">
-
     <div class="kt-grid kt-grid--hor kt-grid--root">
 
         <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
@@ -148,6 +147,53 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!--begin: User Bar -->
+            <div class="kt-header__topbar-item kt-header__topbar-item--user" style="display:none">
+                <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px">
+                    <div class="kt-header__topbar-user">
+                        <span class="kt-header__topbar-welcome kt-hidden-mobile">Hola,</span>
+                        <span class="kt-header__topbar-username kt-hidden-mobile" id="username"><%  Response.Write(Session["nomusuario"]); %></span>
+                        <input type="hidden" value="<%  Response.Write(Session["userid"]); %>" id="userid" />
+                        <input type="hidden" value="<%  Response.Write(actn); %>" id="actn" />
+                        <input type="hidden" value="<%  Response.Write(prms); %>" id="params" />
+                        <img class="kt-hidden" alt="Pic" src="assets/media/users/300_25.jpg" />
+
+                        <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
+                        <span id="userbadge" class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"><%  Response.Write(Session["nomusuario"].ToString().Substring(0, 1));%></span>
+                    </div>
+                </div>
+                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
+
+                    <!--begin: Head -->
+                    <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x" style="background-image: url(assets/media/misc/bg-1.jpg)">
+                        <div class="kt-user-card__avatar">
+                            <img class="kt-hidden" alt="Pic" src="assets/media/users/300_25.jpg" />
+
+                            <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
+                            <span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">U</span>
+                        </div>
+                        <div class="kt-user-card__name">
+                            Usuario
+                        </div>
+                        <div class="kt-user-card__badge">
+                            <span class="btn btn-success btn-sm btn-bold btn-font-md"></span>
+                        </div>
+                    </div>
+
+                    <!--end: Head -->
+
+                    <!--begin: Navigation -->
+                    <div class="kt-notification">
+                        <div class="kt-notification__custom kt-space-between">
+                            <a href="Login.aspx" class="btn btn-label btn-label-brand btn-sm btn-bold">Cerrar Sesion</a>
+                            <a href="Login.aspx" class="btn btn-clean btn-sm btn-bold"></a>
+                        </div>
+                    </div>
+
+                    <!--end: Navigation -->
+                </div>
             </div>
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
                 <iframe id="frame" src="<%--http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=1&EmpresaRFC=2&Cuenta=3--%>" style="min-width: 100%; min-height: 100%;"></iframe>
