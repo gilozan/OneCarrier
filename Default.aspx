@@ -144,12 +144,12 @@
                                 </li>
                                 <hr />
                                 <li class="kt-menu__item <%if (pageType == "minvalmx") { Response.Write("kt-menu__item--active"); } %>" aria-haspopup="true">
-                                    <a href="almex/almex.aspx" class="" style="text-align:center">
+                                    <a href="../almex.aspx" class="" style="text-align:center">
                                         <i class="kt-menu__link-icon fa" style="min-width: 25%;">
                                             <img src="assets/media/logos/OneCarrier.jpeg" style="min-width: 25%;width:187px;width:98px"/>
                                         </i>
                                     </a>
-                                    <a href="almex/almex.aspx" class="" style="text-align: center">
+                                    <a href="../almex.aspx" class="" style="text-align: center">
                                         <i class="kt-menu__link-icon fa" style="min-width: 100%;">
                                             <span class="" style="min-width: 50%; font-family:'Arial Narrow'; font-size: 12px; text-align: center; color: #000000">Generar guía
                                             </span>
