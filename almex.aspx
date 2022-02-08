@@ -197,7 +197,6 @@
             </div>
             <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
                 <iframe id="frame" src="<%--http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=1&EmpresaRFC=2&Cuenta=3--%>" style="min-width: 100%; min-height: 100%;"></iframe>
-
             </div>
         </div>
     </div>
