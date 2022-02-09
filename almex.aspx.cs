@@ -130,10 +130,18 @@ public partial class almex_almex : System.Web.UI.Page
             empresaRFC = DataHelper.DataTable.Rows[0]["description"].ToString();
             cuenta = DataHelper.DataTable.Rows[0]["login_name"].ToString();
         }
+        else
+        {
+            return "{\"response\":\"error\",\"message\":\"Los datos del usuario no son correctos\",\"error\":\"" + General.parseJSON(DataHelper.exception.Message) + "\"}";
+        }
 
         //string url = "http://166.62.93.54/ProconecttApi/Configuracion/GetParameters?ClienteRFC=" + clienteRFC.ToString() + "&EmpresaRFC=" + empresaRFC.ToString() + "&Cuenta=" + cuenta.ToString() + "";
         /*string url = "http://166.62.93.54/ProconectaApi/Configuracion/GetParameters?ClienteRFC=" +*/
-        result = "CLIENTERFC=".ToUpper() + clienteRFC.ToString() + "&EmpresaRFC=".ToUpper() + empresaRFC.ToString() + "&Cuenta=".ToUpper() + cuenta.ToString() + "";
+
+        result = "{\"response\":\"success\",\"message\":".ToLower()+"\"CLIENTERFC=".ToUpper() + clienteRFC.ToString() + "&EmpresaRFC=".ToUpper() + empresaRFC.ToString() + "&Cuenta=".ToUpper() + cuenta.ToString()+ "\",\"error\":\"No Exception\"}";
+
+
+
         //HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
         //HttpWebResponse httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
         //using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))

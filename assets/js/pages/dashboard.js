@@ -1,5 +1,7 @@
 "use strict";
 
+
+
 // Class definition
 var KTDashboard = function() {
 
@@ -4149,14 +4151,22 @@ function getToken(usrId) {
 }
 
 function ReturnGetToken(msg) {
+    var ms = JSON.parse(msg.d);
 
-   
-    if (msg.d == "" || msg.d == "null" || msg.d == null)
-        swal.fire("Error", "Hubo un problema al generar el Token.", "error");
+    if (ms.error != "No Exception") {
+        swal.fire("Error", "Los datos del usuario no son correctos", "error");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + msg.d + "");
+        return;
+    }
+    if (ms.message == "CLIENTERFC=&EMPRESARFC=&CUENTA=") {
+        swal.fire("Error", "Los datos del usuario no son correctos", "error");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
+        return;
+    }
     else
         //$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
         /*$('#frame').attr("src", "https://www.google.com/search?q=%http://166.62.93.54/ProconecttWeb/Pages/Inicio.aspx?" + msg.d + "");*/
-        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + msg.d + "");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
  
 }
 
