@@ -4155,7 +4155,7 @@ function ReturnGetToken(msg) {
 
     if (ms.error != "No Exception") {
         swal.fire("Error", "Los datos del usuario no son correctos", "error");
-        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + msg.d + "");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.error + "");
         return;
     }
     if (ms.message == "CLIENTERFC=&EMPRESARFC=&CUENTA=") {
