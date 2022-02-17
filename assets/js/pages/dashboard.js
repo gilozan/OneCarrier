@@ -2797,24 +2797,46 @@ function saveGuide(){
             ccontact: {
                 required: true
             },
-            rfcRemitente: {
-                required: true
-            },
-            numIdentFiscalRemitente: {
-                required: true,
-                maxlength: 50
-            },
-            rfcDestino: {
-                required: true
-            },
-            numIdentFiscalDestino: {
-                required: true,
-                maxlength: 50
-            },
+            //rfcRemitente: {
+            //    required: true
+            //},
+            //numIdentFiscalRemitente: {
+            //    required: true,
+            //    maxlength: 50
+            //},
+            //rfcDestino: {
+            //    required: true
+            //},
+            //numIdentFiscalDestino: {
+            //    required: true,
+            //    maxlength: 50
+            //},
         }
     });  
 
-    var doReturn=false;
+    var doReturn = false;
+
+    if ($("#numIdentFiscalRemitente").is(':visible') == true){
+        if ($("#numIdentFiscalRemitente").val() == "") {
+            $("#numIdentFiscalRemitente").addClass("is-invalid"); doReturn = true;
+        }
+    }
+    if ($("#numIdentFiscalDestino").is(':visible') == true) {
+        if ($("#numIdentFiscalDestino").val() == "") {
+            $("#numIdentFiscalDestino").addClass("is-invalid"); doReturn = true;
+        }
+    }
+    if ($("#residenceDivHidden").is(':visible') == true) {
+        if ($("#fiscalRecidenceRemitente").val() == "") {
+            $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
+        }
+    }
+    if ($("#residenceDestinDivHidden").is(':visible') == true) {
+        if ($("#fiscalRecidenceDestino").val() == "") {
+            $("#fiscalRecidenceDestino").addClass("is-invalid"); doReturn = true;
+        }
+    }
+
     if($("#cmbDeliveryType").val()==-1){
         $("#cmbDeliveryType").addClass("is-invalid"); doReturn=true;
     }
@@ -2831,12 +2853,12 @@ function saveGuide(){
         doReturn=true;
         swal.fire("Revisar valor factura", "Debe establecer valor factura", "warning");
     }
-    if ($("#fiscalRecidenceRemitente").val() == -1) {
-        $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
-    }
-    if ($("#fiscalRecidenceDestino").val() == -1) {
-        $("#fiscalRecidenceDestino").addClass("is-invalid"); doReturn = true;
-    }
+    //if ($("#fiscalRecidenceRemitente").val() == -1) {
+    //    $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
+    //}
+    //if ($("#fiscalRecidenceDestino").val() == -1) {
+    //    $("#fiscalRecidenceDestino").addClass("is-invalid"); doReturn = true;
+    //}
 
     console.log($("#cansave").val());
     var cansave=true;
@@ -2854,6 +2876,7 @@ function saveGuide(){
         if(!cansave)
             swal.fire("Revisar CP Destino", "CP Destino no tiene cobertura", "warning");
         KTUtil.scrollTo('kt_form_1_msg', -200);
+        console.log(doReturn);
         return;
     }
     
@@ -4242,10 +4265,13 @@ function ValidaRFC() {
 jQuery(document).ready(function() {
 
     //var table = $('#kt_datatable_latest_orders').KTDatatable();
-
+    $("#hiddenDivMercanciaC").css("display", "none");
     $("#rfcRemitente").blur(function () {
         ValidaRFC();
     });
+    $("#residenceDivHidden").css("display", "none");
+    $("#residenceDestinDivHidden").css("display", "none");
+
 
     $("#rfcDestino").blur(function () {
         ValidaRFC();

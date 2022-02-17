@@ -1210,7 +1210,7 @@
 												</div>												
 												<!--Remitente-->
 												<!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion v3 -DIC-10-2021-->
-                                                <div class="form-group row form-group-marginless">
+                                                <div class="form-group row form-group-marginless" id="residenceDivHidden">
 													<!--Input para el RFC-->
                                                     <div class="col-lg-4">
                                                         <span class="form-text text-muted" id="rfcValidationRemitente"><span class="is-required"></span>RFC</span>
@@ -1316,7 +1316,7 @@
                                                 </div>
                                                 <!--Destino-->
                                                 <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion v3 -DIC-10-2021-->
-                                                <div class="form-group row form-group-marginless">
+                                                <div class="form-group row form-group-marginless" id="residenceDestinDivHidden">
                                                     <!--Input para el RFC-->
                                                     <div class="col-lg-4">
                                                         <span class="form-text text-muted" id="rfcValidationDestino"><span class="is-required"></span>RFC</span>
@@ -1404,81 +1404,83 @@
 													</div>
 												</div>
 
-												<div class="kt-separator kt-separator--border-dashed kt-separator--space-lg" style="border-color:transparent"></div>
-                                                <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion (Datos Complementarios de la Mercancía) v3 -DIC-10-2021-->
-                                                <h3 class="kt-portlet__head-title">Mercancia Complementaria
-                                                </h3>
-                                                <br />
-                                                <div class="form-group row form-group-marginless" id="divDetalleMercancia">
-                                                    <div id="kt_repeater_1">
-                                                        <div class="form-group form-group-last row" id="kt_repeater_1">
-                                                            <div data-repeater-list="" class="col-lg-12">
-                                                                <div data-repeater-item class="form-group row align-items-center" id="removeLinePadre">
-                                                                    <div class="col-lg-3" hidden="hidden" id="removeLineHijo">
-                                                                        <input type="text" class="form-control kt-input" id="ServiceLineId" name="ServiceLineId" />
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted">Clave Producto</span><input type="number" class="form-control " placeholder="" name="lnCodeProd" id="lnCodeProd" value="">
+                                                <div id="hiddenDivMercanciaC">
+                                                    <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg" style="border-color: transparent"></div>
+                                                    <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion (Datos Complementarios de la Mercancía) v3 -DIC-10-2021-->
+                                                    <h3 class="kt-portlet__head-title">Mercancia Complementaria
+                                                    </h3>
+                                                    <br />
+                                                    <div class="form-group row form-group-marginless" id="divDetalleMercancia">
+                                                        <div id="kt_repeater_1">
+                                                            <div class="form-group form-group-last row" id="kt_repeater_1">
+                                                                <div data-repeater-list="" class="col-lg-12">
+                                                                    <div data-repeater-item class="form-group row align-items-center" id="removeLinePadre">
+                                                                        <div class="col-lg-3" hidden="hidden" id="removeLineHijo">
+                                                                            <input type="text" class="form-control kt-input" id="ServiceLineId" name="ServiceLineId" />
+                                                                        </div>
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted">Clave Producto</span><input type="number" class="form-control " placeholder="" name="lnCodeProd" id="lnCodeProd" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-4" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted">Descripción</span><input type="text" class="form-control " placeholder="" name="lnDescription" id="lnDescription" value="">
+                                                                        <div class="col-md-4" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted">Descripción</span><input type="text" class="form-control " placeholder="" name="lnDescription" id="lnDescription" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted ">Cantidad</span><input type="number" class="form-control ln-leavep" placeholder="" name="lnQty" id="lnQty" value="">
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted ">Cantidad</span><input type="number" class="form-control ln-leavep" placeholder="" name="lnQty" id="lnQty" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted">Clave Unidad</span><input type="text" class="form-control " placeholder="" name="lnCodeUnit" id="lnCodeUnit" value="">
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted">Clave Unidad</span><input type="text" class="form-control " placeholder="" name="lnCodeUnit" id="lnCodeUnit" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted">Peso</span><input type="number" class="form-control " placeholder="" name="lnWeight" id="lnWeight" value="">
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted">Peso</span><input type="number" class="form-control " placeholder="" name="lnWeight" id="lnWeight" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted ">Fracción Arancelaria</span><input type="number" class="form-control" placeholder="" name="lnTfraction" id="lnTfraction" value="">
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted ">Fracción Arancelaria</span><input type="number" class="form-control" placeholder="" name="lnTfraction" id="lnTfraction" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-2 col-xs-6" id="removeLineHijo">
-                                                                        <div class="kt-form__group--inline">
-                                                                            <div class="kt-form__control">
-                                                                                <span class="form-text text-muted ">UUID</span><input type="number" class="form-control" placeholder="" name="lnUUID" id="lnUUID" value="">
+                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                            <div class="kt-form__group--inline">
+                                                                                <div class="kt-form__control">
+                                                                                    <span class="form-text text-muted ">UUID</span><input type="number" class="form-control" placeholder="" name="lnUUID" id="lnUUID" value="">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div class="col-md-1 col-xs-6" id="removeLineHijo">
-                                                                        <a href="javascript:;" id="btnlnRemoveServicesRepeater" name="btnRemoveLn" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
-                                                                            <i class="la la-trash-o"></i>
-                                                                        </a>
+                                                                        <div class="col-md-1 col-xs-6" id="removeLineHijo">
+                                                                            <a href="javascript:;" id="btnlnRemoveServicesRepeater" name="btnRemoveLn" data-repeater-delete="" class="btn-sm btn btn-label-danger btn-bold">
+                                                                                <i class="la la-trash-o"></i>
+                                                                            </a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="form-group form-group-last row">
-                                                            <div class="col-lg-4">
-                                                                <a href="javascript:;" id="btnlnServicesRepeater" data-repeater-create="" class="btn btn-bold btn-sm btn-label-brand">
-                                                                    <i class="la la-plus"></i>Agregar
-                                                                </a>
+                                                            <div class="form-group form-group-last row">
+                                                                <div class="col-lg-4">
+                                                                    <a href="javascript:;" id="btnlnServicesRepeater" data-repeater-create="" class="btn btn-bold btn-sm btn-label-brand">
+                                                                        <i class="la la-plus"></i>Agregar
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
