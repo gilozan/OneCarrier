@@ -4158,13 +4158,19 @@ public partial class GetHint : System.Web.UI.Page
             //Remitente, Campos nuevos↓
             html = html.Replace("@RFCRem@", dh.FieldValue("rem_legal_code").ToString());
 
-            if(dh.FieldValue("rem_fiscal_residence").ToString() == "1")
+            if (dh.FieldValue("rem_fiscal_residence").ToString() == "0" || dh.FieldValue("rem_fiscal_residence").ToString() == "")
+                html = html.Replace("@ResFiscalRem@", "");
+
+            if (dh.FieldValue("rem_fiscal_residence").ToString() == "1")
                 html = html.Replace("@ResFiscalRem@", "México - (M.X)");
 
             if(dh.FieldValue("rem_fiscal_residence").ToString() == "2")
                 html = html.Replace("@ResFiscalRem@", "Estados Unidos - (U.S)");
 
-            html = html.Replace("@NumIdentFiscalRem@", dh.FieldValue("rem_fiscal_residence_number").ToString());
+            if(dh.FieldValue("rem_fiscal_residence_number").ToString() == "")
+                 html = html.Replace("@NumIdentFiscalRem@", "");
+            else
+                html = html.Replace("@NumIdentFiscalRem@", dh.FieldValue("rem_fiscal_residence_number").ToString());
             //Fin
 
             html = html.Replace("@name@", dh.FieldValue("name").ToString());
@@ -4189,13 +4195,19 @@ public partial class GetHint : System.Web.UI.Page
             //Destino, Campos nuevos↓
             html = html.Replace("@RFCDest@", dh.FieldValue("dest_legal_code").ToString());
 
+            if (dh.FieldValue("dest_fiscal_residence").ToString() == "0" || dh.FieldValue("dest_fiscal_residence").ToString() == "")
+                html = html.Replace("@ResFiscalDest@", "");
+
             if (dh.FieldValue("dest_fiscal_residence").ToString() == "1")
                 html = html.Replace("@ResFiscalDest@", "México - (M.X)");
 
             if (dh.FieldValue("dest_fiscal_residence").ToString() == "2")
                 html = html.Replace("@ResFiscalDest@", "Estados Unidos - (U.S)");
 
-            html = html.Replace("@NumIdentFiscalDest@", dh.FieldValue("dest_fiscal_residence_number").ToString());
+            if (dh.FieldValue("dest_fiscal_residence_number").ToString()=="")
+                html = html.Replace("@NumIdentFiscalDest@", "");
+            else
+                html = html.Replace("@NumIdentFiscalDest@", dh.FieldValue("dest_fiscal_residence_number").ToString());
             //Fin
 
             string htmlDetail = "";
@@ -4205,7 +4217,7 @@ public partial class GetHint : System.Web.UI.Page
             int countRow = 0;
             if (rows.Rows.Count > 0)
             {
-                if (rows.Rows.Count < 4)
+                if (rows.Rows.Count < 3)
                 {
                     while (dh.Next())
                     {
@@ -4220,7 +4232,6 @@ public partial class GetHint : System.Web.UI.Page
                         htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("tariff_fraction") + "</td>";
                         htmlDetail += "<td class=xl153873></td>";
                         htmlDetail += "";
-
                     }
                 }
                 else
@@ -4240,10 +4251,13 @@ public partial class GetHint : System.Web.UI.Page
                         htmlDetail += "<td class=xl153873></td>";
                         htmlDetail += "";
 
-                        if (countRow == 3)
-                        { html = html.Replace("<tr @contentLines1@>", htmlDetail); countRow++; htmlDetail = ""; }
+                        if (countRow == 2)
+                        {
+                            htmlDetail += "<tr height = 20 style = 'mso-height-source:userset;height:15.0pt'>";
+                            html = html.Replace("<tr @contentLines1@>", htmlDetail); countRow++; htmlDetail = ""; 
+                        }
 
-                        if (countRow == 4)
+                        if (countRow == 3)
                         {
                             //Header
                             htmlHeader += "<tr height = 20 style = 'mso-height-source:userset;height:15.0pt'>";
@@ -4263,8 +4277,13 @@ public partial class GetHint : System.Web.UI.Page
                     }
                 }
             }
-            if(countRow == 0)
+
+            if (countRow == 0 && rows.Rows.Count > 0)
+            {
                 html = html.Replace("<tr @contentLines1@>", htmlDetail);
+                html = html.Replace("<tr @contentLinesHeader@></tr>", "");
+                html = html.Replace("<tr @contentLines2@></tr>", "");
+            }
             if(countRow > 0)
                 html = html.Replace("<tr @contentLines2@>", htmlDetail);
 
@@ -4279,7 +4298,8 @@ public partial class GetHint : System.Web.UI.Page
             ProcessStartInfo psi = new ProcessStartInfo();
             psi.UseShellExecute = false;
             psi.FileName = AppDomain.CurrentDomain.BaseDirectory.ToString() + "wkhtmltopdf.exe";
-            psi.Arguments = "-O landscape " + path + uuid + ".html" + " " + path + uuid + ".pdf";
+            //psi.Arguments = "-O landscape footer-center [page]/[topage]" + path + uuid + ".html" + " " + path + uuid + ".pdf";
+            psi.Arguments = "-O landscape --footer-center [page]/[topage] " + path + uuid + ".html" + " " + path + uuid + ".pdf";
             resp = path + uuid + ".pdf";
             using (Process proc = Process.Start(psi))
             {

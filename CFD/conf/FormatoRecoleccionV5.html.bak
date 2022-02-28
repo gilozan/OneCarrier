@@ -6311,7 +6311,9 @@ EXCEL -->
 				@ResFiscalDest@
 			</td>
 			<td colspan=2 class=xl953873 style='border-right:1.0pt solid black;
-  border-left:none'>@NumIdentFiscalDest@</td>
+  border-left:none'>
+				@NumIdentFiscalDest@
+			</td>
 			<td class=xl153873></td>
 			<td colspan=2 class=xl1813873 style='border-right:.5pt solid black;
   border-left:none'>
@@ -6350,12 +6352,114 @@ EXCEL -->
 			<td colspan=3 class=xl1293873 style='border-right:.5pt solid black;border-left:none'>Frac. Aranc.</td>
 			<td class=xl153873></td>
 		</tr>
+
 		<tr @contentLines1@></tr>
+
 		<tr @contentLinesHeader@></tr>
 		<tr @contentLines2@></tr>
 
-		<!--Epa-->
+		<!--<tr height=20 style='mso-height-source:userset;height:15.0pt'>
+			  <td height=20 class=xl153873 style='height:15.0pt'></td>
+			  <td class=xl1073873 style='border-top:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl903873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl153873></td>
+		  </tr>-->
+		<!--<tr height=20 style='mso-height-source:userset;height:15.0pt'>
+			  <td height=20 class=xl153873 style='height:15.0pt'></td>
+			  <td class=xl1073873 style='border-top:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl903873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl153873></td>
+		  </tr>
+		  <tr height=20 style='mso-height-source:userset;height:15.0pt'>
+			  <td height=20 class=xl153873 style='height:15.0pt'></td>
+			  <td class=xl1073873 style='border-top:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl903873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl153873></td>
+		  </tr>
+		  <tr height=20 style='mso-height-source:userset;height:15.0pt'>
+			  <td height=20 class=xl153873 style='height:15.0pt'></td>
+			  <td class=xl1073873 style='border-top:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl903873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl153873></td>
+		  </tr>
+		  <tr height=20 style='mso-height-source:userset;height:15.0pt'>
+			  <td height=20 class=xl153873 style='height:15.0pt'></td>
+			  <td class=xl1073873 style='border-top:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl903873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td class=xl1073873 style='border-top:none;border-left:none'>&nbsp;</td>
+			  <td colspan=3 class=xl2973873 style='border-right:.5pt solid black;
+	border-left:none'>
+				  &nbsp;
+			  </td>
+			  <td class=xl153873></td>
+		  </tr>-->
 
+		
 		<![if supportMisalignedColumns]>
 		<tr height=0 style='display:none'>
 			<td width=100 style='width:75pt'></td>
