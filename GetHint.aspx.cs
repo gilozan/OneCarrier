@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Net;
+using System.Data;
 
 public partial class GetHint : System.Web.UI.Page
 {
@@ -2683,12 +2684,28 @@ public partial class GetHint : System.Web.UI.Page
                 if (residenceFiscal == "1")
                 {
                     ht.Add("@rem_fiscal_residence_number@", numResidenceFiscal, "True");
-                    ht.Add("@rem_fiscal_residence @", residenceFiscal, "True");
+                    ht.Add("@rem_fiscal_residence@", residenceFiscal, "True");
                 }
                 else
                 {
-                    ht.Add("@rem_fiscal_residence @", residenceFiscal, "True");
+                    ht.Add("@rem_fiscal_residence@", residenceFiscal, "True");
                     ht.Add("@rem_fiscal_residence_number@", GetVal(form, "numIdentFiscalRemitente"), "True");
+                }
+
+                //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
+                //Destino
+                ht.Add("@dest_legal_code@", GetVal(form, "rfcDestino"), "True");
+                string residenceDestino = GetVal(form, "fiscalRecidenceDestino");
+                string numResidenceDestino = "";
+                if (residenceDestino == "1")
+                {
+                    ht.Add("@dest_fiscal_residence_number@", numResidenceDestino, "True");
+                    ht.Add("@dest_fiscal_residence@", residenceDestino, "True");
+                }
+                else
+                {
+                    ht.Add("@dest_fiscal_residence@", residenceDestino, "True");
+                    ht.Add("@dest_fiscal_residence_number@", GetVal(form, "numIdentFiscalDestino"), "True");
                 }
 
 
@@ -2701,7 +2718,7 @@ public partial class GetHint : System.Web.UI.Page
                     string[] prod = new string[10];
                     ProdLine prodLine = new ProdLine();
 
-                    string path = RecOrderProcess(dh, subguide_id.ToString());
+                    //Aqui estaba string path = RecOrderProcess(dh, subguide_id.ToString());
                     string pdfFile = subguide_id + ".pdf";
 
                     ht = new Bnet.Next.Collections.Hashtable();
@@ -2729,8 +2746,8 @@ public partial class GetHint : System.Web.UI.Page
                         //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
                         //Destino
                         ht.Add("@dest_legal_code@", GetVal(form, "rfcDestino"), "True");
-                        string residenceDestino = GetVal(form, "fiscalRecidenceDestino");
-                        string numResidenceDestino = "";
+                        residenceDestino = GetVal(form, "fiscalRecidenceDestino");
+                        numResidenceDestino = "";
                         if (residenceDestino == "1")
                         {
                             ht.Add("@dest_fiscal_residence_number@", numResidenceDestino, "True");
@@ -2805,7 +2822,7 @@ public partial class GetHint : System.Web.UI.Page
 
 
                     }
-
+                    string path = RecOrderProcess(dh, subguide_id.ToString());
                     result = "{\"response\":\"success\",\"message\":\"\",\"guide\":\"" + guide + "\",\"path\":\"" + path + "\",\"pdfFile\":\"" + pdfFile + "\"}";
                 }
             }
@@ -4094,12 +4111,13 @@ public partial class GetHint : System.Web.UI.Page
     public static string RecOrderProcess(Hzone.Api.Database.DataHelper dh,string uuid)
     {
         string resp = "";
-        string template = "FormatoRecoleccion.html";
+        string template = "FormatoRecoleccionV5.html";
         string path = HttpContext.Current.Server.MapPath("~/MediaUploader/");
         FileStream fs = new System.IO.FileStream(HttpContext.Current.Server.MapPath("~/CFD/") + "conf/" + template, System.IO.FileMode.Open, System.IO.FileAccess.Read);
         StreamReader sr = new System.IO.StreamReader(fs);
         string html = sr.ReadToEnd();
 
+        
         
         dh.Query("select * from subcustomer_guides where subcustomer_guide_id=" + uuid + "");
         if (dh.Next())
@@ -4137,6 +4155,17 @@ public partial class GetHint : System.Web.UI.Page
             html = html.Replace("@creference@", dh.FieldValue("creference").ToString());
             html = html.Replace("@ccontact@", dh.FieldValue("ccontact").ToString());
             html = html.Replace("@cphone@", dh.FieldValue("cphone").ToString());
+            //Remitente, Campos nuevos↓
+            html = html.Replace("@RFCRem@", dh.FieldValue("rem_legal_code").ToString());
+
+            if(dh.FieldValue("rem_fiscal_residence").ToString() == "1")
+                html = html.Replace("@ResFiscalRem@", "México - (M.X)");
+
+            if(dh.FieldValue("rem_fiscal_residence").ToString() == "2")
+                html = html.Replace("@ResFiscalRem@", "Estados Unidos - (U.S)");
+
+            html = html.Replace("@NumIdentFiscalRem@", dh.FieldValue("rem_fiscal_residence_number").ToString());
+            //Fin
 
             html = html.Replace("@name@", dh.FieldValue("name").ToString());
             html = html.Replace("@address@", dh.FieldValue("address").ToString());
@@ -4148,7 +4177,6 @@ public partial class GetHint : System.Web.UI.Page
             html = html.Replace("@phone@", dh.FieldValue("phone").ToString());
 
             html = html.Replace("@packtype@", dh.FieldValue("packtype").ToString());
-
             html = html.Replace("@content@", dh.FieldValue("content").ToString());
             html = html.Replace("@weight@", dh.FieldValue("weight").ToString());
             html = html.Replace("@length@", dh.FieldValue("length").ToString());
@@ -4157,6 +4185,89 @@ public partial class GetHint : System.Web.UI.Page
 
             html = html.Replace("@insured@", dh.FieldValue("insured").ToString());
             html = html.Replace("@value@", dh.FieldValue("value").ToString());
+
+            //Destino, Campos nuevos↓
+            html = html.Replace("@RFCDest@", dh.FieldValue("dest_legal_code").ToString());
+
+            if (dh.FieldValue("dest_fiscal_residence").ToString() == "1")
+                html = html.Replace("@ResFiscalDest@", "México - (M.X)");
+
+            if (dh.FieldValue("dest_fiscal_residence").ToString() == "2")
+                html = html.Replace("@ResFiscalDest@", "Estados Unidos - (U.S)");
+
+            html = html.Replace("@NumIdentFiscalDest@", dh.FieldValue("dest_fiscal_residence_number").ToString());
+            //Fin
+
+            string htmlDetail = "";
+            string htmlHeader = "";
+            dh.Query("select * from detail_products where subcustomer_guide_id=" + uuid + "");
+            DataTable rows = dh.DataTable;
+            int countRow = 0;
+            if (rows.Rows.Count > 0)
+            {
+                if (rows.Rows.Count < 4)
+                {
+                    while (dh.Next())
+                    {
+                        htmlDetail += "<tr height = 20 style = 'mso-height-source:userset;height:15.0pt'>";
+                        htmlDetail += "<td height = 20 class=xl153873 style = 'height:15.0pt' ></td>";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none'>" + dh.FieldValue("code_prod") + " </td>";
+                        htmlDetail += "<td colspan = 3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("description") + "</td>";
+                        htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("uuid") + "</td>";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("quantity") + "</td >";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("code_unity") + "</td >";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("weight") + "</td>";
+                        htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("tariff_fraction") + "</td>";
+                        htmlDetail += "<td class=xl153873></td>";
+                        htmlDetail += "";
+
+                    }
+                }
+                else
+                {
+                    while (dh.Next())
+                    {
+                        countRow++;
+                        htmlDetail += "<tr height = 20 style = 'mso-height-source:userset;height:15.0pt'>";
+                        htmlDetail += "<td height = 20 class=xl153873 style = 'height:15.0pt' ></td>";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none'>" + dh.FieldValue("code_prod") + " </td>";
+                        htmlDetail += "<td colspan = 3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("description") + "</td>";
+                        htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("uuid") + "</td>";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("quantity") + "</td >";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("code_unity") + "</td >";
+                        htmlDetail += "<td class=xl1073873 style = 'border-top:none;border-left:none'>" + dh.FieldValue("weight") + "</td>";
+                        htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("tariff_fraction") + "</td>";
+                        htmlDetail += "<td class=xl153873></td>";
+                        htmlDetail += "";
+
+                        if (countRow == 3)
+                        { html = html.Replace("<tr @contentLines1@>", htmlDetail); countRow++; htmlDetail = ""; }
+
+                        if (countRow == 4)
+                        {
+                            //Header
+                            htmlHeader += "<tr height = 20 style = 'mso-height-source:userset;height:15.0pt'>";
+                            htmlHeader += "<td height = 20 class=xl153873 style = 'height:15.0pt'></td>";
+                            htmlHeader += "<td class=xl1083873>Cve.Prod</td>";
+                            htmlHeader += "<td colspan = 3 class=xl1263873 style = 'border-right:.5pt solid black;border-left:none'> Descripción </td>";
+                            htmlHeader += "<td colspan=3 class=xl1263873 style = 'border-right:.5pt solid black;border-left:none' > UUID </ td >";
+                            htmlHeader += "<td class=xl1063873 style = 'border-left:none'> Cantidad </ td >";
+                            htmlHeader += "<td class=xl1063873 style = 'border-left:none'> Cve.Unidad </ td >";
+                            htmlHeader += "<td class=xl1063873 style = 'border-left:none'> Peso </td>";
+                            htmlHeader += "<td colspan=3 class=xl1293873 style = 'border-right:.5pt solid black;border-left:none'> Frac.Aranc.</td>";
+                            htmlHeader += "<td class=xl153873></td>";
+                            htmlHeader += "";
+                            //↑☻
+                            html = html.Replace("<tr @contentLinesHeader@>", htmlHeader);
+                        }
+                    }
+                }
+            }
+            if(countRow == 0)
+                html = html.Replace("<tr @contentLines1@>", htmlDetail);
+            if(countRow > 0)
+                html = html.Replace("<tr @contentLines2@>", htmlDetail);
+
 
         }
         sr.Close();

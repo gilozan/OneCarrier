@@ -489,9 +489,9 @@
 
 		<command name="insertGuide" type="insert">
 			<sqltext>
-        INSERT INTO subcustomer_guides ($subcustomer_guide_id$,$subcustomer_id$,$customer_id$,$guide$,$created_by$,$created$,$updated$,$recolection_date$,$solicitant$,$schedule$,$caddress$,$cneighborhood$,$cstate$,$ccity$,$czipcode$,$creference$,$cphone$,$ccontact$,$destination_type$,$name$,$address$,$neighborhood$,$zipcode$,$state_id$,$state$,$city_id$,$city$,$contact$,$phone$,$packtype$,$content$,$weight$,$width$,$length$,$height$,$insured$,$value$,$extra_info$,$rem_legal_code$,$rem_fiscal_residence$,$rem_fiscal_residence_number$)
-        VALUES (@subcustomer_guide_id@,@subcustomer_id@,@customer_id@,@guide@,@created_by@,@created@,@updated@,@recolection_date@,@solicitant@,@schedule@,@caddress@,@cneighborhood@,@cstate@,@ccity@,@czipcode@,@creference@,@cphone@,@ccontact@,@destination_type@,@name@,@address@,@neighborhood@,@zipcode@,@state_id@,@state@,@city_id@,@city@,@contact@,@phone@,@packtype@,@content@,@weight@,@width@,@length@,@height@,@insured@,@value@,@extra_info@,@rem_legal_code@,@rem_fiscal_residence@,@rem_fiscal_residence_number@)
-      </sqltext>
+				INSERT INTO subcustomer_guides ($subcustomer_guide_id$,$subcustomer_id$,$customer_id$,$guide$,$created_by$,$created$,$updated$,$recolection_date$,$solicitant$,$schedule$,$caddress$,$cneighborhood$,$cstate$,$ccity$,$czipcode$,$creference$,$cphone$,$ccontact$,$destination_type$,$name$,$address$,$neighborhood$,$zipcode$,$state_id$,$state$,$city_id$,$city$,$contact$,$phone$,$packtype$,$content$,$weight$,$width$,$length$,$height$,$insured$,$value$,$extra_info$,$rem_legal_code$,$rem_fiscal_residence$,$rem_fiscal_residence_number$,$dest_legal_code$ ,$dest_fiscal_residence$, $dest_fiscal_residence_number$)
+				VALUES (@subcustomer_guide_id@,@subcustomer_id@,@customer_id@,@guide@,@created_by@,@created@,@updated@,@recolection_date@,@solicitant@,@schedule@,@caddress@,@cneighborhood@,@cstate@,@ccity@,@czipcode@,@creference@,@cphone@,@ccontact@,@destination_type@,@name@,@address@,@neighborhood@,@zipcode@,@state_id@,@state@,@city_id@,@city@,@contact@,@phone@,@packtype@,@content@,@weight@,@width@,@length@,@height@,@insured@,@value@,@extra_info@,@rem_legal_code@,@rem_fiscal_residence@,@rem_fiscal_residence_number@,@dest_legal_code@,@dest_fiscal_residence@,@dest_fiscal_residence_number@)
+			</sqltext>
 		</command>
 
 		<command name="insertSubCustomer" type="insert">
@@ -503,7 +503,7 @@
 		
 		<command name="updateSubCustomer" type="update">
 			<sqltext>
-				UPDATE subcustomers SET $name$=@name@,$updated$=@updated@,$address$=@address@,$neighborhood$=@neighborhood@,$state$=@state@,$city$=@city@,$zipcode$=@zipcode@,$contact$=@contact@,$phone$=@phone@ WHERE $customer_id$=@customer_id@ AND $code$ LIKE @code@
+				UPDATE subcustomers SET $name$=@name@,$updated$=@updated@,$address$=@address@,$neighborhood$=@neighborhood@,$state$=@state@,$city$=@city@,$zipcode$=@zipcode@,$contact$=@contact@,$phone$=@phone@,$dest_legal_code$=@dest_legal_code@,$dest_fiscal_residence_number$=@dest_fiscal_residence_number@,$dest_fiscal_residence$=@dest_fiscal_residence@ WHERE $customer_id$=@customer_id@ AND $code$ LIKE @code@
 			</sqltext>
 		</command>
 

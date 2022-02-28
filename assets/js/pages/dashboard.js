@@ -2797,16 +2797,16 @@ function saveGuide(){
             ccontact: {
                 required: true
             },
-            //rfcRemitente: {
-            //    required: true
-            //},
+            rfcRemitente: {
+                required: true
+            },
             //numIdentFiscalRemitente: {
             //    required: true,
             //    maxlength: 50
             //},
-            //rfcDestino: {
-            //    required: true
-            //},
+            rfcDestino: {
+                required: true
+            },
             //numIdentFiscalDestino: {
             //    required: true,
             //    maxlength: 50
@@ -4264,13 +4264,15 @@ function ValidaRFC() {
 // Class initialization on page load
 jQuery(document).ready(function() {
 
+    $("#divNumFiscalRemitente").css("display", "none");
+    $("#divNumFiscalDestino").css("display", "none");
     //var table = $('#kt_datatable_latest_orders').KTDatatable();
-    $("#hiddenDivMercanciaC").css("display", "none");
+    $("#hiddenDivMercanciaC").css("display", "");
     $("#rfcRemitente").blur(function () {
         ValidaRFC();
     });
-    $("#residenceDivHidden").css("display", "none");
-    $("#residenceDestinDivHidden").css("display", "none");
+    $("#residenceDivHidden").css("display", "");
+    $("#residenceDestinDivHidden").css("display", "");
 
 
     $("#rfcDestino").blur(function () {

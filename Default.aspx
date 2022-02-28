@@ -1222,7 +1222,7 @@
                                                         <span class="form-text text-muted"><span class="is-required"></span>Residencia Fiscal</span>
                                                         <select class="form-control" id="fiscalRecidenceRemitente" name="fiscalRecidenceRemitente" onchange="">
                                                             <option value="-1">Seleccione</option>
-                                                            <option value="1">México - (M.X)</option>
+                                                            <option value="1" selected>México - (M.X)</option>
                                                             <option value="2">Estados Unidos - (U.S)</option>
                                                         </select>
                                                     </div>
@@ -1328,7 +1328,7 @@
                                                         <span class="form-text text-muted"><span class="is-required"></span>Residencia Fiscal</span>
                                                         <select class="form-control" id="fiscalRecidenceDestino" name="fiscalRecidenceDestino" onchange="">
                                                             <option value="-1">Seleccione</option>
-                                                            <option value="1">México - (M.X)</option>
+                                                            <option value="1" selected>México - (M.X)</option>
                                                             <option value="2">Estados Unidos - (U.S)</option>
                                                         </select>
                                                     </div>

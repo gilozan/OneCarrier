@@ -1,0 +1,31 @@
+-- DROP TABLE IF EXISTS public.detail_products;
+
+CREATE TABLE IF NOT EXISTS public.detail_products
+(
+    detail_product_id integer NOT NULL,
+    subcustomer_guide_id integer,
+    code_prod character varying(8) COLLATE pg_catalog."default",
+    description character varying(100) COLLATE pg_catalog."default",
+    quantity numeric(16,4),
+    code_unity character varying(4) COLLATE pg_catalog."default",
+    weight numeric(16,4),
+    tariff_fraction character varying(50) COLLATE pg_catalog."default",
+    uuid character varying(50) COLLATE pg_catalog."default",
+    created_by integer,
+    created timestamp without time zone,
+    updated timestamp without time zone
+)
+WITH (
+    OIDS = TRUE
+)
+TABLESPACE pg_default;
+
+CREATE SEQUENCE sq_detail_products start with 1;
+
+ALTER TABLE subcustomer_guides ADD COLUMN rem_legal_code character varying(32);
+ALTER TABLE subcustomer_guides ADD COLUMN rem_fiscal_residence character varying(50);
+ALTER TABLE subcustomer_guides ADD COLUMN rem_fiscal_residence_number character varying(100);
+
+ALTER TABLE subcustomer_guides ADD COLUMN dest_legal_code character varying(32);
+ALTER TABLE subcustomer_guides ADD COLUMN dest_fiscal_residence character varying(50);
+ALTER TABLE subcustomer_guides ADD COLUMN dest_fiscal_residence_number character varying(100);
