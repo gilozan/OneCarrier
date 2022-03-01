@@ -534,7 +534,7 @@ public partial class GetHint : System.Web.UI.Page
                 row[4] = dr["city"].ToString();
                 row[5] = dr["state"].ToString();
                 row[6] = dr["zipcode"].ToString();
-                row[7] = "<a href=\"javascript:;\" onclick=getSubCustomer('"+dr["code"]+"');><i class=\"fa fa-check-square fa-2x\"></i></a>";
+                row[7] = "<a href=\"javascript:;\" onclick=getSubCustomer('"+ dr["subcustomer_id"] + "','');><i class=\"fa fa-check-square fa-2x\"></i></a>";
                 
 
                 rows[rw] = new object();
@@ -630,7 +630,7 @@ public partial class GetHint : System.Web.UI.Page
     }
 
     [WebMethod(EnableSession = true)]
-    public static string GetSubCustomer(string code)
+    public static string GetSubCustomer(string id,string code)
     {
         Hzone.Api.Database.DataHelper dh = new Hzone.Api.Database.DataHelper();
         dh.ConnectionType = Hzone.Api.Database.ConnectionType.Odbc;
@@ -645,7 +645,14 @@ public partial class GetHint : System.Web.UI.Page
 
         string customerid = HttpContext.Current.Session["customerid"].ToString();
         ht.Add("@customer_id@", customerid, "False");
-        ht.Add("@code@", "code ilike '"+code+"'", "False");
+        if (id != "")
+        {
+            ht.Add("@code@", "1=1", "False");
+            ht.Add("@subcustomer_id@", id, "False");
+        }
+        else
+            ht.Add("@code@", "code ilike '"+code+"'", "False");
+        
         dh.Connect();
         dh.ExecuteCommand("loadSubCustomers", ht);
 

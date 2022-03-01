@@ -436,6 +436,7 @@
 				<conditions innercondition="AND" outercondition="OR">
 					<condition name="cust.name" value="@name@" operator="ILIKE"></condition>
 					<condition name="cust.customer_id" value="@customer_id@" operator="="></condition>
+					<condition name="cust.subcustomer_id" value="@subcustomer_id@" operator="="></condition>
 				</conditions>
 			</where>
 			<orderby>name</orderby>

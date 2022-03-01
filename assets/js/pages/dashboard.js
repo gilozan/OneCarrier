@@ -3995,10 +3995,10 @@ function ReturnCustomers(msg) {
 }
 
 
-function getSubCustomer(code)
+function getSubCustomer(id,code)
 {
     var urlMethod = "GetHint.aspx/GetSubCustomer";
-    var jsonData = "{code: \"" + code + "\"}";
+    var jsonData = "{id: \"" + id + "\",code: \"" + code + "\"}";
     SendAjax(urlMethod, jsonData, ReturnSubCustomer); 
 }
 

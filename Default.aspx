@@ -1249,7 +1249,7 @@
                                                         <span class="form-text text-muted">Nombre corto</span>
                                                         <div class="input-group">
                                                             <div class="input-group-prepend"><span class="input-group-text" id="Span1"><a href="javascritp:;" class="kt-link" data-toggle="modal" data-target="#kt_customers_modal" onclick="getCustomers();"><i class="fa fa-search  kt-font-primary"></i></a></span></div>
-                                                            <input type="text" class="form-control" name="shortname" placeholder="" value="" onblur="getSubCustomer(this.value)">
+                                                            <input type="text" class="form-control" name="shortname" placeholder="" value="" onblur="getSubCustomer('',this.value)">
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4 col-xs-5">
@@ -3102,7 +3102,7 @@
 		<!--end::Page Vendors -->
 
 		<!--begin::Page Scripts(used by this page) -->
-		<script src="assets/js/pages/dashboard.js?10" type="text/javascript"></script>
+		<script src="assets/js/pages/dashboard.js?11" type="text/javascript"></script>
         <script src="assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="assets/js/pages/components/extended/sweetalert2.js" type="text/javascript"></script>
         <script src="assets/js/pages/components/extended/bootstrap-notify.js" type="text/javascript"></script>
