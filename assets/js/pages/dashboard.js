@@ -2815,7 +2815,13 @@ function saveGuide(){
     });  
 
     var doReturn = false;
+    doReturn = LinesValidation(doReturn);
 
+    if (doReturn == true) {
+        swal.fire("Alerta", "Debe tener almenos 1 linea de mercancía complementaria sin datos vacíos", "error")
+        return;
+    }
+    
     if ($("#numIdentFiscalRemitente").is(':visible') == true){
         if ($("#numIdentFiscalRemitente").val() == "") {
             $("#numIdentFiscalRemitente").addClass("is-invalid"); doReturn = true;
@@ -2827,12 +2833,12 @@ function saveGuide(){
         }
     }
     if ($("#residenceDivHidden").is(':visible') == true) {
-        if ($("#fiscalRecidenceRemitente").val() == "") {
+        if ($("#fiscalRecidenceRemitente").val() == "" || $("#fiscalRecidenceRemitente").val() == "-1") {
             $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
         }
     }
     if ($("#residenceDestinDivHidden").is(':visible') == true) {
-        if ($("#fiscalRecidenceDestino").val() == "") {
+        if ($("#fiscalRecidenceDestino").val() == "" || $("#fiscalRecidenceDestino").val() == "-1") {
             $("#fiscalRecidenceDestino").addClass("is-invalid"); doReturn = true;
         }
     }
@@ -2853,6 +2859,8 @@ function saveGuide(){
         doReturn=true;
         swal.fire("Revisar valor factura", "Debe establecer valor factura", "warning");
     }
+
+
     //if ($("#fiscalRecidenceRemitente").val() == -1) {
     //    $("#fiscalRecidenceRemitente").addClass("is-invalid"); doReturn = true;
     //}
@@ -2861,15 +2869,19 @@ function saveGuide(){
     //}
 
     console.log($("#cansave").val());
-    var cansave=true;
-    if($("#cansave").val()=="0")
-        { 
-            doReturn=true;
-            cansave=false;
-        }
-    
+    var cansave = true;
+
+    if ($("#cansave").val() == "0") {
+        doReturn = true;
+        cansave = false;
+    }
+
+    if (doReturn == true) {
+        KTUtil.scrollTo('kt_form_1_msg', -200);
+        return;
+    }
    
-    if(!form.valid() | doReturn)
+    if(!form.valid())
     {
         var alert = $('#kt_form_1_msg');
         alert.removeClass('kt--hide').show();
@@ -2939,6 +2951,47 @@ function returnSaveGuide(msg){
 
 }
 
+function LinesValidation(doReturn,linesValidation) {
+    var LinePadre = document.getElementsByClassName('kt-form__group--inline');
+    var countLnRepit = LinePadre.length;
+    console.log(LinePadre);
+    console.log(countLnRepit);
+    var cont = 0;
+    for (var i = 0; i < countLnRepit / 8; i++) {
+
+        if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnCodeProd]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+            $("[name='[" + i + "][lnCodeProd]']").addClass("is-invalid"); doReturn = true;
+        }
+        cont++;
+        if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnDescription]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+            $("[name='[" + i + "][lnDescription]']").addClass("is-invalid"); doReturn = true;
+        }
+        cont++;
+        if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnQty]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+            $("[name='[" + i + "][lnQty]']").addClass("is-invalid"); doReturn = true;
+        }
+        cont++;
+        if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnCodeUnit]" && (LinePadre[cont].lastElementChild.childNodes[2].valueAsNumber == "NaN" || LinePadre[cont].lastElementChild.childNodes[2].value == '')) {
+            $("[name='[" + i + "][lnCodeUnit]']").addClass("is-invalid"); doReturn = true;
+        }
+        cont++;
+        if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnWeight]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+            $("[name='[" + i + "][lnWeight]']").addClass("is-invalid"); doReturn = true;
+        }
+        //cont++;
+        //if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnTfraction]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+        //    $("[name='[" + i + "][lnTfraction]']").addClass("is-invalid"); doReturn = true;
+        //}
+        //cont++;
+        //if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnUUID]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
+        //    $("[name='[" + i + "][lnUUID]']").addClass("is-invalid"); doReturn = true;
+        //}
+        (cont++) + 1;
+    }
+
+    return doReturn;
+
+}
 
 function cancelSaleInvoice(invoiceID) {
 

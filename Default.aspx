@@ -1407,7 +1407,7 @@
                                                 <div id="hiddenDivMercanciaC">
                                                     <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg" style="border-color: transparent"></div>
                                                     <!--Cambios en el modulo potosinos ♣RequerimientoDeIntegracion (Datos Complementarios de la Mercancía) v3 -DIC-10-2021-->
-                                                    <h3 class="kt-portlet__head-title">Mercancia Complementaria
+                                                    <h3 class="kt-portlet__head-title">Mercancía Complementaria
                                                     </h3>
                                                     <br />
                                                     <div class="form-group row form-group-marginless" id="divDetalleMercancia">
@@ -1453,14 +1453,14 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="col-md-6 col-md-4 col-xs-6" id="removeLineHijo">
                                                                             <div class="kt-form__group--inline">
                                                                                 <div class="kt-form__control">
                                                                                     <span class="form-text text-muted ">Fracción Arancelaria</span><input type="number" class="form-control" placeholder="" name="lnTfraction" id="lnTfraction" value="">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-md-2 col-xs-6" id="removeLineHijo">
+                                                                        <div class="col-lg-6 col-md-4 col-xs-6" id="removeLineHijo">
                                                                             <div class="kt-form__group--inline">
                                                                                 <div class="kt-form__control">
                                                                                     <span class="form-text text-muted ">UUID</span><input type="number" class="form-control" placeholder="" name="lnUUID" id="lnUUID" value="">
