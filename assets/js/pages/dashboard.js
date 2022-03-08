@@ -4231,18 +4231,18 @@ function ReturnGetToken(msg) {
 
     if (ms.error != "No Exception") {
         swal.fire("Error", "Los datos del usuario no son correctos", "error");
-        $('#frame').attr("src", "https://proconectatest.inf.com.mx/Pages/Inicio.aspx?" + ms.error + "");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.error + "");
         return;
     }
     if (ms.message == "CLIENTERFC=&EMPRESARFC=&CUENTA=") {
         swal.fire("Error", "Los datos del usuario no son correctos", "error");
-        $('#frame').attr("src", "https://proconectatest.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
         return;
     }
     else
         //$('#frame').attr("src", "http://166.62.93.54/ProconecttWeb/pages/inicio.aspx?token=" + ms.data.Token + "");
         /*$('#frame').attr("src", "https://www.google.com/search?q=%http://166.62.93.54/ProconecttWeb/Pages/Inicio.aspx?" + msg.d + "");*/
-        $('#frame').attr("src", "https://proconectatest.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
+        $('#frame').attr("src", "https://proconecta.inf.com.mx/Pages/Inicio.aspx?" + ms.message + "");
  
 }
 
