@@ -2957,7 +2957,7 @@ function LinesValidation(doReturn,linesValidation) {
     console.log(LinePadre);
     console.log(countLnRepit);
     var cont = 0;
-    for (var i = 0; i < countLnRepit / 8; i++) {
+    for (var i = 0; i < (countLnRepit / 7); i++) {
 
         if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnCodeProd]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
             $("[name='[" + i + "][lnCodeProd]']").addClass("is-invalid"); doReturn = true;
@@ -2986,7 +2986,7 @@ function LinesValidation(doReturn,linesValidation) {
         //if (LinePadre[cont].lastElementChild.childNodes[2].name == "[" + i + "][lnUUID]" && LinePadre[cont].lastElementChild.childNodes[2].value == '') {
         //    $("[name='[" + i + "][lnUUID]']").addClass("is-invalid"); doReturn = true;
         //}
-        (cont++) + 1;
+        cont = (cont + 3);
     }
 
     return doReturn;

@@ -2603,6 +2603,9 @@ public partial class GetHint : System.Web.UI.Page
         ht.Add("@authorized@", "AND authorized_by is not null", "False");
 
         dh.ExecuteCommand("getLastGuide", ht);
+        if (dh.exception.Message != "No Exception")
+            throw new Exception(dh.exception.Message + "getLastGuide");
+
         int max_guide = 0;
         int lastused = 0;
         int guide = 0;
@@ -2620,6 +2623,9 @@ public partial class GetHint : System.Web.UI.Page
             {
                 ht = new Bnet.Next.Collections.Hashtable();
                 subguide_id = dh.QueryScalar("SELECT nextval('sq_subcustomer_guides')").ToString();
+                if (dh.exception.Message != "No Exception")
+                    throw new Exception(dh.exception.Message + "nextValSq_subCust");
+
                 ht.Add("@subcustomer_guide_id@", subguide_id, "False");
                 ht.Add("@subcustomer_id@", 1, "False");
                 ht.Add("@customer_id@", customerID, "False");
@@ -2721,7 +2727,7 @@ public partial class GetHint : System.Web.UI.Page
 
                     dh.ExecuteCommand("insertGuide", ht);
                     if (dh.exception.Message != "No Exception")
-                        throw new Exception (dh.exception.Message);
+                        throw new Exception (dh.exception.Message + "insertGuide");
 
                         System.Collections.ArrayList prods = new System.Collections.ArrayList();
                         string[] prod = new string[10];
@@ -2775,13 +2781,10 @@ public partial class GetHint : System.Web.UI.Page
                                 dh.ExecuteCommand("insertSubCustomer", ht);
 
                             if (dh.exception.Message != "No Exception")
-                                throw new Exception(dh.exception.Message);
+                                throw new Exception(dh.exception.Message + "updateSubCustomer || insertSubCustomer");
 
-                            
-
+                           
                             //Fin
-
-
                         }
 
                     //♣RequerimientoDeIntegracion v3 -DIC-10-2021 -
@@ -2831,11 +2834,11 @@ public partial class GetHint : System.Web.UI.Page
 
 
                         if (dh.exception.Message != "No Exception")
-                            throw new Exception(dh.exception.Message);
+                            throw new Exception(dh.exception.Message + "InsertProductLine");
                     }
                     dh.Commit();
                     string path = RecOrderProcess(dh, subguide_id.ToString());
-                        result = "{\"response\":\"success\",\"message\":\"\",\"guide\":\"" + guide + "\",\"path\":\"" + path + "\",\"pdfFile\":\"" + pdfFile + "\"}";
+                    result = "{\"response\":\"success\",\"message\":\"\",\"guide\":\"" + guide + "\",\"path\":\"" + path + "\",\"pdfFile\":\"" + pdfFile + "\"}";
 
                 }
                 catch (Exception ex)
