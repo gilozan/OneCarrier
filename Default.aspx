@@ -3102,7 +3102,7 @@
 		<!--end::Page Vendors -->
 
 		<!--begin::Page Scripts(used by this page) -->
-		<script src="assets/js/pages/dashboard.js?12" type="text/javascript"></script>
+		<script src="assets/js/pages/dashboard.js?13" type="text/javascript"></script>
         <script src="assets/js/pages/crud/forms/widgets/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="assets/js/pages/components/extended/sweetalert2.js" type="text/javascript"></script>
         <script src="assets/js/pages/components/extended/bootstrap-notify.js" type="text/javascript"></script>
