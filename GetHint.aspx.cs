@@ -4214,6 +4214,7 @@ public partial class GetHint : System.Web.UI.Page
 
             //Destino, Campos nuevos↓
             html = html.Replace("@RFCDest@", dh.FieldValue("dest_legal_code").ToString());
+            html = html.Replace("@InfAdicional@", dh.FieldValue("extra_info").ToString());
 
             if (dh.FieldValue("dest_fiscal_residence").ToString() == "0" || dh.FieldValue("dest_fiscal_residence").ToString() == "")
                 html = html.Replace("@ResFiscalDest@", "");
