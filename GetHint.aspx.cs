@@ -4236,6 +4236,9 @@ public partial class GetHint : System.Web.UI.Page
             dh.Query("select * from detail_products where subcustomer_guide_id=" + uuid + "");
             DataTable rows = dh.DataTable;
             int countRow = 0;
+
+            int qtytotal = 0;
+
             if (rows.Rows.Count > 0)
             {
                 if (rows.Rows.Count < 3)
@@ -4253,6 +4256,9 @@ public partial class GetHint : System.Web.UI.Page
                         htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("tariff_fraction") + "</td>";
                         htmlDetail += "<td class=xl153873></td>";
                         htmlDetail += "";
+
+                        qtytotal += Convert.ToInt32(dh.FieldValue("quantity"));
+
                     }
                 }
                 else
@@ -4271,6 +4277,8 @@ public partial class GetHint : System.Web.UI.Page
                         htmlDetail += "<td colspan=3 class=xl2973873 style = 'border-right:.5pt solid black;border-left:none'>" + dh.FieldValue("tariff_fraction") + "</td>";
                         htmlDetail += "<td class=xl153873></td>";
                         htmlDetail += "";
+
+                        qtytotal += Convert.ToInt32(dh.FieldValue("quantity"));
 
                         if (countRow == 2)
                         {
@@ -4307,6 +4315,8 @@ public partial class GetHint : System.Web.UI.Page
             }
             if(countRow > 0)
                 html = html.Replace("<tr @contentLines2@>", htmlDetail);
+
+            html = html.Replace("@qtytotal@", qtytotal.ToString());
 
 
         }
